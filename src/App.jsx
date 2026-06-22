@@ -303,7 +303,7 @@ export default function App() {
                 <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <img
-                            src="/legacy_and_assets/web-icon.png"
+                            src="./legacy_and_assets/web-icon.png"
                             alt="LaunchGremlin logo"
                             width="40"
                             height="40"
@@ -361,7 +361,7 @@ export default function App() {
             >
                 {/* Gremlin watermark */}
                 <img
-                    src="/legacy_and_assets/web-icon.png"
+                    src="./legacy_and_assets/web-icon.png"
                     alt="Gremlin watermark"
                     className="absolute inset-0 m-auto w-[520px] max-w-full opacity-[0.06] pointer-events-none select-none"
                 />
@@ -502,7 +502,7 @@ export default function App() {
             >
                 {/* Gremlin watermark */}
                 <img
-                    src="/legacy_and_assets/web-icon.png"
+                    src="./legacy_and_assets/web-icon.png"
                     alt="Gremlin watermark"
                     className="absolute inset-0 m-auto w-[520px] max-w-full opacity-[0.06] pointer-events-none select-none"
                 />
