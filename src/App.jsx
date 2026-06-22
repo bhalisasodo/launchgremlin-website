@@ -305,8 +305,8 @@ export default function App() {
                         <img
                             src="./legacy_and_assets/web-icon.png"
                             alt="LaunchGremlin logo"
-                            width="40"
-                            height="40"
+                            width="56"
+                            height="56"
                             className="object-contain"
                         />
                         <span className="font-bold tracking-tight text-xl md:text-3xl">
