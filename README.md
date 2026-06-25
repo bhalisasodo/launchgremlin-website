@@ -68,3 +68,23 @@ For production deployments:
 The backend includes static asset serving in production, API rate limiting, security headers, and request validation.
 
 The frontend proxies `/api/lead` to the backend during development.
+
+## Production deployment
+
+For a production deployment, use a host that can run both the Vite build and the Node backend (or deploy the backend and static assets separately).
+
+Recommended checklist:
+- Set `NODE_ENV=production`
+- Configure SMTP or a webhook destination
+- Optionally configure Supabase for persistent lead storage
+- Set a strong `ADMIN_TOKEN` for lead review access
+- Run `npm run build` and start the server with `npm start`
+
+### Docker
+```bash
+docker build -t launchgremlin-website .
+docker run -p 4000:4000 --env-file .env launchgremlin-website
+```
+
+### CI
+This repository includes a GitHub Actions workflow in [.github/workflows/ci.yml](.github/workflows/ci.yml) that runs tests and the production build on pushes and pull requests.
