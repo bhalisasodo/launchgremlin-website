@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import PropTypes from "prop-types";
 
 /**
  * LaunchGremlin — Canvas‑safe interactive site
@@ -58,6 +59,11 @@ const Card = ({ children, active }) => (
     {children}
   </div>
 );
+
+Card.propTypes = {
+  children: PropTypes.node.isRequired,
+  active: PropTypes.bool,
+};
 
 /* ------------------ Background ------------------ */
 const TimeDistortionBackground = () => {

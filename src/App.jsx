@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import PropTypes from "prop-types";
 
 /**
  * LaunchGremlin — Production-ready interactive site
@@ -34,6 +35,11 @@ const Card = ({ children, active }) => (
         {children}
     </div>
 );
+
+Card.propTypes = {
+    children: PropTypes.node.isRequired,
+    active: PropTypes.bool,
+};
 
 /* ------------------ Background ------------------ */
 const TimeDistortionBackground = () => {
@@ -138,17 +144,17 @@ export default function App() {
             `Timeline & budget:\n` +
             `${timeline || "Flexible timeline."} ${budget ? `Budget: ${budget}.` : "Budget not specified."}\n\n` +
             `Objective:\n` +
-            `Turn this concept into a launch-ready AI product with clear milestones, target outcomes, and a lean execution plan.\n\n` +
+            `Turn this concept into a useful solution with clear milestones, practical next steps, and a simple plan to move forward.\n\n` +
             `Suggested roadmap:\n` +
-            `1. Discovery and assumptions: define user needs, success criteria, and AI value props.\n` +
-            `2. MVP design: choose the smallest viable core experience, UI flows, and data inputs.\n` +
-            `3. AI automation and agent architecture: identify automation workflows, integration points, and agent roles.\n` +
-            `4. Data and analytics: capture metrics, build dashboards, and validate model outputs.\n` +
-            `5. Launch and iteration: deploy a lightweight pilot, gather feedback, and refine the next version.\n\n` +
+            `1. Discovery and assumptions: define the core need, the target audience, and the simplest path forward.\n` +
+            `2. Build the first version: choose the smallest useful experience, key screens, and core actions.\n` +
+            `3. Add smart tools or automations: identify practical workflows, integrations, and simple AI helpers.\n` +
+            `4. Track what matters: capture useful metrics, review results, and improve the experience.\n` +
+            `5. Launch and refine: put something real in front of users, gather feedback, and improve it.\n\n` +
             `Next steps:\n` +
-            `- Validate the opportunity with a short discovery sprint.\n` +
-            `- Build the first real MVP using AI-assisted development.\n` +
-            `- Use analytics to measure traction and improve the product.\n\n` +
+            `- Validate the idea with a short discovery sprint.\n` +
+            `- Build the first useful version with a clear focus.\n` +
+            `- Use simple analytics to measure results and improve the offer.\n\n` +
             `Contact details:\n` +
             `${leadName ? `Name: ${leadName}\n` : ""}` +
             `${leadEmail ? `Email: ${leadEmail}\n` : ""}`;
@@ -367,10 +373,10 @@ export default function App() {
                 />
 
                 <h1 className="relative z-10 text-6xl md:text-8xl font-extrabold mb-8 animate-fade-up">
-                    AI automation, startup MVPs, and agent systems for ambitious founders.
+                    Websites, apps, and smart tools for South African business owners.
                 </h1>
                 <p className="relative z-10 text-lg md:text-xl text-gray-300 max-w-2xl animate-fade-up [animation-delay:200ms]">
-                    LaunchGremlin sits at the intersection of AI and startup product execution. We move fast on AI automation builds, MVP development, AI consulting, data analytics projects, and autonomous agent implementation.
+                    LaunchGremlin helps everyday entrepreneurs, creators, and small business owners turn ideas into real businesses with fast website development, practical apps, and smart business tools.
                 </p>
             </section>
 
@@ -384,40 +390,40 @@ export default function App() {
                     What we offer
                 </h2>
                 <p className="text-center text-gray-400 max-w-3xl mx-auto mb-14">
-                    A founder-led studio for AI and startup-adjacent challenges. We move quickly from concept to delivery across automation, products, analytics, and autonomous systems.
+                    A hands-on studio for South African entrepreneurs who want something real, useful, and built quickly. We help with websites, apps, analytics, and simple tools that save time and make business easier.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8 items-stretch">
                     {[
                         {
-                            title: "AI Automation Builds",
-                            description: "Automate workflows, content, and systems with AI.",
+                            title: "Website Development",
+                            description: "Build a clean, fast website that helps your business look sharp and get found.",
                             icon: "Zap",
-                            tags: ["Workflow", "Integration", "Optimization"],
+                            tags: ["Fast", "Professional", "Mobile-ready"],
                         },
                         {
-                            title: "Startup MVP Development",
-                            description: "Launch high-velocity, product-ready MVPs.",
+                            title: "Data Analytics",
+                            description: "Turn your numbers into clear insights so you can make better decisions.",
+                            icon: "TrendingUp",
+                            tags: ["Reports", "Insights", "Tracking"],
+                        },
+                        {
+                            title: "Build Your First Product",
+                            description: "Get your first product or tool off the ground without overthinking it.",
                             icon: "Rocket",
-                            tags: ["Rapid Build", "Launch Ready", "Scalable"],
+                            tags: ["Simple", "Practical", "Launch-ready"],
                         },
                         {
                             title: "AI Consulting",
-                            description: "Strategic AI guidance for product direction and execution.",
+                            description: "Get straight advice on where AI can save time in your business.",
                             icon: "Brain",
-                            tags: ["Strategy", "Roadmap", "Execution"],
-                        },
-                        {
-                            title: "Data Analytics Projects",
-                            description: "Insight-driven analytics and performance pipelines.",
-                            icon: "TrendingUp",
-                            tags: ["Real-time", "Insights", "Performance"],
+                            tags: ["Practical", "Clear", "Useful"],
                         },
                         {
                             title: "AI Agent Implementation",
-                            description: "Design and deploy autonomous AI agents.",
+                            description: "Set up simple AI helpers and automations that take work off your plate.",
                             icon: "Cpu",
-                            tags: ["Autonomous", "Intelligent", "24/7"],
+                            tags: ["Helpful", "Time-saving", "Smart"],
                         },
                     ].map((service, i) => {
                         const IconComponent = {
@@ -486,7 +492,7 @@ export default function App() {
                 </div>
 
                 <p className="text-center text-base text-gray-300 max-w-2xl mx-auto mt-10">
-                    We help founders accelerate AI product execution with automation, rapid MVP development, analytics insight, and autonomous systems.
+                    We help South African business owners move fast, build what matters, and get real results without the usual agency fuss.
                 </p>
 
                 <p className="text-center text-xs text-gray-500 mt-8 tracking-widest uppercase">
@@ -510,7 +516,7 @@ export default function App() {
                     Small team. <span className="text-emerald-400">Big leverage.</span>
                 </h2>
                 <p className="text-gray-300 text-lg max-w-5xl mx-auto">
-                    LaunchGremlin is built by a lean, founder‑led team working alongside AI systems. We optimise for clarity of thought, speed of execution, and long‑term compounding.
+                    LaunchGremlin is built by people who like getting things moving. We work closely with business owners, creators, and founders to build practical tools and websites that help real people get ahead.
                 </p>
             </section>
 
@@ -524,10 +530,10 @@ export default function App() {
                     <div className="space-y-8">
                         <div className="space-y-4">
                             <h2 className="text-4xl md:text-5xl font-bold">
-                                Launch your idea with a guided onboarding flow.
+                                Tell us what you want to build.
                             </h2>
                             <p className="text-gray-400 text-lg max-w-3xl">
-                                Move through a quick onboarding wizard, refine your idea, and generate a shareable project guide before submitting the lead.
+                                Share a few details and we&apos;ll turn it into a clear project brief you can use to move forward.
                             </p>
                         </div>
 
@@ -600,7 +606,7 @@ export default function App() {
                                     />
                                 </label>
                                 <label className="flex flex-col text-sm text-gray-300 sm:col-span-2">
-                                    Primary service you're interested in
+                                    Service you need help with
                                     <select
                                         value={selectedService}
                                         onChange={(event) => setSelectedService(event.target.value)}
@@ -609,10 +615,10 @@ export default function App() {
                                         }`}
                                     >
                                         <option value="">Select a service</option>
-                                        <option value="AI Automation Builds">AI Automation Builds</option>
-                                        <option value="Startup MVP Development">Startup MVP Development</option>
+                                        <option value="Website Development">Website Development</option>
+                                        <option value="Build Your First Product">Build Your First Product</option>
                                         <option value="AI Consulting">AI Consulting</option>
-                                        <option value="Data Analytics Projects">Data Analytics Projects</option>
+                                        <option value="Data Analytics">Data Analytics</option>
                                         <option value="AI Agent Implementation">AI Agent Implementation</option>
                                     </select>
                                     {formErrors.selectedService && (
@@ -632,7 +638,7 @@ export default function App() {
                                         className={`mt-2 min-h-[150px] px-4 py-3 rounded-2xl bg-zinc-900 border text-white focus:outline-none focus:border-emerald-400 resize-none ${
                                             formErrors.leadSummary ? "border-rose-500" : "border-zinc-800"
                                         }`}
-                                        placeholder="Describe the project, target users, desired outcome, and any AI or startup goals."
+                                        placeholder="Describe the project, who it is for, what you want it to do, and what success looks like."
                                     />
                                     {formErrors.leadSummary && (
                                         <span className="text-xs text-rose-400 mt-2">{formErrors.leadSummary}</span>
@@ -666,13 +672,13 @@ export default function App() {
                                     </label>
                                 </div>
                                 <label className="flex flex-col text-sm text-gray-300">
-                                    Budget context (optional)
+                                    Budget (ZAR)
                                     <input
                                         type="text"
                                         value={budget}
                                         onChange={(event) => setBudget(event.target.value)}
                                         className="mt-2 px-4 py-3 rounded-2xl bg-zinc-900 border border-zinc-800 text-white focus:outline-none focus:border-emerald-400"
-                                        placeholder="E.g. early-stage, pre-seed, flexible"
+                                        placeholder="e.g. R5,000 – R20,000"
                                     />
                                 </label>
                             </div>
@@ -754,9 +760,9 @@ export default function App() {
                         <div className="rounded-[2rem] border border-zinc-800 bg-zinc-900/80 p-6 text-sm text-gray-400">
                             <p className="font-semibold text-gray-200 mb-3">Why this works</p>
                             <ul className="space-y-2 list-disc list-inside">
-                                <li>Collects lead details and idea context in one place.</li>
-                                <li>Creates a structured, shareable plan without extra setup.</li>
-                                <li>Supports faster follow-up from LaunchGremlin with a built-in brief.</li>
+                                <li>Collects your idea, service needs, and budget in one place.</li>
+                                <li>Creates a simple, shareable plan without the usual agency fluff.</li>
+                                <li>Helps LaunchGremlin follow up faster with a clear brief.</li>
                             </ul>
                         </div>
                     </div>
