@@ -373,7 +373,7 @@ export default function App() {
                 />
 
                 <h1 className="relative z-10 text-6xl md:text-8xl font-extrabold mb-8 animate-fade-up">
-                    Websites, apps, and smart tools for South African business owners.
+                    Websites, apps, and AI tools for everyday entrepreneurs and businesses
                 </h1>
                 <p className="relative z-10 text-lg md:text-xl text-gray-300 max-w-2xl animate-fade-up [animation-delay:200ms]">
                     LaunchGremlin helps everyday entrepreneurs, creators, and small business owners turn ideas into real businesses with fast website development, practical apps, and smart business tools.
