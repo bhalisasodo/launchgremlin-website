@@ -73,6 +73,8 @@ The frontend proxies `/api/lead` to the backend during development.
 
 For a production deployment, use a host that can run both the Vite build and the Node backend (or deploy the backend and static assets separately).
 
+NOTE: GitHub Pages deployment has been removed in favor of Render as the production host.
+
 Recommended checklist:
 - Set `NODE_ENV=production`
 - Configure SMTP or a webhook destination
