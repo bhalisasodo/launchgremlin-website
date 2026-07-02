@@ -27,14 +27,96 @@ const LEAD_LOG_PATH = process.env.LEAD_LOG_PATH || "logs/leads.log";
 const SUPABASE_URL = process.env.SUPABASE_URL || "";
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || "changeme";
+const MAINTENANCE_MODE = process.env.MAINTENANCE_MODE === "true";
+const MAINTENANCE_SECRET = process.env.MAINTENANCE_SECRET || ADMIN_TOKEN;
 const LEADS_QUERY_LIMIT = Number(process.env.LEADS_QUERY_LIMIT || 20);
 const RATE_LIMIT_WINDOW_MS = Number(process.env.RATE_LIMIT_WINDOW_MS || 15 * 60 * 1000);
 const RATE_LIMIT_MAX = Number(process.env.RATE_LIMIT_MAX || 30);
+
+const parseCookies = (cookieHeader = "") => {
+    return cookieHeader
+        .split(";")
+        .map((pair) => pair.split("=").map((value) => value.trim()))
+        .filter(([, value]) => value)
+        .reduce((cookies, [key, value]) => {
+            cookies[key] = decodeURIComponent(value);
+            return cookies;
+        }, {});
+};
+
+const isMaintenanceAuthorized = (req) => {
+    const token =
+        req.query.secret ||
+        req.header("x-admin-token") ||
+        req.header("authorization")?.replace(/^Bearer\s+/i, "");
+
+    if (token === MAINTENANCE_SECRET) {
+        return true;
+    }
+
+    const cookies = parseCookies(req.headers.cookie || "");
+    return cookies.maintenance === MAINTENANCE_SECRET;
+};
+
+const renderMaintenancePage = (returnTo = "/", errorMessage) => {
+    const escapedReturnTo = String(returnTo).replace(/"/g, "&quot;");
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LaunchGremlin Maintenance</title>
+  <style>
+    body {font-family: system-ui, sans-serif; padding: 3rem; text-align: center; background: #0b1120; color: #f8fafc;}
+    main {max-width: 540px; margin: auto;}
+    h1 {font-size: 1.8rem; margin-bottom: 0.75rem;}
+    p {margin: 0.75rem 0 1.5rem; color: #cbd5e1;}
+    input, button {width: 100%; padding: 0.9rem 1rem; margin-top: 0.75rem; border-radius: 0.5rem; border: 1px solid #334155; background: #020617; color: #f8fafc;}
+    button {border-color: #7c3aed; background: #7c3aed; color: white; cursor: pointer;}
+    .error {color: #f87171; margin-top: 0.75rem;}
+  </style>
+</head>
+<body>
+  <main>
+    <h1>LaunchGremlin is currently being finalized.</h1>
+    <p>Please check back soon.</p>
+    <form method="POST" action="/maintenance/unlock">
+      <input type="hidden" name="returnTo" value="${escapedReturnTo}" />
+      <input name="secret" type="password" placeholder="Admin secret" autocomplete="off" />
+      <button type="submit">Unlock</button>
+    </form>
+    ${errorMessage ? `<div class="error">${String(errorMessage)}</div>` : ""}
+    <p style="margin-top:1.25rem;font-size:0.9rem;color:#94a3b8;">If you already have the bypass secret, use it here or visit <code>/maintenance/bypass?secret=YOUR_SECRET</code>.</p>
+  </main>
+</body>
+</html>`;
+};
 
 app.set("trust proxy", 1);
 app.use(helmet());
 app.use(cors());
 app.use(express.json({ limit: "20kb" }));
+app.use(express.urlencoded({ extended: false }));
+app.use((req, res, next) => {
+    if (!MAINTENANCE_MODE) {
+        return next();
+    }
+
+    if (
+        req.path.startsWith("/api") ||
+        req.path.startsWith("/maintenance") ||
+        req.path === "/admin.html" ||
+        req.path.startsWith("/admin")
+    ) {
+        return next();
+    }
+
+    if (isMaintenanceAuthorized(req)) {
+        return next();
+    }
+
+    return res.status(503).send(renderMaintenancePage(req.originalUrl));
+});
 app.use(
     rateLimit({
         windowMs: RATE_LIMIT_WINDOW_MS,
@@ -237,17 +319,19 @@ const sendWebhook = async ({ name, email, company, summary, guide }) => {
 
 const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
-app.get("/", (req, res) => {
-    res.json({
-        message: "LaunchGremlin backend is running.",
-        endpoints: {
-            health: "/api/health",
-            submitLead: "/api/lead",
-            recentLeads: "/api/leads",
-            adminUI: "/admin.html",
-        },
+if (NODE_ENV !== "production") {
+    app.get("/", (req, res) => {
+        res.json({
+            message: "LaunchGremlin backend is running.",
+            endpoints: {
+                health: "/api/health",
+                submitLead: "/api/lead",
+                recentLeads: "/api/leads",
+                adminUI: "/admin.html",
+            },
+        });
     });
-});
+}
 
 app.get(["/admin", "/admin/"], (req, res) => {
     res.redirect(302, "/admin.html");
@@ -328,6 +412,45 @@ app.post("/api/webhook-receiver", (req, res) => {
     };
     console.log("Webhook receiver received lead:", JSON.stringify(received, null, 2));
     res.json({ message: "Webhook received.", received });
+});
+
+app.get("/maintenance/unlock", (req, res) => {
+    const returnTo = sanitizeText(req.query.returnTo) || "/";
+    res.send(renderMaintenancePage(returnTo));
+});
+
+app.get("/maintenance/bypass", (req, res) => {
+    const secret = req.query.secret;
+    const returnTo = sanitizeText(req.query.returnTo) || "/";
+
+    if (secret !== MAINTENANCE_SECRET) {
+        return res.status(401).send(renderMaintenancePage(returnTo, "Invalid bypass secret."));
+    }
+
+    res.cookie("maintenance", MAINTENANCE_SECRET, {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: NODE_ENV === "production",
+        maxAge: 1000 * 60 * 60 * 24,
+    });
+    return res.redirect(returnTo);
+});
+
+app.post("/maintenance/unlock", (req, res) => {
+    const secret = sanitizeText(req.body.secret);
+    const returnTo = sanitizeText(req.body.returnTo) || "/";
+
+    if (secret !== MAINTENANCE_SECRET) {
+        return res.status(401).send(renderMaintenancePage(returnTo, "Invalid secret."));
+    }
+
+    res.cookie("maintenance", MAINTENANCE_SECRET, {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: NODE_ENV === "production",
+        maxAge: 1000 * 60 * 60 * 24,
+    });
+    return res.redirect(returnTo);
 });
 
 if (NODE_ENV === "production") {
