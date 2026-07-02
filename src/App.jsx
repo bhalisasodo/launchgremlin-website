@@ -372,12 +372,26 @@ export default function App() {
                     className="absolute inset-0 m-auto w-[520px] max-w-full opacity-[0.06] pointer-events-none select-none"
                 />
 
-                <h1 className="relative z-10 text-6xl md:text-8xl font-extrabold mb-8 animate-fade-up">
-                    Websites, apps, and AI tools for everyday entrepreneurs and businesses
+                <h1 className="relative z-10 text-6xl md:text-8xl font-extrabold mb-6 animate-fade-up">
+                    Build smarter. Launch faster.
                 </h1>
                 <p className="relative z-10 text-lg md:text-xl text-gray-300 max-w-2xl animate-fade-up [animation-delay:200ms]">
-                    LaunchGremlin helps everyday entrepreneurs, creators, and small business owners turn ideas into real businesses with fast website development, practical apps, and smart business tools.
+                    LaunchGremlin helps founders and teams move from idea to launch with simple digital products and AI-powered growth.
                 </p>
+                <div className="relative z-10 flex flex-col sm:flex-row items-center justify-center gap-4 mt-10 animate-fade-up [animation-delay:300ms]">
+                    <a
+                        href="#contact"
+                        className="inline-flex items-center justify-center rounded-full bg-emerald-400 px-8 py-4 text-sm font-semibold text-black shadow-[0_0_25px_rgba(16,185,129,0.22)] transition hover:bg-emerald-300"
+                    >
+                        Start Building
+                    </a>
+                    <a
+                        href="#workflow"
+                        className="inline-flex items-center justify-center rounded-full border border-zinc-800 bg-zinc-900 px-8 py-4 text-sm font-semibold text-white transition hover:border-emerald-400 hover:text-emerald-300"
+                    >
+                        See What We Offer
+                    </a>
+                </div>
             </section>
 
             {/* Services */}
@@ -390,7 +404,7 @@ export default function App() {
                     What we offer
                 </h2>
                 <p className="text-center text-gray-400 max-w-3xl mx-auto mb-14">
-                    A hands-on studio for South African entrepreneurs who want something real, useful, and built quickly. We help with websites, apps, analytics, and simple tools that save time and make business easier.
+                    A product-first studio for founders who want useful digital products, faster launches, and AI-enabled growth.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8 items-stretch">
@@ -492,11 +506,11 @@ export default function App() {
                 </div>
 
                 <p className="text-center text-base text-gray-300 max-w-2xl mx-auto mt-10">
-                    We help South African business owners move fast, build what matters, and get real results without the usual agency fuss.
+                    We help founders move fast, build what matters, and create digital products that launch with momentum.
                 </p>
 
                 <p className="text-center text-xs text-gray-500 mt-8 tracking-widest uppercase">
-                    Designed for AI-first founders · Built to move fast
+                    Built for speed, clarity, and product impact
                 </p>
             </section>
 
@@ -516,7 +530,7 @@ export default function App() {
                     Small team. <span className="text-emerald-400">Big leverage.</span>
                 </h2>
                 <p className="text-gray-300 text-lg max-w-5xl mx-auto">
-                    LaunchGremlin is built by people who like getting things moving. We work closely with business owners, creators, and founders to build practical tools and websites that help real people get ahead.
+                    LaunchGremlin is built by people who like getting things moving. We partner with founders and teams to create practical products and digital tools that help ideas gain traction.
                 </p>
             </section>
 
@@ -770,7 +784,7 @@ export default function App() {
             </section>
 
             <footer className="px-6 py-12 border-t border-zinc-800 text-center text-gray-500 text-sm">
-                © {new Date().getFullYear()} LaunchGremlin · Durban, South Africa
+                © {new Date().getFullYear()} LaunchGremlin
             </footer>
         </div>
     );
