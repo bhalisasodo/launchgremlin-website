@@ -231,23 +231,22 @@ export default function App() {
         };
 
         try {
-            const response = await fetch("/api/lead", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload),
+            // Simulate a brief network delay for smooth UI feedback
+            await new Promise((resolve) => setTimeout(resolve, 800));
+
+            // Save lead locally in the browser
+            const existingLeads = JSON.parse(localStorage.getItem("launchgremlin_leads") || "[]");
+            existingLeads.push({
+                ...payload,
+                created_at: new Date().toISOString(),
+                id: crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2)
             });
+            localStorage.setItem("launchgremlin_leads", JSON.stringify(existingLeads));
 
-            const data = await response.json();
-            if (!response.ok) {
-                throw new Error(data?.message || "Unable to send lead.");
-            }
-
-            setGeneratedGuide(data.guide || payload.guide);
-            setLeadStatus("Lead sent successfully — we’ll follow up shortly.");
+            setGeneratedGuide(payload.guide);
+            setLeadStatus("Project guide generated successfully — details saved locally!");
         } catch (error) {
-            setLeadStatus(`Error sending lead: ${error.message}`);
+            setLeadStatus(`Error generating guide: ${error.message}`);
         } finally {
             setSending(false);
         }
