@@ -657,11 +657,10 @@ export default function App() {
                 />
             </div>
 
-            {/* Hero */}
             <section
                 ref={heroRef}
                 id="hero"
-                className="relative flex flex-col items-center justify-center text-center px-6 py-40 overflow-hidden min-h-screen"
+                className="relative flex flex-col items-center justify-center text-center px-6 pt-32 pb-24 overflow-hidden min-h-[85vh]"
             >
                 {/* Gremlin watermark */}
                 <img
@@ -692,16 +691,15 @@ export default function App() {
                 </div>
             </section>
 
-            {/* Services */}
             <section
                 ref={workflowRef}
                 id="workflow"
-                className="relative px-6 py-32 max-w-6xl mx-auto"
+                className="relative px-6 py-20 max-w-6xl mx-auto"
             >
                 <h2 className="text-4xl md:text-5xl font-bold text-center mb-10">
                     What we offer
                 </h2>
-                <p className="text-center text-gray-400 max-w-3xl mx-auto mb-14">
+                <p className="text-center text-gray-400 max-w-3xl mx-auto mb-10">
                     A product-first studio for founders who want useful digital products, faster launches, and AI-enabled growth.
                 </p>
 
@@ -812,11 +810,10 @@ export default function App() {
                 </p>
             </section>
 
-            {/* Team */}
             <section
                 ref={teamRef}
                 id="team"
-                className="relative px-6 py-32 max-w-4xl mx-auto text-center"
+                className="relative px-6 py-20 max-w-4xl mx-auto text-center"
             >
                 {/* Gremlin watermark */}
                 <img
@@ -832,13 +829,12 @@ export default function App() {
                 </p>
             </section>
 
-            {/* Contact */}
             <section
                 ref={contactRef}
                 id="contact"
-                className="relative px-6 py-32 max-w-6xl mx-auto"
+                className="relative px-6 py-20 max-w-6xl mx-auto"
             >
-                <div className="grid gap-16 lg:grid-cols-[0.95fr_1.05fr] items-start">
+                <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] items-start">
                     <div className="space-y-8">
                         <div className="space-y-4">
                             <h2 className="text-4xl md:text-5xl font-bold">
@@ -1296,7 +1292,7 @@ export default function App() {
                 )}
             </section>
 
-            <footer className="px-6 py-12 border-t border-zinc-800 text-center text-gray-500 text-sm">
+            <footer className="px-6 py-8 border-t border-zinc-800 text-center text-gray-500 text-sm">
                 © {new Date().getFullYear()} LaunchGremlin
             </footer>
         </div>
