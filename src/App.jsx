@@ -609,11 +609,11 @@ export default function App() {
                         <img
                             src="./legacy_and_assets/web-icon.png"
                             alt="LaunchGremlin logo"
-                            width="92"
-                            height="92"
-                            className="h-[80px] w-[80px] md:h-[92px] md:w-[92px] object-contain shrink-0 mix-blend-screen"
+                            width="40"
+                            height="40"
+                            className="w-10 h-10 object-contain shrink-0 mix-blend-screen"
                         />
-                        <span className="font-bold tracking-tight text-xl md:text-3xl">
+                        <span className="font-bold tracking-tight text-xl md:text-2xl">
                             Launch<span className="text-emerald-400">Gremlin</span>
                         </span>
                     </div>
