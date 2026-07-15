@@ -134,6 +134,7 @@ export default function App() {
     const [leadStatus, setLeadStatus] = useState("");
     const [formErrors, setFormErrors] = useState({});
     const [copiedPreview, setCopiedPreview] = useState(false);
+    const [isMobilePreviewOpen, setIsMobilePreviewOpen] = useState(false);
 
     const copyPreviewToClipboard = () => {
         const guideText = generatedGuide || createProjectGuide();
@@ -1220,7 +1221,7 @@ export default function App() {
                                 </button>
                             </div>
                             
-                            <div className="p-8 max-h-[500px] overflow-y-auto custom-scrollbar font-mono text-xs leading-6 text-gray-200">
+                            <div className="p-8 max-h-[320px] overflow-y-auto custom-scrollbar font-mono text-xs leading-6 text-gray-200">
                                 <pre className="whitespace-pre-wrap break-words">{guidePreview}</pre>
                             </div>
                         </div>
@@ -1236,6 +1237,63 @@ export default function App() {
                         </div>
                     </div>
                 </div>
+
+                {/* Floating action button for mobile preview */}
+                <div className="fixed bottom-6 right-6 z-40 lg:hidden">
+                    <button
+                        onClick={() => setIsMobilePreviewOpen(true)}
+                        type="button"
+                        className="flex items-center gap-2 bg-emerald-400 text-black px-6 py-3.5 rounded-full font-bold shadow-[0_6px_25px_rgba(16,185,129,0.45)] hover:bg-emerald-300 transition-all duration-300 hover:scale-105 active:scale-95"
+                    >
+                        <FileText className="w-4 h-4" />
+                        <span>Preview Guide</span>
+                    </button>
+                </div>
+
+                {/* Mobile Preview Bottom Sheet Modal */}
+                {isMobilePreviewOpen && (
+                    <div className="fixed inset-0 z-50 flex items-end justify-center lg:hidden">
+                        {/* Backdrop */}
+                        <div 
+                            onClick={() => setIsMobilePreviewOpen(false)}
+                            className="absolute inset-0 bg-black/75 backdrop-blur-sm transition-opacity duration-300"
+                        />
+                        {/* Drawer Panel */}
+                        <div className="relative w-full bg-zinc-950 border-t border-zinc-800 rounded-t-[2rem] max-h-[85vh] flex flex-col z-10 animate-slide-fade-in shadow-[0_-12px_40px_rgba(0,0,0,0.6)]">
+                            {/* Handle bar */}
+                            <div className="flex justify-center py-3">
+                                <div className="w-12 h-1 bg-zinc-800 rounded-full" />
+                            </div>
+                            {/* Header */}
+                            <div className="px-6 pb-4 border-b border-zinc-900 flex items-center justify-between">
+                                <div>
+                                    <p className="text-xs uppercase tracking-widest text-emerald-400 font-mono">AI project guide</p>
+                                    <h3 className="text-lg font-bold mt-0.5 text-white">Real-time Preview</h3>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={copyPreviewToClipboard}
+                                        type="button"
+                                        className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1.5 py-1.5 px-3 rounded-lg border border-emerald-400/20 hover:bg-emerald-400/10 transition-all duration-300"
+                                    >
+                                        {copiedPreview ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                                        {copiedPreview ? "Copied" : "Copy"}
+                                    </button>
+                                    <button 
+                                        onClick={() => setIsMobilePreviewOpen(false)}
+                                        className="px-3 py-1.5 bg-zinc-900 border border-zinc-800 text-gray-300 hover:text-white text-xs font-semibold rounded-lg transition-all duration-300"
+                                    >
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                            {/* Content */}
+                            <div className="p-6 overflow-y-auto font-mono text-xs leading-6 text-gray-200 max-h-[60vh] custom-scrollbar">
+                                <pre className="whitespace-pre-wrap break-words">{guidePreview}</pre>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </section>
 
             <footer className="px-6 py-12 border-t border-zinc-800 text-center text-gray-500 text-sm">
