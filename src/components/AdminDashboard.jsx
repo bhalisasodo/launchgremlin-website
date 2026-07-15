@@ -221,7 +221,7 @@ export default function AdminDashboard({ token, onLogout }) {
     return matchesSearch && matchesStatus && matchesService;
   });
 
-  // Services Breakdown calculation for custom SVG visualization
+  // Services Breakdown calculation for custom SVG visualisation
   const serviceCounts = leads.reduce((acc, lead) => {
     acc[lead.service] = (acc[lead.service] || 0) + 1;
     return acc;
@@ -308,7 +308,7 @@ export default function AdminDashboard({ token, onLogout }) {
           </GlassCard>
         </section>
 
-        {/* 2. Visualizations and Filters */}
+        {/* 2. Visualisations and Filters */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           {/* Service requested breakdown (Bespoke Chart) */}
           <GlassCard className="lg:col-span-1">

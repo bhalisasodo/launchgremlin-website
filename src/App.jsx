@@ -251,7 +251,7 @@ export default function App() {
                 id: "timeConsumingProcess",
                 label: "What manual workflow takes the most time in your business?",
                 type: "text",
-                placeholder: "e.g., Replying to customer emails, writing content, summarizing documents"
+                placeholder: "e.g., Replying to customer emails, writing content, summarising documents"
             },
             {
                 id: "desiredOutcome",
@@ -397,9 +397,9 @@ export default function App() {
 
         const roadmaps = {
             "Website Development": [
-                "1. Design Discovery: Select color themes, typography, and wireframe the home page layout.",
+                "1. Design Discovery: Select colour themes, typography, and wireframe the home page layout.",
                 "2. Static Build: Develop high-performance responsive page components with Tailwind CSS.",
-                "3. Dynamic Integrations: Connect contact forms, content management (CMS), and SEO optimization.",
+                "3. Dynamic Integrations: Connect contact forms, content management (CMS), and SEO optimisation.",
                 "4. Launch & DNS: Connect custom domains, configure CDN caching, and submit sitemaps to Google."
             ],
             "Build Your First Product": [
@@ -417,7 +417,7 @@ export default function App() {
             "Data Analytics": [
                 "1. Data Audit: Inventory existing tools (CRM, DBs, Google Analytics) and verify API access keys.",
                 "2. ETL / Sync Setup: Setup automated pipelines to aggregate data into a single queryable source.",
-                "3. Dashboard Modeling: Draft mockups of key performance indicator (KPI) widgets and filter views.",
+                "3. Dashboard Modelling: Draft mockups of key performance indicator (KPI) widgets and filter views.",
                 "4. Team Access: Launch the custom charts/dashboard and train team members on reading metrics."
             ],
             "AI Agent Implementation": [
@@ -436,7 +436,7 @@ export default function App() {
             "5. Launch and refine: put something real in front of users, gather feedback, and improve it."
         ];
 
-        return `LaunchGremlin Customized Project Guide\n` +
+        return `LaunchGremlin Customised Project Guide\n` +
             `Service: ${selectedService || "Digital Development"}\n` +
             `Client / Company: ${leadCompany || "Your Company"}\n\n` +
             `========================================\n` +
@@ -454,7 +454,7 @@ export default function App() {
             `3. RECOMMENDED NEXT STEPS\n` +
             `========================================\n` +
             `- Review the suggested roadmap above to align on core milestones.\n` +
-            `- Schedule a 15-minute discovery call to finalize scope details.\n` +
+            `- Schedule a 15-minute discovery call to finalise scope details.\n` +
             `- Get a formal fixed-price proposal and project agreement.\n\n` +
             `Prepared for: ${leadName || "Valued Client"} (${leadEmail || "no email provided"})`;
     };
@@ -954,7 +954,7 @@ export default function App() {
                                             value={leadCompany}
                                             onChange={(event) => setLeadCompany(event.target.value)}
                                             className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-zinc-900/50 border border-zinc-800 text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300"
-                                            placeholder="LaunchGremlin Labs"
+                                            placeholder="e.g., Acme Corp"
                                         />
                                     </div>
                                 </div>
