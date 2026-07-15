@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import AdminDashboard, { AdminLogin } from "./components/AdminDashboard";
+import { 
+    User, Mail, Building, Calendar, Target, Check, 
+    ChevronRight, ChevronLeft, Sparkles, AlertCircle, Copy, 
+    Zap, TrendingUp, Rocket, Brain, Cpu, FileText
+} from "lucide-react";
 
 /**
  * LaunchGremlin — Production-ready interactive site
@@ -128,6 +133,14 @@ export default function App() {
     const [sending, setSending] = useState(false);
     const [leadStatus, setLeadStatus] = useState("");
     const [formErrors, setFormErrors] = useState({});
+    const [copiedPreview, setCopiedPreview] = useState(false);
+
+    const copyPreviewToClipboard = () => {
+        const guideText = generatedGuide || createProjectGuide();
+        navigator.clipboard.writeText(guideText);
+        setCopiedPreview(true);
+        setTimeout(() => setCopiedPreview(false), 2000);
+    };
 
     const heroRef = useRef(null);
     const workflowRef = useRef(null);
@@ -835,229 +848,329 @@ export default function App() {
                             </p>
                         </div>
 
-                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                            <div className="flex flex-wrap items-center gap-2">
-                                {[
-                                    { label: "Contact", step: 0 },
-                                    { label: "Project", step: 1 },
-                                    { label: "Review", step: 2 },
-                                ].map(({ label, step }) => (
+                        {/* Stepper Indicator */}
+                        <div className="relative flex items-center justify-between max-w-md py-4 mb-8">
+                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[2px] bg-zinc-800 -z-10">
+                                <div 
+                                    className="h-full bg-emerald-400 transition-all duration-500" 
+                                    style={{ width: onboardingStep === 0 ? "0%" : onboardingStep === 1 ? "50%" : "100%" }}
+                                />
+                            </div>
+                            {[
+                                { label: "Contact", step: 0 },
+                                { label: "Details", step: 1 },
+                                { label: "Review", step: 2 }
+                            ].map(({ label, step }) => {
+                                const isActive = onboardingStep === step;
+                                const isCompleted = onboardingStep > step;
+                                return (
                                     <button
                                         key={label}
                                         type="button"
-                                        onClick={() => setOnboardingStep(step)}
-                                        className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
-                                            onboardingStep === step
-                                                ? "border-emerald-400 bg-emerald-400/10 text-emerald-200"
-                                                : "border-zinc-800 bg-zinc-900 text-gray-400 hover:border-emerald-400 hover:text-emerald-300"
-                                        }`}
+                                        onClick={() => {
+                                            if (step < onboardingStep || Object.keys(validateStep(step - 1)).length === 0) {
+                                                setOnboardingStep(step);
+                                            }
+                                        }}
+                                        className="flex flex-col items-center group focus:outline-none"
                                     >
-                                        {label}
+                                        <div 
+                                            className={`w-10 h-10 rounded-full flex items-center justify-center border-2 text-sm font-bold transition-all duration-300 ${
+                                                isCompleted
+                                                    ? "bg-emerald-400 border-emerald-400 text-black shadow-[0_0_15px_rgba(16,185,129,0.4)]"
+                                                    : isActive
+                                                        ? "bg-zinc-950 border-emerald-400 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)] scale-110"
+                                                        : "bg-zinc-900 border-zinc-800 text-gray-400 group-hover:border-zinc-700"
+                                            }`}
+                                        >
+                                            {isCompleted ? <Check className="w-5 h-5" /> : step + 1}
+                                        </div>
+                                        <span 
+                                            className={`text-xs mt-2 font-medium tracking-wide transition-colors duration-300 ${
+                                                isActive ? "text-emerald-400" : isCompleted ? "text-emerald-300" : "text-gray-500"
+                                            }`}
+                                        >
+                                            {label}
+                                        </span>
                                     </button>
-                                ))}
-                            </div>
-                            <div className="text-sm text-gray-500">
-                                Step {onboardingStep + 1} of 3
-                            </div>
+                                );
+                            })}
                         </div>
 
                         {onboardingStep === 0 && (
-                            <div className="grid gap-4 sm:grid-cols-2">
-                                <label className="flex flex-col text-sm text-gray-300">
-                                    Your name
-                                    <input
-                                        type="text"
-                                        value={leadName}
-                                        onChange={(event) => setLeadName(event.target.value)}
-                                        className={`mt-2 px-4 py-3 rounded-2xl bg-zinc-900 border text-white focus:outline-none focus:border-emerald-400 ${
-                                            formErrors.leadName ? "border-rose-500" : "border-zinc-800"
-                                        }`}
-                                        placeholder="Jane Doe"
-                                    />
+                            <div className="grid gap-6 sm:grid-cols-2 animate-slide-fade-in">
+                                <div className="flex flex-col gap-2">
+                                    <label htmlFor="leadName" className="text-sm text-gray-300 font-medium">Your name</label>
+                                    <div className="relative">
+                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                                        <input
+                                            id="leadName"
+                                            type="text"
+                                            value={leadName}
+                                            onChange={(event) => setLeadName(event.target.value)}
+                                            className={`w-full pl-12 pr-4 py-3.5 rounded-2xl bg-zinc-900/50 border text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300 ${
+                                                formErrors.leadName ? "border-rose-500/80 animate-shake" : "border-zinc-800"
+                                            }`}
+                                            placeholder="Jane Doe"
+                                        />
+                                    </div>
                                     {formErrors.leadName && (
-                                        <span className="text-xs text-rose-400 mt-2">{formErrors.leadName}</span>
+                                        <span className="text-xs text-rose-400 flex items-center gap-1.5 mt-1 animate-shake">
+                                            <AlertCircle className="w-4 h-4" /> {formErrors.leadName}
+                                        </span>
                                     )}
-                                </label>
-                                <label className="flex flex-col text-sm text-gray-300">
-                                    Email address
-                                    <input
-                                        type="email"
-                                        value={leadEmail}
-                                        onChange={(event) => setLeadEmail(event.target.value)}
-                                        className={`mt-2 px-4 py-3 rounded-2xl bg-zinc-900 border text-white focus:outline-none focus:border-emerald-400 ${
-                                            formErrors.leadEmail ? "border-rose-500" : "border-zinc-800"
-                                        }`}
-                                        placeholder="jane@company.com"
-                                    />
+                                </div>
+
+                                <div className="flex flex-col gap-2">
+                                    <label htmlFor="leadEmail" className="text-sm text-gray-300 font-medium">Email address</label>
+                                    <div className="relative">
+                                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                                        <input
+                                            id="leadEmail"
+                                            type="email"
+                                            value={leadEmail}
+                                            onChange={(event) => setLeadEmail(event.target.value)}
+                                            className={`w-full pl-12 pr-4 py-3.5 rounded-2xl bg-zinc-900/50 border text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300 ${
+                                                formErrors.leadEmail ? "border-rose-500/80 animate-shake" : "border-zinc-800"
+                                            }`}
+                                            placeholder="jane@company.com"
+                                        />
+                                    </div>
                                     {formErrors.leadEmail && (
-                                        <span className="text-xs text-rose-400 mt-2">{formErrors.leadEmail}</span>
+                                        <span className="text-xs text-rose-400 flex items-center gap-1.5 mt-1 animate-shake">
+                                            <AlertCircle className="w-4 h-4" /> {formErrors.leadEmail}
+                                        </span>
                                     )}
-                                </label>
-                                <label className="flex flex-col text-sm text-gray-300 sm:col-span-2">
-                                    Company or product name
-                                    <input
-                                        type="text"
-                                        value={leadCompany}
-                                        onChange={(event) => setLeadCompany(event.target.value)}
-                                        className="mt-2 px-4 py-3 rounded-2xl bg-zinc-900 border border-zinc-800 text-white focus:outline-none focus:border-emerald-400"
-                                        placeholder="LaunchGremlin Labs"
-                                    />
-                                </label>
-                                <label className="flex flex-col text-sm text-gray-300 sm:col-span-2">
-                                    Service you need help with
-                                    <select
-                                        value={selectedService}
-                                        onChange={(event) => {
-                                            setSelectedService(event.target.value);
-                                            setServiceDetails({});
-                                        }}
-                                        className={`mt-2 px-4 py-3 rounded-2xl bg-zinc-900 border text-white focus:outline-none focus:border-emerald-400 ${
-                                            formErrors.selectedService ? "border-rose-500" : "border-zinc-800"
-                                        }`}
-                                    >
-                                        <option value="">Select a service</option>
-                                        <option value="Website Development">Website Development</option>
-                                        <option value="Build Your First Product">Build Your First Product</option>
-                                        <option value="AI Consulting">AI Consulting</option>
-                                        <option value="Data Analytics">Data Analytics</option>
-                                        <option value="AI Agent Implementation">AI Agent Implementation</option>
-                                    </select>
+                                </div>
+
+                                <div className="flex flex-col gap-2 sm:col-span-2">
+                                    <label htmlFor="leadCompany" className="text-sm text-gray-300 font-medium">Company or product name</label>
+                                    <div className="relative">
+                                        <Building className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                                        <input
+                                            id="leadCompany"
+                                            type="text"
+                                            value={leadCompany}
+                                            onChange={(event) => setLeadCompany(event.target.value)}
+                                            className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-zinc-900/50 border border-zinc-800 text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300"
+                                            placeholder="LaunchGremlin Labs"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="sm:col-span-2 flex flex-col gap-3 mt-2">
+                                    <span className="text-sm font-medium text-gray-300">Choose the service you need</span>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        {[
+                                            { id: "Website Development", desc: "Build a clean, fast website.", icon: Zap },
+                                            { id: "Build Your First Product", desc: "Get your MVP off the ground.", icon: Rocket },
+                                            { id: "AI Consulting", desc: "Get advice on AI for your business.", icon: Brain },
+                                            { id: "Data Analytics", desc: "Turn numbers into insights.", icon: TrendingUp },
+                                            { id: "AI Agent Implementation", desc: "Automate daily workflows.", icon: Cpu }
+                                        ].map(serv => {
+                                            const Icon = serv.icon;
+                                            const isSelected = selectedService === serv.id;
+                                            return (
+                                                <button
+                                                    key={serv.id}
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setSelectedService(serv.id);
+                                                        setServiceDetails({});
+                                                    }}
+                                                    className={`flex items-start gap-4 p-4 rounded-2xl border text-left transition-all duration-300 cursor-pointer ${
+                                                        isSelected
+                                                            ? "bg-emerald-500/5 border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.15)] scale-[1.02]"
+                                                            : "bg-zinc-900/50 border-zinc-800 hover:border-zinc-700 hover:scale-[1.01]"
+                                                    }`}
+                                                >
+                                                    <div 
+                                                        className={`p-2 rounded-xl border ${
+                                                            isSelected
+                                                                ? "bg-emerald-500/10 border-emerald-400/30 text-emerald-400"
+                                                                : "bg-zinc-950 border-zinc-800 text-gray-400"
+                                                        }`}
+                                                    >
+                                                        <Icon className="w-5 h-5" />
+                                                    </div>
+                                                    <div>
+                                                        <h4 className={`text-sm font-semibold transition-colors duration-200 ${isSelected ? "text-emerald-300" : "text-white"}`}>
+                                                            {serv.id}
+                                                        </h4>
+                                                        <p className="text-xs text-gray-400 mt-1 leading-relaxed">
+                                                            {serv.desc}
+                                                        </p>
+                                                    </div>
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
                                     {formErrors.selectedService && (
-                                        <span className="text-xs text-rose-400 mt-2">{formErrors.selectedService}</span>
+                                        <span className="text-xs text-rose-400 flex items-center gap-1.5 mt-1 animate-shake">
+                                            <AlertCircle className="w-4 h-4" /> {formErrors.selectedService}
+                                        </span>
                                     )}
-                                </label>
+                                </div>
                             </div>
                         )}
 
                         {onboardingStep === 1 && (
-                            <div className="grid gap-4">
+                            <div className="grid gap-6 animate-slide-fade-in">
                                 {/* Service Specific Custom Questions */}
                                 {(serviceQuestions[selectedService] || []).map((q) => (
-                                    <label key={q.id} className="flex flex-col text-sm text-gray-300">
-                                        {q.label}
+                                    <div key={q.id} className="flex flex-col gap-2">
+                                        <label className="text-sm font-medium text-gray-300">{q.label}</label>
                                         {q.type === "select" ? (
-                                            <select
-                                                value={serviceDetails[q.id] || ""}
-                                                onChange={(e) => setServiceDetails(prev => ({ ...prev, [q.id]: e.target.value }))}
-                                                className={`mt-2 px-4 py-3 rounded-2xl bg-zinc-900 border text-white focus:outline-none focus:border-emerald-400 ${
-                                                    formErrors[q.id] ? "border-rose-500" : "border-zinc-800"
-                                                }`}
-                                            >
-                                                <option value="">{q.placeholder}</option>
-                                                {q.options.map(opt => (
-                                                    <option key={opt} value={opt}>{opt}</option>
-                                                ))}
-                                            </select>
+                                            <div className="relative">
+                                                <select
+                                                    value={serviceDetails[q.id] || ""}
+                                                    onChange={(e) => setServiceDetails(prev => ({ ...prev, [q.id]: e.target.value }))}
+                                                    className={`w-full px-4 py-3.5 rounded-2xl bg-zinc-900/50 border text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300 ${
+                                                        formErrors[q.id] ? "border-rose-500/80 animate-shake" : "border-zinc-800"
+                                                    }`}
+                                                >
+                                                    <option value="">{q.placeholder}</option>
+                                                    {q.options.map(opt => (
+                                                        <option key={opt} value={opt}>{opt}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
                                         ) : (
-                                            <input
-                                                type="text"
-                                                value={serviceDetails[q.id] || ""}
-                                                onChange={(e) => setServiceDetails(prev => ({ ...prev, [q.id]: e.target.value }))}
-                                                placeholder={q.placeholder}
-                                                className={`mt-2 px-4 py-3 rounded-2xl bg-zinc-900 border text-white focus:outline-none focus:border-emerald-400 ${
-                                                    formErrors[q.id] ? "border-rose-500" : "border-zinc-800"
-                                                }`}
-                                            />
+                                            <div className="relative">
+                                                <input
+                                                    type="text"
+                                                    value={serviceDetails[q.id] || ""}
+                                                    onChange={(e) => setServiceDetails(prev => ({ ...prev, [q.id]: e.target.value }))}
+                                                    placeholder={q.placeholder}
+                                                    className={`w-full px-4 py-3.5 rounded-2xl bg-zinc-900/50 border text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300 ${
+                                                        formErrors[q.id] ? "border-rose-500/80 animate-shake" : "border-zinc-800"
+                                                    }`}
+                                                />
+                                            </div>
                                         )}
                                         {formErrors[q.id] && (
-                                            <span className="text-xs text-rose-400 mt-2">{formErrors[q.id]}</span>
+                                            <span className="text-xs text-rose-400 flex items-center gap-1.5 mt-1 animate-shake">
+                                                <AlertCircle className="w-4 h-4" /> {formErrors[q.id]}
+                                            </span>
                                         )}
-                                    </label>
+                                    </div>
                                 ))}
 
                                 {/* Additional Notes Textarea */}
-                                <label className="flex flex-col text-sm text-gray-300">
-                                    Additional details / notes (optional)
+                                <div className="flex flex-col gap-2">
+                                    <label htmlFor="additionalNotes" className="text-sm font-medium text-gray-300">Additional details / notes (optional)</label>
                                     <textarea
+                                        id="additionalNotes"
                                         value={additionalNotes}
                                         onChange={(event) => setAdditionalNotes(event.target.value)}
-                                        className="mt-2 min-h-[100px] px-4 py-3 rounded-2xl bg-zinc-900 border border-zinc-800 text-white focus:outline-none focus:border-emerald-400 resize-none"
+                                        className="w-full min-h-[100px] px-4 py-3.5 rounded-2xl bg-zinc-900/50 border border-zinc-800 text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300 resize-none"
                                         placeholder="Any other details, wireframe links, or custom requirements..."
                                     />
-                                </label>
-
-                                <div className="grid gap-4 sm:grid-cols-2">
-                                    <label className="flex flex-col text-sm text-gray-300">
-                                        Main challenge
-                                        <input
-                                            type="text"
-                                            value={challenge}
-                                            onChange={(event) => setChallenge(event.target.value)}
-                                            className={`mt-2 px-4 py-3 rounded-2xl bg-zinc-900 border text-white focus:outline-none focus:border-emerald-400 ${
-                                                formErrors.challenge ? "border-rose-500" : "border-zinc-800"
-                                            }`}
-                                            placeholder="E.g. automate onboarding, validate product-market fit"
-                                        />
-                                        {formErrors.challenge && (
-                                            <span className="text-xs text-rose-400 mt-2">{formErrors.challenge}</span>
-                                        )}
-                                    </label>
-                                    <label className="flex flex-col text-sm text-gray-300">
-                                        Timeline / urgency
-                                        <input
-                                            type="text"
-                                            value={timeline}
-                                            onChange={(event) => setTimeline(event.target.value)}
-                                            className="mt-2 px-4 py-3 rounded-2xl bg-zinc-900 border border-zinc-800 text-white focus:outline-none focus:border-emerald-400"
-                                            placeholder="E.g. 6 weeks, ASAP, Q4 launch"
-                                        />
-                                    </label>
                                 </div>
-                                <label className="flex flex-col text-sm text-gray-300">
-                                    Budget (ZAR)
-                                    <input
-                                        type="text"
-                                        value={budget}
-                                        onChange={(event) => setBudget(event.target.value)}
-                                        className="mt-2 px-4 py-3 rounded-2xl bg-zinc-900 border border-zinc-800 text-white focus:outline-none focus:border-emerald-400"
-                                        placeholder="e.g. R5,000 – R20,000"
-                                    />
-                                </label>
+
+                                <div className="grid gap-6 sm:grid-cols-2">
+                                    <div className="flex flex-col gap-2">
+                                        <label htmlFor="challenge" className="text-sm font-medium text-gray-300 font-medium">Main challenge</label>
+                                        <div className="relative">
+                                            <Target className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                                            <input
+                                                id="challenge"
+                                                type="text"
+                                                value={challenge}
+                                                onChange={(event) => setChallenge(event.target.value)}
+                                                className={`w-full pl-12 pr-4 py-3.5 rounded-2xl bg-zinc-900/50 border text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300 ${
+                                                    formErrors.challenge ? "border-rose-500/80 animate-shake" : "border-zinc-800"
+                                                }`}
+                                                placeholder="E.g. automate onboarding, validate product-market fit"
+                                            />
+                                        </div>
+                                        {formErrors.challenge && (
+                                            <span className="text-xs text-rose-400 flex items-center gap-1.5 mt-1 animate-shake">
+                                                <AlertCircle className="w-4 h-4" /> {formErrors.challenge}
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    <div className="flex flex-col gap-2">
+                                        <label htmlFor="timeline" className="text-sm font-medium text-gray-300 font-medium">Timeline / urgency</label>
+                                        <div className="relative">
+                                            <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                                            <input
+                                                id="timeline"
+                                                type="text"
+                                                value={timeline}
+                                                onChange={(event) => setTimeline(event.target.value)}
+                                                className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-zinc-900/50 border border-zinc-800 text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300"
+                                                placeholder="E.g. 6 weeks, ASAP, Q4 launch"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col gap-2">
+                                    <label htmlFor="budget" className="text-sm font-medium text-gray-300 font-medium">Budget (ZAR)</label>
+                                    <div className="relative">
+                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-gray-500 select-none">R</span>
+                                        <input
+                                            id="budget"
+                                            type="text"
+                                            value={budget}
+                                            onChange={(event) => setBudget(event.target.value)}
+                                            className="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-zinc-900/50 border border-zinc-800 text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300"
+                                            placeholder="e.g. 5,000 – 20,000"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         )}
 
                         {onboardingStep === 2 && (
-                            <div className="space-y-6">
-                                <div className="rounded-3xl border border-emerald-400/20 bg-zinc-900/80 p-6">
-                                    <p className="text-sm uppercase tracking-[0.25em] text-emerald-400 mb-3">Review & confirm</p>
-                                    <div className="grid gap-3 text-sm text-gray-300">
-                                        <div>
-                                            <span className="font-semibold text-white">Contact</span>
-                                            <p>{leadName || "—"} · {leadEmail || "—"}</p>
+                            <div className="space-y-6 animate-slide-fade-in">
+                                <div className="rounded-3xl border border-emerald-400/20 bg-zinc-900/80 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.3)]">
+                                    <p className="text-sm uppercase tracking-[0.25em] text-emerald-400 mb-4 flex items-center gap-2">
+                                        <Sparkles className="w-4 h-4" /> Review & confirm
+                                    </p>
+                                    <div className="grid gap-4 text-sm text-gray-300">
+                                        <div className="pb-3 border-b border-zinc-800/60">
+                                            <span className="font-semibold text-white block mb-1">Contact Details</span>
+                                            <p className="text-gray-300">{leadName || "—"} · <span className="text-emerald-300">{leadEmail || "—"}</span></p>
+                                            {leadCompany && <p className="text-xs text-gray-400 mt-0.5">{leadCompany}</p>}
+                                        </div>
+                                        <div className="pb-3 border-b border-zinc-800/60">
+                                            <span className="font-semibold text-white block mb-1">Selected Service</span>
+                                            <p className="text-gray-300">{selectedService || "—"}</p>
                                         </div>
                                         <div>
-                                            <span className="font-semibold text-white">Service</span>
-                                            <p>{selectedService || "—"}</p>
-                                        </div>
-                                        <div>
-                                            <span className="font-semibold text-white">Summary</span>
-                                            <p className="whitespace-pre-wrap">{getCombinedSummary() || "—"}</p>
+                                            <span className="font-semibold text-white block mb-1">Project Spec Summary</span>
+                                            <p className="whitespace-pre-wrap leading-relaxed text-gray-400 bg-zinc-950/40 p-4 rounded-xl border border-zinc-800/50 text-xs font-mono">
+                                                {getCombinedSummary() || "—"}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
-                                <p className="text-sm text-gray-400">
-                                    You can adjust any field by going back. When you are ready, generate the final guide and send your request.
+                                <p className="text-xs text-gray-500 leading-relaxed">
+                                    Review the generated specs on the right. If everything looks good, submit the request to get started. You can still navigate back to make adjustments.
                                 </p>
                             </div>
                         )}
 
-                        <div className="flex flex-col sm:flex-row gap-4 mt-4">
+                        <div className="flex flex-col sm:flex-row gap-4 mt-6">
                             {onboardingStep > 0 && (
                                 <button
                                     type="button"
                                     onClick={handleBack}
-                                    className="inline-flex items-center justify-center px-8 py-4 rounded-2xl border border-zinc-800 text-gray-300 hover:border-emerald-400 hover:text-emerald-300 transition"
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl border border-zinc-800 text-gray-300 hover:border-emerald-400 hover:text-emerald-300 transition-all duration-300"
                                 >
-                                    Back
+                                    <ChevronLeft className="w-4 h-4" /> Back
                                 </button>
                             )}
                             {onboardingStep < 2 && (
                                 <button
                                     type="button"
                                     onClick={handleNext}
-                                    className="inline-flex items-center justify-center px-8 py-4 rounded-2xl bg-emerald-400 text-black font-semibold shadow-[0_0_25px_rgba(16,185,129,0.22)] hover:bg-emerald-300 transition"
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-emerald-400 text-black font-semibold shadow-[0_0_25px_rgba(16,185,129,0.22)] hover:bg-emerald-300 transition-all duration-300"
                                 >
-                                    Continue
+                                    Continue <ChevronRight className="w-4 h-4" />
                                 </button>
                             )}
                             {onboardingStep === 2 && (
@@ -1065,33 +1178,57 @@ export default function App() {
                                     type="button"
                                     onClick={submitLead}
                                     disabled={sending}
-                                    className="inline-flex items-center justify-center px-8 py-4 rounded-2xl bg-emerald-400 text-black font-semibold shadow-[0_0_25px_rgba(16,185,129,0.22)] hover:bg-emerald-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-emerald-400 text-black font-semibold shadow-[0_0_25px_rgba(16,185,129,0.22)] hover:bg-emerald-300 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    {sending ? "Sending…" : "Send request"}
+                                    {sending ? (
+                                        <>
+                                            <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                                            Sending…
+                                        </>
+                                    ) : (
+                                        <>
+                                            Send request <ChevronRight className="w-4 h-4" />
+                                        </>
+                                    )}
                                 </button>
                             )}
                         </div>
                         {leadStatus && (
-                            <p className="text-sm mt-3 text-gray-200">{leadStatus}</p>
+                            <p className="text-sm mt-4 text-emerald-400 flex items-center gap-2 bg-emerald-400/5 px-4 py-3 rounded-xl border border-emerald-400/20">
+                                <Sparkles className="w-4 h-4" /> {leadStatus}
+                            </p>
                         )}
                     </div>
 
-                    <div className="space-y-4">
-                        <div className="rounded-[2rem] border border-zinc-800 bg-zinc-950/80 p-8 shadow-[0_0_35px_rgba(0,0,0,0.4)]">
-                            <div className="flex items-center justify-between mb-6">
-                                <div>
-                                    <p className="text-xs uppercase tracking-[0.25em] text-emerald-400">AI project guide</p>
-                                    <h3 className="text-2xl font-semibold mt-2">Instant preview</h3>
+                    <div className="space-y-6 lg:sticky lg:top-32">
+                        <div className="rounded-3xl border border-zinc-800 bg-zinc-950/80 shadow-[0_12px_40px_rgba(0,0,0,0.5)] overflow-hidden">
+                            {/* Terminal Window Header */}
+                            <div className="bg-zinc-900 px-6 py-4 border-b border-zinc-800 flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <span className="w-3.5 h-3.5 rounded-full bg-rose-500/80 inline-block" />
+                                    <span className="w-3.5 h-3.5 rounded-full bg-amber-500/80 inline-block" />
+                                    <span className="w-3.5 h-3.5 rounded-full bg-emerald-500/80 inline-block" />
+                                    <span className="text-xs text-gray-500 font-mono ml-2">guide_preview.md</span>
                                 </div>
-                                <span className="inline-flex rounded-full bg-emerald-500/15 px-3 py-1 text-xs text-emerald-300">
-                                    Real-time
-                                </span>
+                                <button
+                                    onClick={copyPreviewToClipboard}
+                                    type="button"
+                                    className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1.5 py-1 px-3 rounded-lg border border-emerald-400/20 hover:bg-emerald-400/10 transition-all duration-300"
+                                >
+                                    {copiedPreview ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                                    {copiedPreview ? "Copied" : "Copy"}
+                                </button>
                             </div>
-                            <pre className="whitespace-pre-wrap break-words text-sm leading-6 text-gray-200">{guidePreview}</pre>
+                            
+                            <div className="p-8 max-h-[500px] overflow-y-auto custom-scrollbar font-mono text-xs leading-6 text-gray-200">
+                                <pre className="whitespace-pre-wrap break-words">{guidePreview}</pre>
+                            </div>
                         </div>
-                        <div className="rounded-[2rem] border border-zinc-800 bg-zinc-900/80 p-6 text-sm text-gray-400">
-                            <p className="font-semibold text-gray-200 mb-3">Why this works</p>
-                            <ul className="space-y-2 list-disc list-inside">
+                        <div className="rounded-3xl border border-zinc-800/80 bg-zinc-900/40 p-6 text-sm text-gray-400 shadow-[0_4px_20px_rgba(0,0,0,0.2)]">
+                            <p className="font-semibold text-gray-200 mb-3 flex items-center gap-2">
+                                <FileText className="w-4 h-4 text-emerald-400" /> Why this works
+                            </p>
+                            <ul className="space-y-2 list-disc list-inside text-xs leading-5">
                                 <li>Collects your idea, service needs, and budget in one place.</li>
                                 <li>Creates a simple, shareable plan without the usual agency fluff.</li>
                                 <li>Helps LaunchGremlin follow up faster with a clear brief.</li>
