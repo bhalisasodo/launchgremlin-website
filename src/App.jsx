@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
+import AdminDashboard, { AdminLogin } from "./components/AdminDashboard";
 
 /**
  * LaunchGremlin — Production-ready interactive site
@@ -126,6 +127,39 @@ export default function App() {
     const [sending, setSending] = useState(false);
     const [leadStatus, setLeadStatus] = useState("");
 
+    // Simple Hash-based Router state
+    const [route, setRoute] = useState(window.location.hash || "#/");
+    const [adminToken, setAdminToken] = useState(localStorage.getItem("launchgremlin_admin_token") || "");
+
+    useEffect(() => {
+        const handleHashChange = () => {
+            setRoute(window.location.hash || "#/");
+        };
+        window.addEventListener("hashchange", handleHashChange);
+        return () => window.removeEventListener("hashchange", handleHashChange);
+    }, []);
+
+    // Render Admin Views if path is #/admin
+    if (route === "#/admin" || route.startsWith("#/admin")) {
+        if (!adminToken) {
+            return (
+                <AdminLogin 
+                    onLoginSuccess={(token) => setAdminToken(token)} 
+                />
+            );
+        }
+        return (
+            <AdminDashboard 
+                token={adminToken} 
+                onLogout={() => {
+                    localStorage.removeItem("launchgremlin_admin_token");
+                    setAdminToken("");
+                    window.location.hash = "#/";
+                }} 
+            />
+        );
+    }
+
     const heroRef = useRef(null);
     const workflowRef = useRef(null);
     const teamRef = useRef(null);
@@ -231,10 +265,28 @@ export default function App() {
         };
 
         try {
-            // Simulate a brief network delay for smooth UI feedback
-            await new Promise((resolve) => setTimeout(resolve, 800));
+            // Save to central backend API
+            const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+            
+            // Add a timeout fallback so it doesn't hang indefinitely if server is down
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 6000);
+            
+            const response = await fetch(`${API_URL}/leads`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+                signal: controller.signal
+            });
+            
+            clearTimeout(timeoutId);
 
-            // Save lead locally in the browser
+            if (!response.ok) {
+                const errData = await response.json();
+                throw new Error(errData.error || "Failed to save on server.");
+            }
+
+            // Save lead locally in the browser as backup cache
             const existingLeads = JSON.parse(localStorage.getItem("launchgremlin_leads") || "[]");
             existingLeads.push({
                 ...payload,
@@ -244,9 +296,26 @@ export default function App() {
             localStorage.setItem("launchgremlin_leads", JSON.stringify(existingLeads));
 
             setGeneratedGuide(payload.guide);
-            setLeadStatus("Project guide generated successfully — details saved locally!");
+            setLeadStatus("Project guide generated successfully — details saved!");
         } catch (error) {
-            setLeadStatus(`Error generating guide: ${error.message}`);
+            console.error("Backend save failed:", error);
+            
+            // Fallback: save locally anyway so customer isn't blocked
+            const existingLeads = JSON.parse(localStorage.getItem("launchgremlin_leads") || "[]");
+            existingLeads.push({
+                ...payload,
+                created_at: new Date().toISOString(),
+                id: crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2)
+            });
+            localStorage.setItem("launchgremlin_leads", JSON.stringify(existingLeads));
+            
+            setGeneratedGuide(payload.guide);
+            
+            if (error.name === "AbortError") {
+                setLeadStatus("Project guide generated — saved locally (backend timeout).");
+            } else {
+                setLeadStatus(`Project guide generated — saved locally (backend offline).`);
+            }
         } finally {
             setSending(false);
         }
