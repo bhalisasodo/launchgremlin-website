@@ -117,8 +117,9 @@ export default function App() {
     const [leadName, setLeadName] = useState("");
     const [leadEmail, setLeadEmail] = useState("");
     const [leadCompany, setLeadCompany] = useState("");
-    const [leadSummary, setLeadSummary] = useState("");
     const [selectedService, setSelectedService] = useState("");
+    const [serviceDetails, setServiceDetails] = useState({});
+    const [additionalNotes, setAdditionalNotes] = useState("");
     const [challenge, setChallenge] = useState("");
     const [timeline, setTimeline] = useState("");
     const [budget, setBudget] = useState("");
@@ -126,6 +127,205 @@ export default function App() {
     const [generatedGuide, setGeneratedGuide] = useState("");
     const [sending, setSending] = useState(false);
     const [leadStatus, setLeadStatus] = useState("");
+    const [formErrors, setFormErrors] = useState({});
+
+    const heroRef = useRef(null);
+    const workflowRef = useRef(null);
+    const teamRef = useRef(null);
+    const contactRef = useRef(null);
+
+    /* Workflow scroll activation */
+    useEffect(() => {
+        if (!workflowRef.current) return;
+        const steps = workflowRef.current.querySelectorAll('[data-step]');
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const idx = Number(entry.target.getAttribute('data-step'));
+                        setActiveStep(idx);
+                    }
+                });
+            },
+            { threshold: 0.6 }
+        );
+        steps.forEach((el) => observer.observe(el));
+        return () => observer.disconnect();
+    }, []);
+
+    /* Section observer (header highlighting) */
+    useEffect(() => {
+        const sections = [
+            { id: "hero", ref: heroRef },
+            { id: "workflow", ref: workflowRef },
+            { id: "team", ref: teamRef },
+            { id: "contact", ref: contactRef },
+        ];
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setActiveSection(entry.target.id);
+                    }
+                });
+            },
+            { threshold: 0.4 }
+        );
+
+        sections.forEach(({ ref }) => ref.current && observer.observe(ref.current));
+        return () => observer.disconnect();
+    }, []);
+
+    // Configuration for service-specific questions
+    const serviceQuestions = {
+        "Website Development": [
+            {
+                id: "websiteType",
+                label: "What type of website do you need?",
+                type: "select",
+                options: [
+                    "Landing Page (Single page)",
+                    "Corporate Website (Multi-page)",
+                    "E-commerce Store (Products/Payments)",
+                    "Blog / Portfolio Website",
+                    "Custom Web Application"
+                ],
+                placeholder: "Select website type"
+            },
+            {
+                id: "featuresNeeded",
+                label: "Required features & integrations",
+                type: "text",
+                placeholder: "e.g., Contact forms, newsletter signup, payment gateway, SEO setup"
+            },
+            {
+                id: "designStyle",
+                label: "Do you have design preferences or example sites?",
+                type: "text",
+                placeholder: "e.g., Minimalist, modern, dark theme. Examples: stripe.com, apple.com"
+            }
+        ],
+        "Build Your First Product": [
+            {
+                id: "targetAudience",
+                label: "Who is the target audience for this product?",
+                type: "text",
+                placeholder: "e.g., Small business owners, gym enthusiasts, college students"
+            },
+            {
+                id: "coreFeature",
+                label: "What is the single most important feature (MVP)?",
+                type: "text",
+                placeholder: "e.g., Users must be able to log and track their workouts daily"
+            },
+            {
+                id: "platformType",
+                label: "Preferred platform",
+                type: "select",
+                options: [
+                    "Web Application (desktop & mobile browser)",
+                    "Mobile App (iOS & Android stores)",
+                    "Desktop Software (Windows & macOS)",
+                    "Browser Extension"
+                ],
+                placeholder: "Select platform"
+            }
+        ],
+        "AI Consulting": [
+            {
+                id: "timeConsumingProcess",
+                label: "What manual workflow takes the most time in your business?",
+                type: "text",
+                placeholder: "e.g., Replying to customer emails, writing content, summarizing documents"
+            },
+            {
+                id: "desiredOutcome",
+                label: "What is your main goal with AI?",
+                type: "select",
+                options: [
+                    "Reduce operational costs / save time",
+                    "Improve response times for customers",
+                    "Generate marketing copy / content",
+                    "Extract structured insights from files/data"
+                ],
+                placeholder: "Select primary goal"
+            },
+            {
+                id: "internalData",
+                label: "Do you have internal data you want the AI to learn from?",
+                type: "text",
+                placeholder: "e.g., Customer support logs, PDF manuals, product documentation"
+            }
+        ],
+        "Data Analytics": [
+            {
+                id: "dataSource",
+                label: "Where is your data currently stored?",
+                type: "text",
+                placeholder: "e.g., PostgreSQL database, Salesforce, Google Sheets, Stripe"
+            },
+            {
+                id: "keyMetrics",
+                label: "What are the key metrics you want to track?",
+                type: "text",
+                placeholder: "e.g., CAC, LTV, monthly recurring revenue (MRR), user retention"
+            },
+            {
+                id: "visualizationPreference",
+                label: "How do you want to view the data?",
+                type: "select",
+                options: [
+                    "Looker Studio / PowerBI / Tableau dashboard",
+                    "Custom built React dashboard / charts",
+                    "Automated weekly PDF reports via email",
+                    "Simple Excel / Google Sheets dashboard"
+                ],
+                placeholder: "Select preferred viewing format"
+            }
+        ],
+        "AI Agent Implementation": [
+            {
+                id: "agentRole",
+                label: "What specific role or task should the agent perform?",
+                type: "text",
+                placeholder: "e.g., Qualify leads, draft email replies, answer product FAQs"
+            },
+            {
+                id: "interactionChannel",
+                label: "Where should the agent live/interact?",
+                type: "select",
+                options: [
+                    "Website Chat Widget",
+                    "Email Inbox (auto-responder)",
+                    "WhatsApp / Telegram / SMS",
+                    "Slack / Microsoft Teams (internal)"
+                ],
+                placeholder: "Select integration channel"
+            },
+            {
+                id: "knowledgeBase",
+                label: "What knowledge source should the agent use?",
+                type: "text",
+                placeholder: "e.g., Our public help center documentation, FAQ list"
+            }
+        ]
+    };
+
+    const getCombinedSummary = () => {
+        const questions = serviceQuestions[selectedService] || [];
+        let summaryText = "";
+        questions.forEach(q => {
+            const val = serviceDetails[q.id] || "";
+            if (val) {
+                summaryText += `${q.label}:\n👉 ${val}\n\n`;
+            }
+        });
+        if (additionalNotes.trim()) {
+            summaryText += `Additional Project Notes:\n${additionalNotes.trim()}`;
+        }
+        return summaryText.trim();
+    };
 
     // Simple Hash-based Router state
     const [route, setRoute] = useState(window.location.hash || "#/");
@@ -160,41 +360,92 @@ export default function App() {
         );
     }
 
-    const heroRef = useRef(null);
-    const workflowRef = useRef(null);
-    const teamRef = useRef(null);
-    const contactRef = useRef(null);
+
 
     const createProjectGuide = () => {
-        if (!leadSummary.trim()) {
-            return "Enter your idea or project details above to see the guide generated here.";
+        const combinedSummary = getCombinedSummary();
+        if (!combinedSummary) {
+            return "Please select a service and fill in the project specs to generate your guide.";
         }
 
-        return `Project guide for ${leadCompany || "your business"} \n\n` +
-            `Overview:\n` +
-            `${leadSummary.trim()}\n\n` +
-            `Primary focus:\n` +
-            `${selectedService || "AI product"} — ${challenge || "define the core challenge and target outcome."}\n\n` +
-            `Timeline & budget:\n` +
-            `${timeline || "Flexible timeline."} ${budget ? `Budget: ${budget}.` : "Budget not specified."}\n\n` +
-            `Objective:\n` +
-            `Turn this concept into a useful solution with clear milestones, practical next steps, and a simple plan to move forward.\n\n` +
-            `Suggested roadmap:\n` +
-            `1. Discovery and assumptions: define the core need, the target audience, and the simplest path forward.\n` +
-            `2. Build the first version: choose the smallest useful experience, key screens, and core actions.\n` +
-            `3. Add smart tools or automations: identify practical workflows, integrations, and simple AI helpers.\n` +
-            `4. Track what matters: capture useful metrics, review results, and improve the experience.\n` +
-            `5. Launch and refine: put something real in front of users, gather feedback, and improve it.\n\n` +
-            `Next steps:\n` +
-            `- Validate the idea with a short discovery sprint.\n` +
-            `- Build the first useful version with a clear focus.\n` +
-            `- Use simple analytics to measure results and improve the offer.\n\n` +
-            `Contact details:\n` +
-            `${leadName ? `Name: ${leadName}\n` : ""}` +
-            `${leadEmail ? `Email: ${leadEmail}\n` : ""}`;
+        const questions = serviceQuestions[selectedService] || [];
+        let detailsBlock = "";
+        questions.forEach(q => {
+            const answer = serviceDetails[q.id] || "—";
+            detailsBlock += `- **${q.label}**: ${answer}\n`;
+        });
+        if (additionalNotes.trim()) {
+            detailsBlock += `- **Additional Notes**: ${additionalNotes.trim()}\n`;
+        }
+
+        const timelineText = timeline ? `Target Timeline: ${timeline}.` : "Timeline: Flexible.";
+        const budgetText = budget ? `Target Budget: ${budget}.` : "Budget: Unspecified.";
+
+        const roadmaps = {
+            "Website Development": [
+                "1. Design Discovery: Select color themes, typography, and wireframe the home page layout.",
+                "2. Static Build: Develop high-performance responsive page components with Tailwind CSS.",
+                "3. Dynamic Integrations: Connect contact forms, content management (CMS), and SEO optimization.",
+                "4. Launch & DNS: Connect custom domains, configure CDN caching, and submit sitemaps to Google."
+            ],
+            "Build Your First Product": [
+                "1. MVP Core Spec: Define the single most important user flow and slice off non-essential features.",
+                "2. Core Database & Auth: Setup database schemas, user authentication, and secure API routes.",
+                "3. Frontend Interface: Create functional views, onboarding screens, and interactive user actions.",
+                "4. Feedback Loop: Deploy a beta version to test with early users and capture key usage metrics."
+            ],
+            "AI Consulting": [
+                "1. Process Audit: Identify the highest-ROI opportunities to integrate AI in your daily workflows.",
+                "2. Tech Stack Selection: Evaluate model choices (OpenAI, Anthropic, open-source) and cost profiles.",
+                "3. Prompt & RAG Prototyping: Build prototype prompts and load test documents to check response quality.",
+                "4. Integration Plan: Map out developer resources and security boundaries for deploying to production."
+            ],
+            "Data Analytics": [
+                "1. Data Audit: Inventory existing tools (CRM, DBs, Google Analytics) and verify API access keys.",
+                "2. ETL / Sync Setup: Setup automated pipelines to aggregate data into a single queryable source.",
+                "3. Dashboard Modeling: Draft mockups of key performance indicator (KPI) widgets and filter views.",
+                "4. Team Access: Launch the custom charts/dashboard and train team members on reading metrics."
+            ],
+            "AI Agent Implementation": [
+                "1. Role & Persona Definition: Define the agent's tone, instructions, constraints, and success criteria.",
+                "2. Tool & API Connectivity: Allow the agent to call necessary external tools (e.g., search documents, schedule meetings).",
+                "3. Chat/Channel Deploy: Embed the widget on the site, connect the email webhook, or set up the WhatsApp gateway.",
+                "4. Performance Monitoring: Review conversation transcripts, add custom corrections, and refine prompts."
+            ]
+        };
+
+        const steps = roadmaps[selectedService] || [
+            "1. Discovery and assumptions: define the core need, the target audience, and the simplest path forward.",
+            "2. Build the first version: choose the simplest useful experience, key screens, and core actions.",
+            "3. Add smart tools or automations: identify practical workflows, integrations, and simple AI helpers.",
+            "4. Track what matters: capture useful metrics, review results, and improve the experience.",
+            "5. Launch and refine: put something real in front of users, gather feedback, and improve it."
+        ];
+
+        return `LaunchGremlin Customized Project Guide\n` +
+            `Service: ${selectedService || "Digital Development"}\n` +
+            `Client / Company: ${leadCompany || "Your Company"}\n\n` +
+            `========================================\n` +
+            `1. PROJECT SPECS\n` +
+            `========================================\n` +
+            `${detailsBlock}\n` +
+            `- **Main Challenge**: ${challenge || "Not specified"}\n` +
+            `- **${timelineText}**\n` +
+            `- **${budgetText}**\n\n` +
+            `========================================\n` +
+            `2. TAILORED ROADMAP\n` +
+            `========================================\n` +
+            `${steps.join('\n')}\n\n` +
+            `========================================\n` +
+            `3. RECOMMENDED NEXT STEPS\n` +
+            `========================================\n` +
+            `- Review the suggested roadmap above to align on core milestones.\n` +
+            `- Schedule a 15-minute discovery call to finalize scope details.\n` +
+            `- Get a formal fixed-price proposal and project agreement.\n\n` +
+            `Prepared for: ${leadName || "Valued Client"} (${leadEmail || "no email provided"})`;
     };
 
-    const [formErrors, setFormErrors] = useState({});
+
 
     const guidePreview = generatedGuide || createProjectGuide();
 
@@ -212,7 +463,13 @@ export default function App() {
         }
 
         if (step === 1) {
-            if (!leadSummary.trim()) errors.leadSummary = "Describe your idea or product.";
+            const questions = serviceQuestions[selectedService] || [];
+            questions.forEach(q => {
+                const val = serviceDetails[q.id] || "";
+                if (!val.trim()) {
+                    errors[q.id] = `Please complete: ${q.label}`;
+                }
+            });
             if (!challenge.trim()) errors.challenge = "Share your main challenge.";
         }
 
@@ -256,7 +513,7 @@ export default function App() {
             name: leadName.trim(),
             email: leadEmail.trim(),
             company: leadCompany.trim(),
-            summary: leadSummary.trim(),
+            summary: getCombinedSummary(),
             service: selectedService,
             challenge: challenge.trim(),
             timeline: timeline.trim(),
@@ -321,48 +578,7 @@ export default function App() {
         }
     };
 
-    /* Workflow scroll activation */
-    useEffect(() => {
-        if (!workflowRef.current) return;
-        const steps = workflowRef.current.querySelectorAll('[data-step]');
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        const idx = Number(entry.target.getAttribute('data-step'));
-                        setActiveStep(idx);
-                    }
-                });
-            },
-            { threshold: 0.6 }
-        );
-        steps.forEach((el) => observer.observe(el));
-        return () => observer.disconnect();
-    }, []);
 
-    /* Section observer (header highlighting) */
-    useEffect(() => {
-        const sections = [
-            { id: "hero", ref: heroRef },
-            { id: "workflow", ref: workflowRef },
-            { id: "team", ref: teamRef },
-            { id: "contact", ref: contactRef },
-        ];
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setActiveSection(entry.target.id);
-                    }
-                });
-            },
-            { threshold: 0.4 }
-        );
-
-        sections.forEach(({ ref }) => ref.current && observer.observe(ref.current));
-        return () => observer.disconnect();
-    }, []);
 
     return (
         <div className="min-h-screen text-white relative overflow-hidden bg-zinc-950">
@@ -691,7 +907,10 @@ export default function App() {
                                     Service you need help with
                                     <select
                                         value={selectedService}
-                                        onChange={(event) => setSelectedService(event.target.value)}
+                                        onChange={(event) => {
+                                            setSelectedService(event.target.value);
+                                            setServiceDetails({});
+                                        }}
                                         className={`mt-2 px-4 py-3 rounded-2xl bg-zinc-900 border text-white focus:outline-none focus:border-emerald-400 ${
                                             formErrors.selectedService ? "border-rose-500" : "border-zinc-800"
                                         }`}
@@ -712,20 +931,51 @@ export default function App() {
 
                         {onboardingStep === 1 && (
                             <div className="grid gap-4">
+                                {/* Service Specific Custom Questions */}
+                                {(serviceQuestions[selectedService] || []).map((q) => (
+                                    <label key={q.id} className="flex flex-col text-sm text-gray-300">
+                                        {q.label}
+                                        {q.type === "select" ? (
+                                            <select
+                                                value={serviceDetails[q.id] || ""}
+                                                onChange={(e) => setServiceDetails(prev => ({ ...prev, [q.id]: e.target.value }))}
+                                                className={`mt-2 px-4 py-3 rounded-2xl bg-zinc-900 border text-white focus:outline-none focus:border-emerald-400 ${
+                                                    formErrors[q.id] ? "border-rose-500" : "border-zinc-800"
+                                                }`}
+                                            >
+                                                <option value="">{q.placeholder}</option>
+                                                {q.options.map(opt => (
+                                                    <option key={opt} value={opt}>{opt}</option>
+                                                ))}
+                                            </select>
+                                        ) : (
+                                            <input
+                                                type="text"
+                                                value={serviceDetails[q.id] || ""}
+                                                onChange={(e) => setServiceDetails(prev => ({ ...prev, [q.id]: e.target.value }))}
+                                                placeholder={q.placeholder}
+                                                className={`mt-2 px-4 py-3 rounded-2xl bg-zinc-900 border text-white focus:outline-none focus:border-emerald-400 ${
+                                                    formErrors[q.id] ? "border-rose-500" : "border-zinc-800"
+                                                }`}
+                                            />
+                                        )}
+                                        {formErrors[q.id] && (
+                                            <span className="text-xs text-rose-400 mt-2">{formErrors[q.id]}</span>
+                                        )}
+                                    </label>
+                                ))}
+
+                                {/* Additional Notes Textarea */}
                                 <label className="flex flex-col text-sm text-gray-300">
-                                    Idea or project summary
+                                    Additional details / notes (optional)
                                     <textarea
-                                        value={leadSummary}
-                                        onChange={(event) => setLeadSummary(event.target.value)}
-                                        className={`mt-2 min-h-[150px] px-4 py-3 rounded-2xl bg-zinc-900 border text-white focus:outline-none focus:border-emerald-400 resize-none ${
-                                            formErrors.leadSummary ? "border-rose-500" : "border-zinc-800"
-                                        }`}
-                                        placeholder="Describe the project, who it is for, what you want it to do, and what success looks like."
+                                        value={additionalNotes}
+                                        onChange={(event) => setAdditionalNotes(event.target.value)}
+                                        className="mt-2 min-h-[100px] px-4 py-3 rounded-2xl bg-zinc-900 border border-zinc-800 text-white focus:outline-none focus:border-emerald-400 resize-none"
+                                        placeholder="Any other details, wireframe links, or custom requirements..."
                                     />
-                                    {formErrors.leadSummary && (
-                                        <span className="text-xs text-rose-400 mt-2">{formErrors.leadSummary}</span>
-                                    )}
                                 </label>
+
                                 <div className="grid gap-4 sm:grid-cols-2">
                                     <label className="flex flex-col text-sm text-gray-300">
                                         Main challenge
@@ -781,7 +1031,7 @@ export default function App() {
                                         </div>
                                         <div>
                                             <span className="font-semibold text-white">Summary</span>
-                                            <p>{leadSummary || "—"}</p>
+                                            <p className="whitespace-pre-wrap">{getCombinedSummary() || "—"}</p>
                                         </div>
                                     </div>
                                 </div>

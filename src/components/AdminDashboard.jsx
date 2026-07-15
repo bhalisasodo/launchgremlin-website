@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { 
   Search, LogOut, Filter, CheckCircle, Clock, 
   Briefcase, FileText, ChevronRight, Copy, Check, 
-  TrendingUp, Award, Users, AlertCircle, MessageSquare
+  TrendingUp, Award, AlertCircle, MessageSquare
 } from 'lucide-react';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
@@ -126,6 +127,7 @@ export default function AdminDashboard({ token, onLogout }) {
 
   useEffect(() => {
     fetchLeads();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   const fetchLeads = async () => {
@@ -635,3 +637,21 @@ function LockIcon(props) {
     </svg>
   );
 }
+
+GlassCard.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+};
+
+AdminLogin.propTypes = {
+  onLoginSuccess: PropTypes.func.isRequired,
+};
+
+AdminDashboard.propTypes = {
+  token: PropTypes.string.isRequired,
+  onLogout: PropTypes.func.isRequired,
+};
+
+StatusBadge.propTypes = {
+  status: PropTypes.string.isRequired,
+};
