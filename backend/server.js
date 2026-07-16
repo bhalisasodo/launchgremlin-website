@@ -127,6 +127,7 @@ app.post('/api/auth/login', async (req, res) => {
     const token = jwt.sign({ role: 'admin' }, JWT_SECRET, { expiresIn: '8h' });
     return res.json({ token });
   } catch (err) {
+    console.error('Login process error:', err);
     return res.status(500).json({ error: 'Login process error.' });
   }
 });
