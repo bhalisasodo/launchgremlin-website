@@ -537,7 +537,15 @@ export default function App() {
 
         try {
             // Save to central backend API
-            const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+            let API_URL = import.meta.env.VITE_API_URL;
+            if (!API_URL) {
+                const port = window.location.port;
+                if (port && ["5173", "5174", "5175", "3000"].includes(port)) {
+                    API_URL = "http://localhost:5000/api";
+                } else {
+                    API_URL = "/api";
+                }
+            }
             
             // Add a timeout fallback so it doesn't hang indefinitely if server is down
             const controller = new AbortController();

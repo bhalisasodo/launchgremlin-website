@@ -6,7 +6,16 @@ import {
   TrendingUp, Award, AlertCircle, MessageSquare
 } from 'lucide-react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const getApiUrl = () => {
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (envUrl) return envUrl;
+  const port = window.location.port;
+  if (port && ['5173', '5174', '5175', '3000'].includes(port)) {
+    return 'http://localhost:5000/api';
+  }
+  return '/api';
+};
+const API_URL = getApiUrl();
 
 /* ------------------ Glassmorphic Card ------------------ */
 const GlassCard = ({ children, className = '' }) => (

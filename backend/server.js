@@ -227,6 +227,14 @@ app.patch('/api/leads/:id', authenticateToken, async (req, res) => {
   }
 });
 
+// Serve static assets in production
+app.use(express.static(path.join(__dirname, '../dist')));
+
+// Fallback all other routes to index.html for React SPA
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
+});
+
 // Start Server
 app.listen(PORT, () => {
   console.log(`[Server] Backend running on http://localhost:${PORT}`);
