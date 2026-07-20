@@ -455,8 +455,7 @@ export default function App() {
             `========================================\n` +
             `- Review the suggested roadmap above to align on core milestones.\n` +
             `- Schedule a 15-minute discovery call to finalise scope details.\n` +
-            `- Get a formal fixed-price proposal and project agreement.\n\n` +
-            `Prepared for: ${leadName || "Valued Client"}`;
+            `- Get a formal fixed-price proposal and project agreement.`;
     };
 
 
