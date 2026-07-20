@@ -67,12 +67,13 @@ export function AdminLogin({ onLoginSuccess }) {
     }
 
     // Static / GitHub Pages fallback authentication
-    if (username === 'admin' && (password === 'admin123' || password === 'admin')) {
+    const customPass = localStorage.getItem('launchgremlin_custom_admin_pass') || import.meta.env.VITE_ADMIN_PASSWORD || 'admin123';
+    if (username === 'admin' && (password === customPass || password === 'admin123' || password === 'admin')) {
       const fallbackToken = 'gh_pages_static_admin_token_' + Date.now();
       localStorage.setItem('launchgremlin_admin_token', fallbackToken);
       onLoginSuccess(fallbackToken);
     } else {
-      setError('Invalid credentials.');
+      setError('Invalid username or password.');
     }
     setLoading(false);
   };
@@ -153,6 +154,26 @@ export default function AdminDashboard({ token, onLogout }) {
   const [updatingStatus, setUpdatingStatus] = useState('');
   const [saveLoading, setSaveLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  // Password Modal state
+  const [showPassModal, setShowPassModal] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [passMessage, setPassMessage] = useState('');
+
+  const handleChangePassword = (e) => {
+    e.preventDefault();
+    if (!newPassword.trim() || newPassword.length < 4) {
+      setPassMessage('Password must be at least 4 characters long.');
+      return;
+    }
+    localStorage.setItem('launchgremlin_custom_admin_pass', newPassword.trim());
+    setPassMessage('Password updated successfully!');
+    setTimeout(() => {
+      setShowPassModal(false);
+      setNewPassword('');
+      setPassMessage('');
+    }, 1500);
+  };
 
   useEffect(() => {
     fetchLeads();
@@ -333,6 +354,13 @@ export default function AdminDashboard({ token, onLogout }) {
             </h1>
           </div>
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => setShowPassModal(true)}
+              className="flex items-center gap-2 px-3 py-2 border border-zinc-800 text-gray-300 rounded-xl hover:border-emerald-400/40 hover:text-emerald-300 transition text-xs font-semibold bg-zinc-900/60"
+            >
+              <LockIcon className="w-4 h-4 text-emerald-400" />
+              <span className="hidden sm:inline">Set Passcode</span>
+            </button>
             <button
               onClick={exportLeadsCSV}
               className="flex items-center gap-2 px-3.5 py-2 border border-emerald-400/30 text-emerald-400 rounded-xl hover:bg-emerald-400/10 transition text-xs font-semibold"
@@ -693,6 +721,49 @@ export default function AdminDashboard({ token, onLogout }) {
 
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Password Change Modal */}
+      {showPassModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/75 backdrop-blur-sm">
+          <GlassCard className="w-full max-w-sm border-emerald-500/30 relative">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-bold">Admin Passcode</h3>
+              <button onClick={() => setShowPassModal(false)} className="text-gray-400 hover:text-white text-sm font-bold">✕</button>
+            </div>
+            <p className="text-xs text-gray-400 mb-4">Set a custom passcode for accessing your admin console.</p>
+            {passMessage && (
+              <p className={`text-xs p-3 rounded-lg mb-3 ${passMessage.includes('successfully') ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/30'}`}>
+                {passMessage}
+              </p>
+            )}
+            <form onSubmit={handleChangePassword} className="space-y-4">
+              <input
+                type="password"
+                required
+                placeholder="Enter new admin passcode"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-white text-sm focus:outline-none focus:border-emerald-400"
+              />
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => setShowPassModal(false)}
+                  className="w-1/2 py-2.5 bg-zinc-800 text-gray-300 hover:text-white rounded-xl text-xs font-semibold"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="w-1/2 py-2.5 bg-emerald-400 text-black font-semibold rounded-xl text-xs hover:bg-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.25)]"
+                >
+                  Save Passcode
+                </button>
+              </div>
+            </form>
+          </GlassCard>
         </div>
       )}
     </div>

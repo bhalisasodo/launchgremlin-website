@@ -651,12 +651,6 @@ export default function App() {
                         >
                             Contact
                         </a>
-                        <a
-                            href="#/admin"
-                            className="px-3.5 py-1.5 rounded-xl border border-emerald-400/30 text-emerald-400 text-xs font-semibold hover:bg-emerald-400/10 transition-colors duration-300"
-                        >
-                            Admin Dashboard
-                        </a>
                     </nav>
                 </div>
             </header>
@@ -1304,13 +1298,8 @@ export default function App() {
                 )}
             </section>
 
-            <footer className="px-6 py-8 border-t border-zinc-800 text-gray-500 text-sm">
-                <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div>© {new Date().getFullYear()} LaunchGremlin</div>
-                    <a href="#/admin" className="text-xs text-gray-400 hover:text-emerald-400 transition-colors">
-                        Admin Portal
-                    </a>
-                </div>
+            <footer className="px-6 py-8 border-t border-zinc-800 text-center text-gray-500 text-sm">
+                © {new Date().getFullYear()} LaunchGremlin
             </footer>
         </div>
     );
