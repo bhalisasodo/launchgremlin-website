@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import AdminDashboard, { AdminLogin } from "./components/AdminDashboard";
 import { 
     User, Mail, Building, Calendar, Target, Check, 
-    ChevronRight, ChevronLeft, Sparkles, AlertCircle, Copy, 
-    Zap, TrendingUp, Rocket, Brain, Cpu, FileText
+    ChevronRight, Sparkles, AlertCircle, Copy
 } from "lucide-react";
 
 /**
@@ -31,12 +30,13 @@ const useScrollProgress = () => {
 };
 
 /* ------------------ UI Primitives ------------------ */
-const Card = ({ children, active }) => (
+const Card = ({ children, active, onClick, className = "" }) => (
     <div
-        className={`group h-full bg-zinc-900 rounded-2xl border transition-all duration-500 will-change-transform
+        onClick={onClick}
+        className={`group h-full bg-zinc-900 rounded-2xl border transition-all duration-500 will-change-transform ${onClick ? "cursor-pointer hover:border-emerald-400/80 hover:shadow-[0_0_36px_rgba(16,185,129,0.25)] hover:-translate-y-1.5" : ""}
       ${active
-                ? "opacity-100 translate-y-0 border-emerald-400/60 shadow-[0_0_36px_rgba(16,185,129,0.35)] hover:-translate-y-1 hover:shadow-[0_0_36px_rgba(16,185,129,0.18)]"
-                : "opacity-0 translate-y-6 border-zinc-800 shadow-none"}`}
+                ? "opacity-100 translate-y-0 border-emerald-400/60 shadow-[0_0_36px_rgba(16,185,129,0.35)]"
+                : "opacity-0 translate-y-6 border-zinc-800 shadow-none"} ${className}`}
     >
         {children}
     </div>
@@ -45,6 +45,8 @@ const Card = ({ children, active }) => (
 Card.propTypes = {
     children: PropTypes.node.isRequired,
     active: PropTypes.bool,
+    onClick: PropTypes.func,
+    className: PropTypes.string,
 };
 
 /* ------------------ Background ------------------ */
@@ -134,7 +136,16 @@ export default function App() {
     const [leadStatus, setLeadStatus] = useState("");
     const [formErrors, setFormErrors] = useState({});
     const [copiedPreview, setCopiedPreview] = useState(false);
-    const [isMobilePreviewOpen, setIsMobilePreviewOpen] = useState(false);
+    const [activeOnboardingService, setActiveOnboardingService] = useState(null);
+
+    const openServiceOnboarding = (serviceTitle) => {
+        setSelectedService(serviceTitle);
+        setActiveOnboardingService(serviceTitle);
+        setServiceDetails({});
+        setOnboardingStep(0);
+        setFormErrors({});
+        setLeadStatus("");
+    };
 
     const copyPreviewToClipboard = () => {
         const guideText = generatedGuide || createProjectGuide();
@@ -774,10 +785,14 @@ export default function App() {
 
                         return (
                             <div key={service.title} data-step={i} className={i >= 3 ? "xl:col-start-2" : ""}>
-                                <Card active={activeStep >= i}>
-                                    <div className="p-6 h-full flex flex-col justify-between gap-6">
-                                        <div>
-                                            <div className="flex items-center gap-3 mb-4">
+                                <Card 
+                                    active={activeStep >= i}
+                                    onClick={() => openServiceOnboarding(service.title)}
+                                    className="p-6 h-full flex flex-col justify-between gap-6 hover:border-emerald-400/80"
+                                >
+                                    <div>
+                                        <div className="flex items-center justify-between gap-3 mb-4">
+                                            <div className="flex items-center gap-3">
                                                 <div className="text-emerald-400 transition-transform duration-300 group-hover:scale-110">
                                                     <IconComponent className="w-8 h-8" />
                                                 </div>
@@ -785,19 +800,26 @@ export default function App() {
                                                     {service.title}
                                                 </h3>
                                             </div>
-                                            <p className="text-gray-300 text-sm md:text-base leading-relaxed">
-                                                {service.description}
-                                            </p>
+                                            <ChevronRight className="w-5 h-5 text-gray-500 group-hover:text-emerald-400 group-hover:translate-x-1 transition-all duration-300 shrink-0" />
                                         </div>
+                                        <p className="text-gray-300 text-sm md:text-base leading-relaxed">
+                                            {service.description}
+                                        </p>
+                                    </div>
+                                    <div className="space-y-4">
                                         <div className="flex flex-wrap gap-2">
                                             {service.tags.map((tag) => (
                                                 <span
                                                     key={tag}
-                                                    className="inline-block px-3 py-1 text-xs md:text-sm font-medium bg-emerald-400/10 text-emerald-400 border border-emerald-400/30 rounded-full transition-colors duration-200 hover:bg-emerald-400/15"
+                                                    className="inline-block px-3 py-1 text-xs md:text-sm font-medium bg-emerald-400/10 text-emerald-400 border border-emerald-400/30 rounded-full transition-colors duration-200"
                                                 >
                                                     {tag}
                                                 </span>
                                             ))}
+                                        </div>
+                                        <div className="pt-3 border-t border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-emerald-400 group-hover:text-emerald-300 transition-colors">
+                                            <span>Start Interactive Onboarding</span>
+                                            <span className="group-hover:translate-x-1 transition-transform">→</span>
                                         </div>
                                     </div>
                                 </Card>
@@ -837,465 +859,323 @@ export default function App() {
             <section
                 ref={contactRef}
                 id="contact"
-                className="relative px-6 py-20 max-w-6xl mx-auto"
+                className="relative px-6 py-20 max-w-5xl mx-auto text-center"
             >
-                <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] items-start">
-                    <div className="space-y-8">
-                        <div className="space-y-4">
-                            <h2 className="text-4xl md:text-5xl font-bold">
-                                Tell us what you want to build.
-                            </h2>
-                            <p className="text-gray-400 text-lg max-w-3xl">
-                                Share a few details and we&apos;ll turn it into a clear project brief you can use to move forward.
-                            </p>
-                        </div>
-
-                        {/* Stepper Indicator */}
-                        <div className="relative flex items-center justify-between max-w-md py-4 mb-8">
-                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[2px] bg-zinc-800 -z-10">
-                                <div 
-                                    className="h-full bg-emerald-400 transition-all duration-500" 
-                                    style={{ width: onboardingStep === 0 ? "0%" : onboardingStep === 1 ? "50%" : "100%" }}
-                                />
-                            </div>
-                            {[
-                                { label: "Contact", step: 0 },
-                                { label: "Details", step: 1 },
-                                { label: "Review", step: 2 }
-                            ].map(({ label, step }) => {
-                                const isActive = onboardingStep === step;
-                                const isCompleted = onboardingStep > step;
-                                return (
-                                    <button
-                                        key={label}
-                                        type="button"
-                                        onClick={() => {
-                                            if (step < onboardingStep || Object.keys(validateStep(step - 1)).length === 0) {
-                                                setOnboardingStep(step);
-                                            }
-                                        }}
-                                        className="flex flex-col items-center group focus:outline-none"
-                                    >
-                                        <div 
-                                            className={`w-10 h-10 rounded-full flex items-center justify-center border-2 text-sm font-bold transition-all duration-300 ${
-                                                isCompleted
-                                                    ? "bg-emerald-400 border-emerald-400 text-black shadow-[0_0_15px_rgba(16,185,129,0.4)]"
-                                                    : isActive
-                                                        ? "bg-zinc-950 border-emerald-400 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)] scale-110"
-                                                        : "bg-zinc-900 border-zinc-800 text-gray-400 group-hover:border-zinc-700"
-                                            }`}
-                                        >
-                                            {isCompleted ? <Check className="w-5 h-5" /> : step + 1}
-                                        </div>
-                                        <span 
-                                            className={`text-xs mt-2 font-medium tracking-wide transition-colors duration-300 ${
-                                                isActive ? "text-emerald-400" : isCompleted ? "text-emerald-300" : "text-gray-500"
-                                            }`}
-                                        >
-                                            {label}
-                                        </span>
-                                    </button>
-                                );
-                            })}
-                        </div>
-
-                        {onboardingStep === 0 && (
-                            <div className="grid gap-6 sm:grid-cols-2 animate-slide-fade-in">
-                                <div className="flex flex-col gap-2">
-                                    <label htmlFor="leadName" className="text-sm text-gray-300 font-medium">Your name</label>
-                                    <div className="relative">
-                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                                        <input
-                                            id="leadName"
-                                            type="text"
-                                            value={leadName}
-                                            onChange={(event) => setLeadName(event.target.value)}
-                                            className={`w-full pl-12 pr-4 py-3.5 rounded-2xl bg-zinc-900/50 border text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300 ${
-                                                formErrors.leadName ? "border-rose-500/80 animate-shake" : "border-zinc-800"
-                                            }`}
-                                            placeholder="Jane Doe"
-                                        />
-                                    </div>
-                                    {formErrors.leadName && (
-                                        <span className="text-xs text-rose-400 flex items-center gap-1.5 mt-1 animate-shake">
-                                            <AlertCircle className="w-4 h-4" /> {formErrors.leadName}
-                                        </span>
-                                    )}
-                                </div>
-
-                                <div className="flex flex-col gap-2">
-                                    <label htmlFor="leadEmail" className="text-sm text-gray-300 font-medium">Email address <span className="text-xs text-gray-500 font-normal">(optional)</span></label>
-                                    <div className="relative">
-                                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                                        <input
-                                            id="leadEmail"
-                                            type="email"
-                                            value={leadEmail}
-                                            onChange={(event) => setLeadEmail(event.target.value)}
-                                            className={`w-full pl-12 pr-4 py-3.5 rounded-2xl bg-zinc-900/50 border text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300 ${
-                                                formErrors.leadEmail ? "border-rose-500/80 animate-shake" : "border-zinc-800"
-                                            }`}
-                                            placeholder="jane@company.com"
-                                        />
-                                    </div>
-                                    {formErrors.leadEmail && (
-                                        <span className="text-xs text-rose-400 flex items-center gap-1.5 mt-1 animate-shake">
-                                            <AlertCircle className="w-4 h-4" /> {formErrors.leadEmail}
-                                        </span>
-                                    )}
-                                </div>
-
-                                <div className="flex flex-col gap-2 sm:col-span-2">
-                                    <label htmlFor="leadCompany" className="text-sm text-gray-300 font-medium">Company or product name</label>
-                                    <div className="relative">
-                                        <Building className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                                        <input
-                                            id="leadCompany"
-                                            type="text"
-                                            value={leadCompany}
-                                            onChange={(event) => setLeadCompany(event.target.value)}
-                                            className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-zinc-900/50 border border-zinc-800 text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300"
-                                            placeholder="e.g., Acme Corp"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="sm:col-span-2 flex flex-col gap-3 mt-2">
-                                    <span className="text-sm font-medium text-gray-300">Choose the service you need</span>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        {[
-                                            { id: "Website Development", desc: "Build a clean, fast website.", icon: Zap },
-                                            { id: "Build Your First Product", desc: "Get your MVP off the ground.", icon: Rocket },
-                                            { id: "AI Consulting", desc: "Get advice on AI for your business.", icon: Brain },
-                                            { id: "Data Analytics", desc: "Turn numbers into insights.", icon: TrendingUp },
-                                            { id: "AI Agent Implementation", desc: "Automate daily workflows.", icon: Cpu }
-                                        ].map(serv => {
-                                            const Icon = serv.icon;
-                                            const isSelected = selectedService === serv.id;
-                                            return (
-                                                <button
-                                                    key={serv.id}
-                                                    type="button"
-                                                    onClick={() => {
-                                                        setSelectedService(serv.id);
-                                                        setServiceDetails({});
-                                                    }}
-                                                    className={`flex items-start gap-4 p-4 rounded-2xl border text-left transition-all duration-300 cursor-pointer ${
-                                                        isSelected
-                                                            ? "bg-emerald-500/5 border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.15)] scale-[1.02]"
-                                                            : "bg-zinc-900/50 border-zinc-800 hover:border-zinc-700 hover:scale-[1.01]"
-                                                    }`}
-                                                >
-                                                    <div 
-                                                        className={`p-2 rounded-xl border ${
-                                                            isSelected
-                                                                ? "bg-emerald-500/10 border-emerald-400/30 text-emerald-400"
-                                                                : "bg-zinc-950 border-zinc-800 text-gray-400"
-                                                        }`}
-                                                    >
-                                                        <Icon className="w-5 h-5" />
-                                                    </div>
-                                                    <div>
-                                                        <h4 className={`text-sm font-semibold transition-colors duration-200 ${isSelected ? "text-emerald-300" : "text-white"}`}>
-                                                            {serv.id}
-                                                        </h4>
-                                                        <p className="text-xs text-gray-400 mt-1 leading-relaxed">
-                                                            {serv.desc}
-                                                        </p>
-                                                    </div>
-                                                </button>
-                                            );
-                                        })}
-                                    </div>
-                                    {formErrors.selectedService && (
-                                        <span className="text-xs text-rose-400 flex items-center gap-1.5 mt-1 animate-shake">
-                                            <AlertCircle className="w-4 h-4" /> {formErrors.selectedService}
-                                        </span>
-                                    )}
-                                </div>
-                            </div>
-                        )}
-
-                        {onboardingStep === 1 && (
-                            <div className="grid gap-6 animate-slide-fade-in">
-                                {/* Service Specific Custom Questions */}
-                                {(serviceQuestions[selectedService] || []).map((q) => (
-                                    <div key={q.id} className="flex flex-col gap-2">
-                                        <label className="text-sm font-medium text-gray-300">{q.label}</label>
-                                        {q.type === "select" ? (
-                                            <div className="relative">
-                                                <select
-                                                    value={serviceDetails[q.id] || ""}
-                                                    onChange={(e) => setServiceDetails(prev => ({ ...prev, [q.id]: e.target.value }))}
-                                                    className={`w-full px-4 py-3.5 rounded-2xl bg-zinc-900/50 border text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300 ${
-                                                        formErrors[q.id] ? "border-rose-500/80 animate-shake" : "border-zinc-800"
-                                                    }`}
-                                                >
-                                                    <option value="">{q.placeholder}</option>
-                                                    {q.options.map(opt => (
-                                                        <option key={opt} value={opt}>{opt}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                        ) : (
-                                            <div className="relative">
-                                                <input
-                                                    type="text"
-                                                    value={serviceDetails[q.id] || ""}
-                                                    onChange={(e) => setServiceDetails(prev => ({ ...prev, [q.id]: e.target.value }))}
-                                                    placeholder={q.placeholder}
-                                                    className={`w-full px-4 py-3.5 rounded-2xl bg-zinc-900/50 border text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300 ${
-                                                        formErrors[q.id] ? "border-rose-500/80 animate-shake" : "border-zinc-800"
-                                                    }`}
-                                                />
-                                            </div>
-                                        )}
-                                        {formErrors[q.id] && (
-                                            <span className="text-xs text-rose-400 flex items-center gap-1.5 mt-1 animate-shake">
-                                                <AlertCircle className="w-4 h-4" /> {formErrors[q.id]}
-                                            </span>
-                                        )}
-                                    </div>
-                                ))}
-
-                                {/* Additional Notes Textarea */}
-                                <div className="flex flex-col gap-2">
-                                    <label htmlFor="additionalNotes" className="text-sm font-medium text-gray-300">Additional details / notes (optional)</label>
-                                    <textarea
-                                        id="additionalNotes"
-                                        value={additionalNotes}
-                                        onChange={(event) => setAdditionalNotes(event.target.value)}
-                                        className="w-full min-h-[100px] px-4 py-3.5 rounded-2xl bg-zinc-900/50 border border-zinc-800 text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300 resize-none"
-                                        placeholder="Any other details, wireframe links, or custom requirements..."
-                                    />
-                                </div>
-
-                                <div className="grid gap-6 sm:grid-cols-2">
-                                    <div className="flex flex-col gap-2">
-                                        <label htmlFor="challenge" className="text-sm font-medium text-gray-300 font-medium">Main challenge</label>
-                                        <div className="relative">
-                                            <Target className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                                            <input
-                                                id="challenge"
-                                                type="text"
-                                                value={challenge}
-                                                onChange={(event) => setChallenge(event.target.value)}
-                                                className={`w-full pl-12 pr-4 py-3.5 rounded-2xl bg-zinc-900/50 border text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300 ${
-                                                    formErrors.challenge ? "border-rose-500/80 animate-shake" : "border-zinc-800"
-                                                }`}
-                                                placeholder="E.g. automate onboarding, validate product-market fit"
-                                            />
-                                        </div>
-                                        {formErrors.challenge && (
-                                            <span className="text-xs text-rose-400 flex items-center gap-1.5 mt-1 animate-shake">
-                                                <AlertCircle className="w-4 h-4" /> {formErrors.challenge}
-                                            </span>
-                                        )}
-                                    </div>
-
-                                    <div className="flex flex-col gap-2">
-                                        <label htmlFor="timeline" className="text-sm font-medium text-gray-300 font-medium">Timeline / urgency</label>
-                                        <div className="relative">
-                                            <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                                            <input
-                                                id="timeline"
-                                                type="text"
-                                                value={timeline}
-                                                onChange={(event) => setTimeline(event.target.value)}
-                                                className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-zinc-900/50 border border-zinc-800 text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300"
-                                                placeholder="E.g. 6 weeks, ASAP, Q4 launch"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="flex flex-col gap-2">
-                                    <label htmlFor="budget" className="text-sm font-medium text-gray-300 font-medium">Budget (ZAR)</label>
-                                    <div className="relative">
-                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-gray-500 select-none">R</span>
-                                        <input
-                                            id="budget"
-                                            type="text"
-                                            value={budget}
-                                            onChange={(event) => setBudget(event.target.value)}
-                                            className="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-zinc-900/50 border border-zinc-800 text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300"
-                                            placeholder="e.g. 5,000 – 20,000"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {onboardingStep === 2 && (
-                            <div className="space-y-6 animate-slide-fade-in">
-                                <div className="rounded-3xl border border-emerald-400/20 bg-zinc-900/80 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.3)]">
-                                    <p className="text-sm uppercase tracking-[0.25em] text-emerald-400 mb-4 flex items-center gap-2">
-                                        <Sparkles className="w-4 h-4" /> Review & confirm
-                                    </p>
-                                    <div className="grid gap-4 text-sm text-gray-300">
-                                        <div className="pb-3 border-b border-zinc-800/60">
-                                            <span className="font-semibold text-white block mb-1">Contact Details</span>
-                                            <p className="text-gray-300">{leadName || "—"}{leadEmail ? <span className="text-emerald-300"> · {leadEmail}</span> : ""}</p>
-                                            {leadCompany && <p className="text-xs text-gray-400 mt-0.5">{leadCompany}</p>}
-                                        </div>
-                                        <div className="pb-3 border-b border-zinc-800/60">
-                                            <span className="font-semibold text-white block mb-1">Selected Service</span>
-                                            <p className="text-gray-300">{selectedService || "—"}</p>
-                                        </div>
-                                        <div>
-                                            <span className="font-semibold text-white block mb-1">Project Spec Summary</span>
-                                            <p className="whitespace-pre-wrap leading-relaxed text-gray-400 bg-zinc-950/40 p-4 rounded-xl border border-zinc-800/50 text-xs font-mono">
-                                                {getCombinedSummary() || "—"}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p className="text-xs text-gray-500 leading-relaxed">
-                                    Review the generated specs on the right. If everything looks good, submit the request to get started. You can still navigate back to make adjustments.
-                                </p>
-                            </div>
-                        )}
-
-                        <div className="flex flex-col sm:flex-row gap-4 mt-6">
-                            {onboardingStep > 0 && (
-                                <button
-                                    type="button"
-                                    onClick={handleBack}
-                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl border border-zinc-800 text-gray-300 hover:border-emerald-400 hover:text-emerald-300 transition-all duration-300"
-                                >
-                                    <ChevronLeft className="w-4 h-4" /> Back
-                                </button>
-                            )}
-                            {onboardingStep < 2 && (
-                                <button
-                                    type="button"
-                                    onClick={handleNext}
-                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-emerald-400 text-black font-semibold shadow-[0_0_25px_rgba(16,185,129,0.22)] hover:bg-emerald-300 transition-all duration-300"
-                                >
-                                    Continue <ChevronRight className="w-4 h-4" />
-                                </button>
-                            )}
-                            {onboardingStep === 2 && (
-                                <button
-                                    type="button"
-                                    onClick={submitLead}
-                                    disabled={sending}
-                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-emerald-400 text-black font-semibold shadow-[0_0_25px_rgba(16,185,129,0.22)] hover:bg-emerald-300 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                                >
-                                    {sending ? (
-                                        <>
-                                            <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                                            Sending…
-                                        </>
-                                    ) : (
-                                        <>
-                                            Send request <ChevronRight className="w-4 h-4" />
-                                        </>
-                                    )}
-                                </button>
-                            )}
-                        </div>
-                        {leadStatus && (
-                            <p className="text-sm mt-4 text-emerald-400 flex items-center gap-2 bg-emerald-400/5 px-4 py-3 rounded-xl border border-emerald-400/20">
-                                <Sparkles className="w-4 h-4" /> {leadStatus}
-                            </p>
-                        )}
-                    </div>
-
-                    <div className="space-y-6 lg:sticky lg:top-32">
-                        <div className="rounded-3xl border border-zinc-800 bg-zinc-950/80 shadow-[0_12px_40px_rgba(0,0,0,0.5)] overflow-hidden">
-                            {/* Terminal Window Header */}
-                            <div className="bg-zinc-900 px-6 py-4 border-b border-zinc-800 flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                    <span className="w-3.5 h-3.5 rounded-full bg-rose-500/80 inline-block" />
-                                    <span className="w-3.5 h-3.5 rounded-full bg-amber-500/80 inline-block" />
-                                    <span className="w-3.5 h-3.5 rounded-full bg-emerald-500/80 inline-block" />
-                                    <span className="text-xs text-gray-500 font-mono ml-2">guide_preview.md</span>
-                                </div>
-                                <button
-                                    onClick={copyPreviewToClipboard}
-                                    type="button"
-                                    className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1.5 py-1 px-3 rounded-lg border border-emerald-400/20 hover:bg-emerald-400/10 transition-all duration-300"
-                                >
-                                    {copiedPreview ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                                    {copiedPreview ? "Copied" : "Copy"}
-                                </button>
-                            </div>
-                            
-                            <div className="p-8 max-h-[320px] overflow-y-auto custom-scrollbar font-mono text-xs leading-6 text-gray-200">
-                                <pre className="whitespace-pre-wrap break-words">{guidePreview}</pre>
-                            </div>
-                        </div>
-                        <div className="rounded-3xl border border-zinc-800/80 bg-zinc-900/40 p-6 text-sm text-gray-400 shadow-[0_4px_20px_rgba(0,0,0,0.2)]">
-                            <p className="font-semibold text-gray-200 mb-3 flex items-center gap-2">
-                                <FileText className="w-4 h-4 text-emerald-400" /> Why this works
-                            </p>
-                            <ul className="space-y-2 list-disc list-inside text-xs leading-5">
-                                <li>Collects your idea, service needs, and budget in one place.</li>
-                                <li>Creates a simple, shareable plan without the usual agency fluff.</li>
-                                <li>Helps LaunchGremlin follow up faster with a clear brief.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Floating action button for mobile preview */}
-                <div className="fixed bottom-6 right-6 z-40 lg:hidden">
+                <div className="p-10 rounded-3xl border border-zinc-800 bg-zinc-900/60 backdrop-blur-xl shadow-[0_12px_40px_rgba(0,0,0,0.5)]">
+                    <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                        Ready to launch your product?
+                    </h2>
+                    <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-8">
+                        Click any service card above or start an interactive project spec in under 60 seconds.
+                    </p>
                     <button
-                        onClick={() => setIsMobilePreviewOpen(true)}
+                        onClick={() => openServiceOnboarding("Website Development")}
                         type="button"
-                        className="flex items-center gap-2 bg-emerald-400 text-black px-6 py-3.5 rounded-full font-bold shadow-[0_6px_25px_rgba(16,185,129,0.45)] hover:bg-emerald-300 transition-all duration-300 hover:scale-105 active:scale-95"
+                        className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-emerald-400 text-black font-bold text-base shadow-[0_0_30px_rgba(16,185,129,0.35)] hover:bg-emerald-300 transition-all duration-300 hover:scale-105"
                     >
-                        <FileText className="w-4 h-4" />
-                        <span>Preview Guide</span>
+                        Start Interactive Spec →
                     </button>
                 </div>
+            </section>
 
-                {/* Mobile Preview Bottom Sheet Modal */}
-                {isMobilePreviewOpen && (
-                    <div className="fixed inset-0 z-50 flex items-end justify-center lg:hidden">
-                        {/* Backdrop */}
-                        <div 
-                            onClick={() => setIsMobilePreviewOpen(false)}
-                            className="absolute inset-0 bg-black/75 backdrop-blur-sm transition-opacity duration-300"
-                        />
-                        {/* Drawer Panel */}
-                        <div className="relative w-full bg-zinc-950 border-t border-zinc-800 rounded-t-[2rem] max-h-[85vh] flex flex-col z-10 animate-slide-fade-in shadow-[0_-12px_40px_rgba(0,0,0,0.6)]">
-                            {/* Handle bar */}
-                            <div className="flex justify-center py-3">
-                                <div className="w-12 h-1 bg-zinc-800 rounded-full" />
-                            </div>
-                            {/* Header */}
-                            <div className="px-6 pb-4 border-b border-zinc-900 flex items-center justify-between">
+            {/* Seamless Interactive Service Onboarding Modal */}
+            {activeOnboardingService && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-black/80 backdrop-blur-md overflow-y-auto animate-fade-up">
+                    <div className="relative w-full max-w-5xl bg-zinc-950 border border-zinc-800 rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.8)] overflow-hidden my-auto animate-scale-up">
+                        {/* Modal Header */}
+                        <div className="bg-zinc-900/80 px-6 py-5 border-b border-zinc-800 flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <span className="p-2 rounded-xl bg-emerald-400/10 border border-emerald-400/30 text-emerald-400">
+                                    <Sparkles className="w-5 h-5" />
+                                </span>
                                 <div>
-                                    <p className="text-xs uppercase tracking-widest text-emerald-400 font-mono">AI project guide</p>
-                                    <h3 className="text-lg font-bold mt-0.5 text-white">Real-time Preview</h3>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <button
-                                        onClick={copyPreviewToClipboard}
-                                        type="button"
-                                        className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1.5 py-1.5 px-3 rounded-lg border border-emerald-400/20 hover:bg-emerald-400/10 transition-all duration-300"
-                                    >
-                                        {copiedPreview ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                                        {copiedPreview ? "Copied" : "Copy"}
-                                    </button>
-                                    <button 
-                                        onClick={() => setIsMobilePreviewOpen(false)}
-                                        className="px-3 py-1.5 bg-zinc-900 border border-zinc-800 text-gray-300 hover:text-white text-xs font-semibold rounded-lg transition-all duration-300"
-                                    >
-                                        Close
-                                    </button>
+                                    <span className="text-xs uppercase tracking-widest text-emerald-400 font-mono">Interactive Service Onboarding</span>
+                                    <h3 className="text-xl font-bold text-white leading-tight">{activeOnboardingService}</h3>
                                 </div>
                             </div>
-                            {/* Content */}
-                            <div className="p-6 overflow-y-auto font-mono text-xs leading-6 text-gray-200 max-h-[60vh] custom-scrollbar">
-                                <pre className="whitespace-pre-wrap break-words">{guidePreview}</pre>
+                            <button
+                                onClick={() => setActiveOnboardingService(null)}
+                                type="button"
+                                className="p-2 rounded-xl border border-zinc-800 bg-zinc-900 text-gray-400 hover:text-white hover:border-zinc-700 transition cursor-pointer"
+                            >
+                                ✕
+                            </button>
+                        </div>
+
+                        {/* Modal Subheader Stepper */}
+                        <div className="bg-zinc-900/40 px-6 py-3 border-b border-zinc-800 flex items-center justify-between text-xs font-medium text-gray-400">
+                            <div className="flex items-center gap-4 sm:gap-6">
+                                <span className={onboardingStep === 0 ? "text-emerald-400 font-bold" : "text-gray-400"}>1. Your Info</span>
+                                <span className="text-gray-600">→</span>
+                                <span className={onboardingStep === 1 ? "text-emerald-400 font-bold" : "text-gray-400"}>2. Project Specs</span>
+                                <span className="text-gray-600">→</span>
+                                <span className={onboardingStep === 2 ? "text-emerald-400 font-bold" : "text-gray-400"}>3. Review & Submit</span>
+                            </div>
+                            <span className="text-emerald-400 font-mono text-[11px] bg-emerald-400/10 px-2.5 py-1 rounded-full border border-emerald-400/20">
+                                Step {onboardingStep + 1} of 3
+                            </span>
+                        </div>
+
+                        {/* Modal Body Grid */}
+                        <div className="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start max-h-[75vh] overflow-y-auto custom-scrollbar">
+                            {/* Left Column: Form Controls */}
+                            <div className="lg:col-span-7 space-y-6">
+                                {onboardingStep === 0 && (
+                                    <div className="grid gap-6 sm:grid-cols-2 animate-slide-fade-in">
+                                        <div className="flex flex-col gap-2">
+                                            <label htmlFor="leadName" className="text-sm text-gray-300 font-medium">Your name</label>
+                                            <div className="relative">
+                                                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                                                <input
+                                                    id="leadName"
+                                                    type="text"
+                                                    value={leadName}
+                                                    onChange={(event) => setLeadName(event.target.value)}
+                                                    className={`w-full pl-12 pr-4 py-3.5 rounded-2xl bg-zinc-900/50 border text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300 ${
+                                                        formErrors.leadName ? "border-rose-500/80 animate-shake" : "border-zinc-800"
+                                                    }`}
+                                                    placeholder="Jane Doe"
+                                                />
+                                            </div>
+                                            {formErrors.leadName && (
+                                                <span className="text-xs text-rose-400 flex items-center gap-1.5 mt-1 animate-shake">
+                                                    <AlertCircle className="w-4 h-4" /> {formErrors.leadName}
+                                                </span>
+                                            )}
+                                        </div>
+
+                                        <div className="flex flex-col gap-2">
+                                            <label htmlFor="leadEmail" className="text-sm text-gray-300 font-medium">Email address <span className="text-xs text-gray-500 font-normal">(optional)</span></label>
+                                            <div className="relative">
+                                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                                                <input
+                                                    id="leadEmail"
+                                                    type="email"
+                                                    value={leadEmail}
+                                                    onChange={(event) => setLeadEmail(event.target.value)}
+                                                    className={`w-full pl-12 pr-4 py-3.5 rounded-2xl bg-zinc-900/50 border text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300 ${
+                                                        formErrors.leadEmail ? "border-rose-500/80 animate-shake" : "border-zinc-800"
+                                                    }`}
+                                                    placeholder="jane@company.com"
+                                                />
+                                            </div>
+                                            {formErrors.leadEmail && (
+                                                <span className="text-xs text-rose-400 flex items-center gap-1.5 mt-1 animate-shake">
+                                                    <AlertCircle className="w-4 h-4" /> {formErrors.leadEmail}
+                                                </span>
+                                            )}
+                                        </div>
+
+                                        <div className="flex flex-col gap-2 sm:col-span-2">
+                                            <label htmlFor="leadCompany" className="text-sm text-gray-300 font-medium">Company or product name</label>
+                                            <div className="relative">
+                                                <Building className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                                                <input
+                                                    id="leadCompany"
+                                                    type="text"
+                                                    value={leadCompany}
+                                                    onChange={(event) => setLeadCompany(event.target.value)}
+                                                    className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-zinc-900/50 border border-zinc-800 text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300"
+                                                    placeholder="e.g., Acme Corp"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {onboardingStep === 1 && (
+                                    <div className="grid gap-6 animate-slide-fade-in">
+                                        {(serviceQuestions[selectedService] || []).map((q) => (
+                                            <div key={q.id} className="flex flex-col gap-2">
+                                                <label className="text-sm font-medium text-gray-300">{q.label}</label>
+                                                {q.type === "select" ? (
+                                                    <div className="relative">
+                                                        <select
+                                                            value={serviceDetails[q.id] || ""}
+                                                            onChange={(e) => setServiceDetails(prev => ({ ...prev, [q.id]: e.target.value }))}
+                                                            className={`w-full px-4 py-3.5 rounded-2xl bg-zinc-900/50 border text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300 ${
+                                                                formErrors[q.id] ? "border-rose-500/80 animate-shake" : "border-zinc-800"
+                                                            }`}
+                                                        >
+                                                            <option value="">{q.placeholder}</option>
+                                                            {q.options.map(opt => (
+                                                                <option key={opt} value={opt}>{opt}</option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                ) : (
+                                                    <div className="relative">
+                                                        <input
+                                                            type="text"
+                                                            value={serviceDetails[q.id] || ""}
+                                                            onChange={(e) => setServiceDetails(prev => ({ ...prev, [q.id]: e.target.value }))}
+                                                            placeholder={q.placeholder}
+                                                            className={`w-full px-4 py-3.5 rounded-2xl bg-zinc-900/50 border text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300 ${
+                                                                formErrors[q.id] ? "border-rose-500/80 animate-shake" : "border-zinc-800"
+                                                            }`}
+                                                        />
+                                                    </div>
+                                                )}
+                                                {formErrors[q.id] && (
+                                                    <span className="text-xs text-rose-400 flex items-center gap-1.5 mt-1 animate-shake">
+                                                        <AlertCircle className="w-4 h-4" /> {formErrors[q.id]}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        ))}
+
+                                        <div className="grid gap-6 sm:grid-cols-2">
+                                            <div className="flex flex-col gap-2">
+                                                <label htmlFor="challenge" className="text-sm text-gray-300 font-medium">Main challenge</label>
+                                                <div className="relative">
+                                                    <Target className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                                                    <input
+                                                        id="challenge"
+                                                        type="text"
+                                                        value={challenge}
+                                                        onChange={(event) => setChallenge(event.target.value)}
+                                                        className={`w-full pl-12 pr-4 py-3.5 rounded-2xl bg-zinc-900/50 border text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300 ${
+                                                            formErrors.challenge ? "border-rose-500/80 animate-shake" : "border-zinc-800"
+                                                        }`}
+                                                        placeholder="E.g. automate onboarding, validate product-market fit"
+                                                    />
+                                                </div>
+                                                {formErrors.challenge && (
+                                                    <span className="text-xs text-rose-400 flex items-center gap-1.5 mt-1 animate-shake">
+                                                        <AlertCircle className="w-4 h-4" /> {formErrors.challenge}
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            <div className="flex flex-col gap-2">
+                                                <label htmlFor="timeline" className="text-sm text-gray-300 font-medium">Timeline / urgency</label>
+                                                <div className="relative">
+                                                    <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                                                    <input
+                                                        id="timeline"
+                                                        type="text"
+                                                        value={timeline}
+                                                        onChange={(event) => setTimeline(event.target.value)}
+                                                        className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-zinc-900/50 border border-zinc-800 text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300"
+                                                        placeholder="e.g. 2–4 weeks"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="grid gap-6 sm:grid-cols-2">
+                                            <div className="flex flex-col gap-2">
+                                                <label htmlFor="budget" className="text-sm text-gray-300 font-medium">Estimated Budget (ZAR)</label>
+                                                <input
+                                                    id="budget"
+                                                    type="text"
+                                                    value={budget}
+                                                    onChange={(event) => setBudget(event.target.value)}
+                                                    className="w-full px-4 py-3.5 rounded-2xl bg-zinc-900/50 border border-zinc-800 text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300"
+                                                    placeholder="e.g. R10,000 – R35,000"
+                                                />
+                                            </div>
+                                            <div className="flex flex-col gap-2">
+                                                <label htmlFor="additionalNotes" className="text-sm text-gray-300 font-medium">Additional Notes (optional)</label>
+                                                <input
+                                                    id="additionalNotes"
+                                                    type="text"
+                                                    value={additionalNotes}
+                                                    onChange={(event) => setAdditionalNotes(event.target.value)}
+                                                    className="w-full px-4 py-3.5 rounded-2xl bg-zinc-900/50 border border-zinc-800 text-sm text-white focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all duration-300"
+                                                    placeholder="e.g. integration requests, design links"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {onboardingStep === 2 && (
+                                    <div className="space-y-6 animate-slide-fade-in">
+                                        <div className="rounded-2xl border border-emerald-400/20 bg-zinc-900/80 p-5 shadow-[0_8px_30px_rgba(0,0,0,0.3)]">
+                                            <p className="text-xs uppercase tracking-widest text-emerald-400 mb-3 flex items-center gap-2 font-mono">
+                                                <Sparkles className="w-4 h-4" /> Confirm & Submit
+                                            </p>
+                                            <div className="grid gap-3 text-xs text-gray-300">
+                                                <div>
+                                                    <span className="font-semibold text-white block mb-0.5">Contact Details</span>
+                                                    <p className="text-gray-300">{leadName || "—"}{leadEmail ? <span className="text-emerald-300"> · {leadEmail}</span> : ""}</p>
+                                                </div>
+                                                <div>
+                                                    <span className="font-semibold text-white block mb-0.5">Selected Service</span>
+                                                    <p className="text-emerald-400 font-semibold">{selectedService}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Action buttons */}
+                                <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-zinc-900">
+                                    {onboardingStep > 0 && (
+                                        <button
+                                            type="button"
+                                            onClick={handleBack}
+                                            className="px-6 py-3.5 rounded-xl border border-zinc-800 text-gray-300 hover:text-white hover:border-zinc-700 text-xs font-semibold transition"
+                                        >
+                                            ← Back
+                                        </button>
+                                    )}
+                                    {onboardingStep < 2 && (
+                                        <button
+                                            type="button"
+                                            onClick={handleNext}
+                                            className="flex-1 px-6 py-3.5 rounded-xl bg-emerald-400 text-black font-semibold text-xs shadow-[0_0_20px_rgba(16,185,129,0.25)] hover:bg-emerald-300 transition"
+                                        >
+                                            Continue →
+                                        </button>
+                                    )}
+                                    {onboardingStep === 2 && (
+                                        <button
+                                            type="button"
+                                            onClick={submitLead}
+                                            disabled={sending}
+                                            className="flex-1 px-6 py-3.5 rounded-xl bg-emerald-400 text-black font-bold text-xs shadow-[0_0_20px_rgba(16,185,129,0.25)] hover:bg-emerald-300 transition disabled:opacity-50"
+                                        >
+                                            {sending ? "Generating..." : "Submit Project Spec →"}
+                                        </button>
+                                    )}
+                                </div>
+                                {leadStatus && (
+                                    <p className="text-xs text-emerald-400 p-3 bg-emerald-400/10 border border-emerald-400/20 rounded-xl">
+                                        {leadStatus}
+                                    </p>
+                                )}
+                            </div>
+
+                            {/* Right Column: Terminal Guide Preview */}
+                            <div className="lg:col-span-5 space-y-4 lg:sticky lg:top-0">
+                                <div className="rounded-2xl border border-zinc-800 bg-zinc-950 overflow-hidden shadow-xl">
+                                    <div className="bg-zinc-900 px-4 py-3 border-b border-zinc-800 flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <span className="w-3 h-3 rounded-full bg-rose-500/80 inline-block" />
+                                            <span className="w-3 h-3 rounded-full bg-amber-500/80 inline-block" />
+                                            <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block" />
+                                            <span className="text-xs text-gray-500 font-mono ml-2">guide_preview.md</span>
+                                        </div>
+                                        <button
+                                            onClick={copyPreviewToClipboard}
+                                            type="button"
+                                            className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1 py-1 px-2.5 rounded-lg border border-emerald-400/20 hover:bg-emerald-400/10 transition"
+                                        >
+                                            {copiedPreview ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                                            {copiedPreview ? "Copied" : "Copy"}
+                                        </button>
+                                    </div>
+                                    <div className="p-5 max-h-[340px] overflow-y-auto custom-scrollbar font-mono text-xs leading-6 text-gray-200">
+                                        <pre className="whitespace-pre-wrap break-words">{guidePreview}</pre>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                )}
-            </section>
+                </div>
+            )}
 
             <footer className="px-6 py-8 border-t border-zinc-800 text-center text-gray-500 text-sm">
                 © {new Date().getFullYear()} LaunchGremlin
