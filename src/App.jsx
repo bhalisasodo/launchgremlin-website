@@ -115,6 +115,43 @@ const TimeDistortionBackground = () => {
     );
 };
 
+/* ------------------ Maintenance View ------------------ */
+const MaintenanceView = () => (
+    <div className="min-h-screen text-white relative overflow-hidden bg-zinc-950 flex flex-col items-center justify-center px-6 text-center">
+        <TimeDistortionBackground />
+        <div className="fixed inset-0 z-10 bg-gradient-to-b from-black/60 via-black/40 to-black/80 pointer-events-none" />
+
+        <div className="relative z-20 max-w-xl mx-auto p-8 md:p-12 rounded-3xl bg-zinc-900/60 backdrop-blur-2xl border border-zinc-800/80 shadow-[0_20px_60px_rgba(0,0,0,0.7)] animate-scale-up">
+            <div className="inline-flex items-center justify-center p-4 rounded-2xl bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 mb-6 shadow-[0_0_25px_rgba(16,185,129,0.2)]">
+                <img
+                    src="./legacy_and_assets/web-icon.png"
+                    alt="LaunchGremlin logo"
+                    width="48"
+                    height="48"
+                    className="w-12 h-12 object-contain mix-blend-screen"
+                />
+            </div>
+            
+            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-4">
+                System <span className="text-emerald-400">Upgrading</span>
+            </h1>
+            
+            <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-8">
+                LaunchGremlin is currently undergoing scheduled maintenance &amp; system enhancements. We&apos;ll be back online shortly with improved AI capabilities.
+            </p>
+
+            <div className="flex items-center justify-center gap-3 px-4 py-3 bg-zinc-950/60 rounded-xl border border-zinc-800 text-xs font-mono text-emerald-400 max-w-xs mx-auto">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping inline-block" />
+                <span>Status: Maintenance in progress</span>
+            </div>
+        </div>
+
+        <footer className="relative z-20 mt-12 text-xs text-gray-600">
+            © {new Date().getFullYear()} LaunchGremlin · Systems Operations
+        </footer>
+    </div>
+);
+
 /* ------------------ Main App ------------------ */
 export default function App() {
     const progress = useScrollProgress();
@@ -383,6 +420,13 @@ export default function App() {
                 }} 
             />
         );
+    }
+
+    // Maintenance Mode Toggle (Set to true to put public website under maintenance)
+    const IS_MAINTENANCE_MODE = true;
+
+    if (IS_MAINTENANCE_MODE) {
+        return <MaintenanceView />;
     }
 
 
