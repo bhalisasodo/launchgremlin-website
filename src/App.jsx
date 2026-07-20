@@ -456,7 +456,7 @@ export default function App() {
             `- Review the suggested roadmap above to align on core milestones.\n` +
             `- Schedule a 15-minute discovery call to finalise scope details.\n` +
             `- Get a formal fixed-price proposal and project agreement.\n\n` +
-            `Prepared for: ${leadName || "Valued Client"} (${leadEmail || "no email provided"})`;
+            `Prepared for: ${leadName || "Valued Client"}`;
     };
 
 
@@ -468,9 +468,7 @@ export default function App() {
 
         if (step === 0) {
             if (!leadName.trim()) errors.leadName = "Enter your name.";
-            if (!leadEmail.trim()) {
-                errors.leadEmail = "Enter your email.";
-            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(leadEmail.trim())) {
+            if (leadEmail.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(leadEmail.trim())) {
                 errors.leadEmail = "Enter a valid email address.";
             }
             if (!selectedService) errors.selectedService = "Choose the service you need.";
@@ -536,33 +534,33 @@ export default function App() {
         };
 
         try {
-            // Save to central backend API
             let API_URL = import.meta.env.VITE_API_URL;
+            let hasBackend = Boolean(API_URL);
             if (!API_URL) {
                 const port = window.location.port;
                 if (port && ["5173", "5174", "5175", "3000"].includes(port)) {
                     API_URL = "http://localhost:5000/api";
-                } else {
-                    API_URL = "/api";
+                    hasBackend = true;
                 }
             }
             
-            // Add a timeout fallback so it doesn't hang indefinitely if server is down
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 6000);
-            
-            const response = await fetch(`${API_URL}/leads`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-                signal: controller.signal
-            });
-            
-            clearTimeout(timeoutId);
+            if (hasBackend) {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 6000);
+                
+                const response = await fetch(`${API_URL}/leads`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
 
-            if (!response.ok) {
-                const errData = await response.json();
-                throw new Error(errData.error || "Failed to save on server.");
+                const contentType = response.headers.get("content-type") || "";
+                if (!response.ok || !contentType.includes("application/json")) {
+                    console.warn("Backend API response not valid JSON or failed.");
+                }
             }
 
             // Save lead locally in the browser as backup cache
@@ -652,6 +650,12 @@ export default function App() {
                                 }`}
                         >
                             Contact
+                        </a>
+                        <a
+                            href="#/admin"
+                            className="px-3.5 py-1.5 rounded-xl border border-emerald-400/30 text-emerald-400 text-xs font-semibold hover:bg-emerald-400/10 transition-colors duration-300"
+                        >
+                            Admin Dashboard
                         </a>
                     </nav>
                 </div>
@@ -927,7 +931,7 @@ export default function App() {
                                 </div>
 
                                 <div className="flex flex-col gap-2">
-                                    <label htmlFor="leadEmail" className="text-sm text-gray-300 font-medium">Email address</label>
+                                    <label htmlFor="leadEmail" className="text-sm text-gray-300 font-medium">Email address <span className="text-xs text-gray-500 font-normal">(optional)</span></label>
                                     <div className="relative">
                                         <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                                         <input
@@ -1138,7 +1142,7 @@ export default function App() {
                                     <div className="grid gap-4 text-sm text-gray-300">
                                         <div className="pb-3 border-b border-zinc-800/60">
                                             <span className="font-semibold text-white block mb-1">Contact Details</span>
-                                            <p className="text-gray-300">{leadName || "—"} · <span className="text-emerald-300">{leadEmail || "—"}</span></p>
+                                            <p className="text-gray-300">{leadName || "—"}{leadEmail ? <span className="text-emerald-300"> · {leadEmail}</span> : ""}</p>
                                             {leadCompany && <p className="text-xs text-gray-400 mt-0.5">{leadCompany}</p>}
                                         </div>
                                         <div className="pb-3 border-b border-zinc-800/60">
@@ -1300,8 +1304,13 @@ export default function App() {
                 )}
             </section>
 
-            <footer className="px-6 py-8 border-t border-zinc-800 text-center text-gray-500 text-sm">
-                © {new Date().getFullYear()} LaunchGremlin
+            <footer className="px-6 py-8 border-t border-zinc-800 text-gray-500 text-sm">
+                <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div>© {new Date().getFullYear()} LaunchGremlin</div>
+                    <a href="#/admin" className="text-xs text-gray-400 hover:text-emerald-400 transition-colors">
+                        Admin Portal
+                    </a>
+                </div>
             </footer>
         </div>
     );

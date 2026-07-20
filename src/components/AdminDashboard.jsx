@@ -17,6 +17,15 @@ const getApiUrl = () => {
 };
 const API_URL = getApiUrl();
 
+const getStoredLeads = () => {
+  try {
+    const raw = localStorage.getItem('launchgremlin_leads');
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+};
+
 /* ------------------ Glassmorphic Card ------------------ */
 const GlassCard = ({ children, className = '' }) => (
   <div className={`bg-zinc-900/60 backdrop-blur-xl border border-zinc-800 rounded-2xl p-6 shadow-[0_8px_32px_rgba(0,0,0,0.37)] ${className}`}>
@@ -37,24 +46,35 @@ export function AdminLogin({ onLoginSuccess }) {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_URL}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Login failed');
+      const isDevPort = ['5173', '5174', '5175', '3000'].includes(window.location.port);
+      if (import.meta.env.VITE_API_URL || isDevPort) {
+        const res = await fetch(`${API_URL}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        const contentType = res.headers.get('content-type') || '';
+        if (res.ok && contentType.includes('application/json')) {
+          const data = await res.json();
+          localStorage.setItem('launchgremlin_admin_token', data.token);
+          onLoginSuccess(data.token);
+          setLoading(false);
+          return;
+        }
       }
-
-      localStorage.setItem('launchgremlin_admin_token', data.token);
-      onLoginSuccess(data.token);
     } catch (err) {
-      setError(err.message || 'Server error. Is the backend running?');
-    } finally {
-      setLoading(false);
+      console.warn('Backend API login unavailable, falling back to static/local login:', err);
     }
+
+    // Static / GitHub Pages fallback authentication
+    if (username === 'admin' && (password === 'admin123' || password === 'admin')) {
+      const fallbackToken = 'gh_pages_static_admin_token_' + Date.now();
+      localStorage.setItem('launchgremlin_admin_token', fallbackToken);
+      onLoginSuccess(fallbackToken);
+    } else {
+      setError('Invalid credentials.');
+    }
+    setLoading(false);
   };
 
   return (
@@ -142,59 +162,114 @@ export default function AdminDashboard({ token, onLogout }) {
   const fetchLeads = async () => {
     setLoading(true);
     setError('');
-    try {
-      const res = await fetch(`${API_URL}/leads`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (!res.ok) {
-        if (res.status === 401 || res.status === 403) {
+    let loadedLeads = [];
+    let fromBackend = false;
+
+    const isDevPort = ['5173', '5174', '5175', '3000'].includes(window.location.port);
+    const hasBackendConfig = Boolean(import.meta.env.VITE_API_URL || isDevPort);
+
+    if (hasBackendConfig && !token.startsWith('gh_pages_static_admin_token_')) {
+      try {
+        const res = await fetch(`${API_URL}/leads`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const contentType = res.headers.get('content-type') || '';
+        if (res.ok && contentType.includes('application/json')) {
+          loadedLeads = await res.json();
+          fromBackend = true;
+        } else if (res.status === 401 || res.status === 403) {
           onLogout();
           throw new Error('Session expired');
         }
-        throw new Error('Failed to fetch leads');
+      } catch (err) {
+        console.warn('Backend API fetch error, using local storage leads:', err);
       }
-      const data = await res.json();
-      setLeads(data);
-    } catch (err) {
-      setError(err.message || 'Error loading leads');
-    } finally {
-      setLoading(false);
     }
+
+    const localLeads = getStoredLeads();
+    if (fromBackend) {
+      const backendIds = new Set(loadedLeads.map(l => l._id || l.id));
+      const unsynced = localLeads.filter(l => !backendIds.has(l.id) && !backendIds.has(l._id));
+      loadedLeads = [...loadedLeads, ...unsynced];
+    } else {
+      loadedLeads = localLeads;
+    }
+
+    setLeads(loadedLeads);
+    setLoading(false);
   };
 
   const handleUpdateLead = async () => {
     if (!activeLead) return;
     setSaveLoading(true);
-    try {
-      const res = await fetch(`${API_URL}/leads/${activeLead._id || activeLead.id}`, {
-        method: 'PATCH',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ status: updatingStatus, notes: editingNotes })
-      });
+    const leadId = activeLead._id || activeLead.id;
 
-      if (!res.ok) {
-        throw new Error('Failed to update lead');
-      }
+    const isDevPort = ['5173', '5174', '5175', '3000'].includes(window.location.port);
+    const hasBackendConfig = Boolean(import.meta.env.VITE_API_URL || isDevPort);
 
-      const updatedLead = await res.json();
-      
-      // Update in main list
-      setLeads(prev => prev.map(l => (l._id || l.id) === (updatedLead._id || updatedLead.id) ? updatedLead : l));
-      setActiveLead(updatedLead);
-      
-      // Temporary toast/confirm style alert
-      const oldStatus = activeLead.status;
-      if (oldStatus !== updatingStatus) {
-        fetchLeads(); // Refresh metrics
+    if (hasBackendConfig && !token.startsWith('gh_pages_static_admin_token_')) {
+      try {
+        const res = await fetch(`${API_URL}/leads/${leadId}`, {
+          method: 'PATCH',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ status: updatingStatus, notes: editingNotes })
+        });
+        const contentType = res.headers.get('content-type') || '';
+        if (res.ok && contentType.includes('application/json')) {
+          const updatedLead = await res.json();
+          setLeads(prev => prev.map(l => (l._id || l.id) === leadId ? updatedLead : l));
+          setActiveLead(updatedLead);
+
+          const localLeads = getStoredLeads();
+          const updatedLocal = localLeads.map(l => (l._id || l.id) === leadId ? updatedLead : l);
+          localStorage.setItem('launchgremlin_leads', JSON.stringify(updatedLocal));
+
+          setSaveLoading(false);
+          return;
+        }
+      } catch (err) {
+        console.warn('Backend update failed, updating local storage:', err);
       }
-    } catch (err) {
-      alert(err.message);
-    } finally {
-      setSaveLoading(false);
     }
+
+    const localLeads = getStoredLeads();
+    const updatedLeadObj = { ...activeLead, status: updatingStatus, notes: editingNotes };
+    const updatedLocal = localLeads.map(l => (l._id || l.id) === leadId ? updatedLeadObj : l);
+    localStorage.setItem('launchgremlin_leads', JSON.stringify(updatedLocal));
+
+    setLeads(prev => prev.map(l => (l._id || l.id) === leadId ? updatedLeadObj : l));
+    setActiveLead(updatedLeadObj);
+    setSaveLoading(false);
+  };
+
+  const exportLeadsCSV = () => {
+    if (!leads || leads.length === 0) {
+      alert('No leads available to export.');
+      return;
+    }
+    const headers = ['Name', 'Email', 'Company', 'Service', 'Budget', 'Timeline', 'Status', 'Created At', 'Notes'];
+    const rows = leads.map(l => [
+      `"${(l.name || '').replace(/"/g, '""')}"`,
+      `"${(l.email || '').replace(/"/g, '""')}"`,
+      `"${(l.company || '').replace(/"/g, '""')}"`,
+      `"${(l.service || '').replace(/"/g, '""')}"`,
+      `"${(l.budget || '').replace(/"/g, '""')}"`,
+      `"${(l.timeline || '').replace(/"/g, '""')}"`,
+      `"${(l.status || '').replace(/"/g, '""')}"`,
+      `"${(l.created_at || '').replace(/"/g, '""')}"`,
+      `"${(l.notes || '').replace(/"/g, '""')}"`
+    ]);
+    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `launchgremlin_leads_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const copyToClipboard = (text) => {
@@ -220,9 +295,9 @@ export default function AdminDashboard({ token, onLogout }) {
   // Filter Leads
   const filteredLeads = leads.filter(lead => {
     const matchesSearch = 
-      lead.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      lead.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (lead.company && lead.company.toLowerCase().includes(searchTerm.toLowerCase()));
+      (lead.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (lead.email || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (lead.company || '').toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesStatus = selectedStatus === 'All' || lead.status === selectedStatus;
     const matchesService = selectedService === 'All' || lead.service === selectedService;
@@ -257,13 +332,22 @@ export default function AdminDashboard({ token, onLogout }) {
               Launch<span className="text-emerald-400">Gremlin</span> <span className="text-xs uppercase font-normal tracking-widest text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded-md border border-emerald-400/20 ml-2">Console</span>
             </h1>
           </div>
-          <button
-            onClick={onLogout}
-            className="flex items-center gap-2 px-4 py-2 border border-zinc-800 rounded-xl hover:border-rose-500/40 hover:text-rose-400 transition bg-zinc-900/60"
-          >
-            <LogOut className="w-4 h-4" />
-            <span className="hidden sm:inline text-sm font-medium">Log out</span>
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={exportLeadsCSV}
+              className="flex items-center gap-2 px-3.5 py-2 border border-emerald-400/30 text-emerald-400 rounded-xl hover:bg-emerald-400/10 transition text-xs font-semibold"
+            >
+              <FileText className="w-4 h-4" />
+              <span className="hidden sm:inline">Export Leads (CSV)</span>
+            </button>
+            <button
+              onClick={onLogout}
+              className="flex items-center gap-2 px-4 py-2 border border-zinc-800 rounded-xl hover:border-rose-500/40 hover:text-rose-400 transition bg-zinc-900/60"
+            >
+              <LogOut className="w-4 h-4" />
+              <span className="hidden sm:inline text-sm font-medium">Log out</span>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -444,7 +528,7 @@ export default function AdminDashboard({ token, onLogout }) {
                           >
                             <td className="px-6 py-4">
                               <div className="font-semibold text-white truncate max-w-[180px]">{lead.name}</div>
-                              <div className="text-xs text-gray-400 truncate max-w-[180px]">{lead.email}</div>
+                              <div className="text-xs text-gray-400 truncate max-w-[180px]">{lead.email || 'No email provided'}</div>
                               {lead.company && <div className="text-[10px] text-emerald-400/80">{lead.company}</div>}
                             </td>
                             <td className="px-6 py-4">
@@ -504,9 +588,13 @@ export default function AdminDashboard({ token, onLogout }) {
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 bg-zinc-950/60 rounded-xl border border-zinc-800">
                   <span className="text-xs text-gray-400 block mb-1">Email Address</span>
-                  <a href={`mailto:${activeLead.email}`} className="text-sm text-emerald-300 hover:underline break-all">
-                    {activeLead.email}
-                  </a>
+                  {activeLead.email ? (
+                    <a href={`mailto:${activeLead.email}`} className="text-sm text-emerald-300 hover:underline break-all">
+                      {activeLead.email}
+                    </a>
+                  ) : (
+                    <span className="text-sm text-gray-500 italic">No email provided</span>
+                  )}
                 </div>
                 <div className="p-4 bg-zinc-950/60 rounded-xl border border-zinc-800">
                   <span className="text-xs text-gray-400 block mb-1">Company / Project</span>

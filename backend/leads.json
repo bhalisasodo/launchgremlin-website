@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "id": "sample-lead-01",
+    "name": "Acme Ventures",
+    "email": "",
+    "company": "Acme Corp",
+    "service": "Website Development",
+    "summary": "What type of website do you need?:\n👉 Modern Web Application\n\nRequired features & integrations:\n👉 SEO setup & Analytics\n\nAdditional Project Notes:\nClean modern design for digital launch.",
+    "challenge": "Scaling customer acquisition and presenting a premium digital brand.",
+    "timeline": "3 weeks",
+    "budget": "$15,000",
+    "guide": "LaunchGremlin Customised Project Guide\nService: Website Development\nClient / Company: Acme Corp\n\n========================================\n1. PROJECT SPECS\n========================================\n- **What type of website do you need?**: Modern Web Application\n- **Required features & integrations**: SEO setup & Analytics\n- **Main Challenge**: Scaling customer acquisition\n- **Target Timeline**: 3 weeks\n- **Target Budget**: $15,000\n\n========================================\n2. TAILORED ROADMAP\n========================================\n1. Design Discovery: Select colour themes, typography, and wireframe layout.\n2. Static Build: Develop high-performance responsive page components.\n3. Dynamic Integrations: Connect contact forms and analytics.\n4. Launch & DNS: Connect custom domain and submit sitemaps.\n\n========================================\n3. RECOMMENDED NEXT STEPS\n========================================\n- Review the suggested roadmap above to align on core milestones.\n- Schedule a 15-minute discovery call to finalise scope details.\n- Get a formal fixed-price proposal and project agreement.\n\nPrepared for: Acme Ventures",
+    "status": "New",
+    "notes": "Sample lead for demonstration",
+    "created_at": "2026-07-20T10:00:00.000Z"
+  }
+]
