@@ -46,6 +46,7 @@ const sendLeadEmailNotification = async (lead) => {
           <table style="width: 100%; border-collapse: collapse; margin-top: 24px; color: #ffffff; font-size: 14px;">
             <tr style="border-bottom: 1px solid #27272a;"><td style="padding: 12px; font-weight: bold; color: #34d399; width: 140px;">Name</td><td style="padding: 12px;">${lead.name}</td></tr>
             <tr style="border-bottom: 1px solid #27272a;"><td style="padding: 12px; font-weight: bold; color: #34d399;">Email</td><td style="padding: 12px;"><a href="mailto:${lead.email}" style="color: #60a5fa; text-decoration: none;">${lead.email}</a></td></tr>
+            <tr style="border-bottom: 1px solid #27272a;"><td style="padding: 12px; font-weight: bold; color: #34d399;">Contact Phone</td><td style="padding: 12px; font-weight: bold; color: #34d399;"><a href="tel:${lead.phone || ''}" style="color: #34d399; text-decoration: none;">${lead.phone || 'N/A'}</a></td></tr>
             <tr style="border-bottom: 1px solid #27272a;"><td style="padding: 12px; font-weight: bold; color: #34d399;">Company</td><td style="padding: 12px;">${lead.company || 'N/A'}</td></tr>
             <tr style="border-bottom: 1px solid #27272a;"><td style="padding: 12px; font-weight: bold; color: #34d399;">Service Pillar</td><td style="padding: 12px; font-weight: bold; color: #facc15;">${lead.service}</td></tr>
             <tr style="border-bottom: 1px solid #27272a;"><td style="padding: 12px; font-weight: bold; color: #34d399;">Budget</td><td style="padding: 12px;">${lead.budget || 'N/A'}</td></tr>
@@ -109,6 +110,7 @@ if (MONGODB_URI) {
 const leadSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
+  phone: String,
   company: String,
   service: { type: String, required: true },
   summary: { type: String, required: true },
@@ -193,7 +195,7 @@ app.post('/api/auth/login', async (req, res) => {
 
 // 2. Submit a new lead (Public)
 app.post('/api/leads', async (req, res) => {
-  const { name, email, company, service, summary, details, challenge, timeline, budget, guide } = req.body;
+  const { name, email, phone, company, service, summary, details, challenge, timeline, budget, guide } = req.body;
 
   if (!name || !email || !service) {
     return res.status(400).json({ error: 'Required fields (name, email, service) are missing.' });
@@ -205,6 +207,7 @@ app.post('/api/leads', async (req, res) => {
   const leadData = {
     name,
     email,
+    phone: phone || '',
     company: company || '',
     service,
     summary: summaryText,

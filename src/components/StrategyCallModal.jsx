@@ -5,6 +5,7 @@ export default function StrategyCallModal({ isOpen, onClose }) {
   const [pillar, setPillar] = useState('Websites');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [company, setCompany] = useState('');
   const [budget, setBudget] = useState('R15k - R30k');
   const [details, setDetails] = useState('');
@@ -20,6 +21,7 @@ export default function StrategyCallModal({ isOpen, onClose }) {
     const payload = {
       name,
       email,
+      phone,
       company,
       service: pillar,
       budget,
@@ -111,7 +113,7 @@ export default function StrategyCallModal({ isOpen, onClose }) {
             </div>
 
             {/* User Details */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <label className="block text-xs font-medium text-zinc-300 mb-1">Your Name *</label>
                 <div className="relative">
@@ -137,6 +139,21 @@ export default function StrategyCallModal({ isOpen, onClose }) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="alex@company.com"
+                    className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-white focus:outline-none focus:border-emerald-400"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-zinc-300 mb-1">Contact Phone *</label>
+                <div className="relative">
+                  <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+                  <input
+                    type="tel"
+                    required
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="+27 82 123 4567"
                     className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-white focus:outline-none focus:border-emerald-400"
                   />
                 </div>
