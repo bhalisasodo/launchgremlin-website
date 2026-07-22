@@ -1,40 +1,20 @@
 import React from 'react';
-import { Globe, ArrowRight, Zap, Shield, CheckCircle, Code, Gauge, Layout, Sparkles } from 'lucide-react';
+import ServiceHeroBackground from '../components/common/ServiceHeroBackground';
+import WebsitesHeroScene from '../components/services/WebsitesHeroScene';
+import { Gauge, Code, Zap, CheckCircle } from 'lucide-react';
 
 export default function WebsitesPage({ onOpenBooking }) {
   return (
     <div className="space-y-20 pb-20">
-      {/* Hero Section */}
-      <section className="pt-16 max-w-5xl mx-auto px-6 text-center space-y-6">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono">
-          <Globe className="w-3.5 h-3.5" />
-          <span>Pillar 01 — Websites & Digital Products</span>
-        </div>
-
-        <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight">
-          High-Performance Web Products. <br />
-          <span className="text-emerald-400 italic">Built for Extreme Speed & Conversion.</span>
-        </h1>
-
-        <p className="text-zinc-300 text-base sm:text-lg max-w-2xl mx-auto font-light leading-relaxed">
-          We don&apos;t build slow, bloated WordPress templates. We engineer custom web applications using modern stacks like Vite, React, and Next.js that load in milliseconds and turn visitors into buyers.
-        </p>
-
-        <div className="pt-4 flex justify-center">
-          <button
-            onClick={onOpenBooking}
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-emerald-400 text-zinc-950 font-bold text-sm shadow-[0_0_25px_rgba(52,211,153,0.35)] hover:bg-emerald-300 transition-all"
-          >
-            <span>Start Website Build</span>
-            <ArrowRight className="w-4 h-4" />
-          </button>
-        </div>
-      </section>
+      {/* Handcrafted Service Hero System */}
+      <ServiceHeroBackground glowPosition="top-left">
+        <WebsitesHeroScene onOpenBooking={onOpenBooking} />
+      </ServiceHeroBackground>
 
       {/* Feature Grid */}
       <section className="max-w-6xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-8 rounded-3xl bg-zinc-900/80 border border-zinc-800 space-y-4">
+          <div className="p-8 rounded-3xl bg-zinc-900/80 border border-zinc-800 space-y-4 hover:border-emerald-400/40 transition-all">
             <div className="w-12 h-12 rounded-xl bg-zinc-950 border border-emerald-400/30 text-emerald-400 flex items-center justify-center">
               <Gauge className="w-6 h-6" />
             </div>
@@ -44,7 +24,7 @@ export default function WebsitesPage({ onOpenBooking }) {
             </p>
           </div>
 
-          <div className="p-8 rounded-3xl bg-zinc-900/80 border border-zinc-800 space-y-4">
+          <div className="p-8 rounded-3xl bg-zinc-900/80 border border-zinc-800 space-y-4 hover:border-emerald-400/40 transition-all">
             <div className="w-12 h-12 rounded-xl bg-zinc-950 border border-emerald-400/30 text-emerald-400 flex items-center justify-center">
               <Code className="w-6 h-6" />
             </div>
@@ -54,7 +34,7 @@ export default function WebsitesPage({ onOpenBooking }) {
             </p>
           </div>
 
-          <div className="p-8 rounded-3xl bg-zinc-900/80 border border-zinc-800 space-y-4">
+          <div className="p-8 rounded-3xl bg-zinc-900/80 border border-zinc-800 space-y-4 hover:border-emerald-400/40 transition-all">
             <div className="w-12 h-12 rounded-xl bg-zinc-950 border border-emerald-400/30 text-emerald-400 flex items-center justify-center">
               <Zap className="w-6 h-6" />
             </div>
