@@ -1,4 +1,5 @@
 import React from 'react';
+import HeroScene from './hero/HeroScene';
 import {
   Zap, ArrowRight, Phone, CheckCircle, Globe, TrendingUp, Bot,
   Heart, Play, UserPlus, Sparkles, ChevronRight, Star, Users, Award
@@ -181,16 +182,9 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
           </div>
         </div>
 
-        {/* RIGHT COLUMN — Immersive Creator Studio Scene & Floating UI Cards */}
+        {/* RIGHT COLUMN — 3D Modular Asset Composition */}
         <div className="lg:col-span-6 relative">
-          <div className="relative rounded-3xl overflow-hidden border border-emerald-400/30 shadow-[0_0_50px_rgba(52,211,153,0.15)] bg-zinc-900">
-            {/* Creator Reference High-Res Image */}
-            <img
-              src="/assets/hero-section-reference.png"
-              alt="LaunchGremlin Creator Studio Workspace"
-              className="w-full h-auto object-cover rounded-3xl"
-            />
-          </div>
+          <HeroScene />
         </div>
       </div>
 
