@@ -1,68 +1,12 @@
 import React from 'react';
+import HeroSection from '../components/HeroSection';
 import { ArrowRight, Sparkles, Globe, TrendingUp, Bot, ShieldCheck, Zap, Layers, RefreshCw, CheckCircle } from 'lucide-react';
 
 export default function HomePage({ onSelectTab, onOpenBooking }) {
   return (
     <div className="space-y-24 pb-20">
-      {/* HERO SECTION */}
-      <section className="relative pt-16 md:pt-24 pb-12 px-6 max-w-6xl mx-auto text-center z-10">
-        {/* Ambient Stardust Orbs */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none" />
-
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-zinc-900 border border-emerald-400/30 text-emerald-400 text-xs font-mono mb-8 animate-fade-up">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>The Growth Engine for Creators & Businesses</span>
-        </div>
-
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-[1.1] mb-8 text-white max-w-4xl mx-auto">
-          Build. Grow. Scale. <br />
-          <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500 bg-clip-text text-transparent italic">
-            Internet Native & AI Powered.
-          </span>
-        </h1>
-
-        <p className="text-base sm:text-xl text-zinc-300 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
-          We help ambitious creators, founders, and enterprises engineer high-performance websites, launch viral content engines, and deploy custom AI workflows.
-        </p>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button
-            onClick={onOpenBooking}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-emerald-400 text-zinc-950 font-extrabold text-base shadow-[0_0_30px_rgba(52,211,153,0.35)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all"
-          >
-            <span>Book a Strategy Call</span>
-            <ArrowRight className="w-5 h-5" />
-          </button>
-
-          <button
-            onClick={() => onSelectTab('websites')}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-zinc-900 border border-zinc-800 text-zinc-200 font-semibold text-base hover:text-white hover:border-zinc-700 transition-all"
-          >
-            <Globe className="w-5 h-5 text-emerald-400" />
-            <span>Explore Pillars</span>
-          </button>
-        </div>
-
-        {/* Live System Metrics Ticker */}
-        <div className="mt-16 pt-8 border-t border-zinc-900 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto text-left">
-          <div>
-            <span className="text-2xl sm:text-3xl font-extrabold text-white font-mono">100/100</span>
-            <span className="text-xs text-zinc-500 block font-mono">Lighthouse Speed</span>
-          </div>
-          <div>
-            <span className="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-mono">3.4x</span>
-            <span className="text-xs text-zinc-500 block font-mono">Avg Conversion Lift</span>
-          </div>
-          <div>
-            <span className="text-2xl sm:text-3xl font-extrabold text-white font-mono">15+</span>
-            <span className="text-xs text-zinc-500 block font-mono">Custom AI Workflows</span>
-          </div>
-          <div>
-            <span className="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-mono">24/7</span>
-            <span className="text-xs text-zinc-500 block font-mono">Continuous Delivery</span>
-          </div>
-        </div>
-      </section>
+      {/* REDESIGNED CREATOR HERO SECTION */}
+      <HeroSection onSelectTab={onSelectTab} onOpenBooking={onOpenBooking} />
 
       {/* THREE STRATEGIC PILLARS GRID */}
       <section className="px-6 max-w-7xl mx-auto">

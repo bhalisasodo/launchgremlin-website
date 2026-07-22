@@ -11,7 +11,6 @@ export default function Navbar({
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   const navLinks = [
-    { id: 'home', label: 'Home' },
     { id: 'websites', label: 'Websites' },
     { id: 'content-strategy', label: 'Content Strategy' },
     { id: 'ai-consulting', label: 'AI Consulting' },
