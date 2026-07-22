@@ -7,6 +7,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
+import nodemailer from 'nodemailer';
 
 dotenv.config();
 
@@ -19,6 +20,64 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || 'launchgremlin_super_secret_dev_key';
+const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || 'bhalisasodo10@gmail.com';
+
+// ---------------- Email Notification Dispatcher ----------------
+const sendLeadEmailNotification = async (lead) => {
+  const recipient = NOTIFICATION_EMAIL;
+  const smtpHost = process.env.SMTP_HOST;
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
+
+  if (smtpHost && smtpUser && smtpPass) {
+    try {
+      const transporter = nodemailer.createTransport({
+        host: smtpHost,
+        port: parseInt(process.env.SMTP_PORT || '587'),
+        secure: process.env.SMTP_SECURE === 'true',
+        auth: { user: smtpUser, pass: smtpPass },
+      });
+
+      const htmlContent = `
+        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #09090b; color: #ffffff; padding: 32px; border-radius: 16px; border: 1px solid #27272a;">
+          <h2 style="color: #34d399; margin-top: 0; font-size: 22px;">🚀 New LaunchGremlin Lead Alert</h2>
+          <p style="color: #a1a1aa; font-size: 14px;">A new lead has submitted a strategy inquiry for recipient: <strong>${recipient}</strong>.</p>
+          
+          <table style="width: 100%; border-collapse: collapse; margin-top: 24px; color: #ffffff; font-size: 14px;">
+            <tr style="border-bottom: 1px solid #27272a;"><td style="padding: 12px; font-weight: bold; color: #34d399; width: 140px;">Name</td><td style="padding: 12px;">${lead.name}</td></tr>
+            <tr style="border-bottom: 1px solid #27272a;"><td style="padding: 12px; font-weight: bold; color: #34d399;">Email</td><td style="padding: 12px;"><a href="mailto:${lead.email}" style="color: #60a5fa; text-decoration: none;">${lead.email}</a></td></tr>
+            <tr style="border-bottom: 1px solid #27272a;"><td style="padding: 12px; font-weight: bold; color: #34d399;">Company</td><td style="padding: 12px;">${lead.company || 'N/A'}</td></tr>
+            <tr style="border-bottom: 1px solid #27272a;"><td style="padding: 12px; font-weight: bold; color: #34d399;">Service Pillar</td><td style="padding: 12px; font-weight: bold; color: #facc15;">${lead.service}</td></tr>
+            <tr style="border-bottom: 1px solid #27272a;"><td style="padding: 12px; font-weight: bold; color: #34d399;">Budget</td><td style="padding: 12px;">${lead.budget || 'N/A'}</td></tr>
+            <tr style="border-bottom: 1px solid #27272a;"><td style="padding: 12px; font-weight: bold; color: #34d399;">Summary / Details</td><td style="padding: 12px;">${lead.summary || lead.details || lead.challenge || 'N/A'}</td></tr>
+            <tr><td style="padding: 12px; font-weight: bold; color: #34d399;">Submitted At</td><td style="padding: 12px; font-family: monospace;">${new Date().toLocaleString()}</td></tr>
+          </table>
+        </div>
+      `;
+
+      await transporter.sendMail({
+        from: `"LaunchGremlin Engine" <${smtpUser}>`,
+        to: recipient,
+        subject: `🚨 New Lead: ${lead.name} — ${lead.service} (${lead.company || 'Direct Client'})`,
+        html: htmlContent,
+      });
+      console.log(`[Email] Lead notification email dispatched to ${recipient}`);
+    } catch (err) {
+      console.error('[Email] Failed to send email via SMTP:', err.message);
+    }
+  } else {
+    // Log formatted email alert payload when SMTP config is pending
+    console.log(`\n======================================================`);
+    console.log(`🚨 [AUTOMATED LEAD ALERT DISPATCHED TO: ${recipient}]`);
+    console.log(`Name: ${lead.name}`);
+    console.log(`Email: ${lead.email}`);
+    console.log(`Company: ${lead.company || 'N/A'}`);
+    console.log(`Service Pillar: ${lead.service}`);
+    console.log(`Budget: ${lead.budget || 'N/A'}`);
+    console.log(`Details: ${lead.summary || lead.details || lead.challenge || 'N/A'}`);
+    console.log(`======================================================\n`);
+  }
+};
 
 // Default development credentials
 const DEV_ADMIN_PASSWORD = 'admin123';
@@ -134,19 +193,22 @@ app.post('/api/auth/login', async (req, res) => {
 
 // 2. Submit a new lead (Public)
 app.post('/api/leads', async (req, res) => {
-  const { name, email, company, service, summary, challenge, timeline, budget, guide } = req.body;
+  const { name, email, company, service, summary, details, challenge, timeline, budget, guide } = req.body;
 
-  if (!name || !email || !service || !summary || !challenge) {
-    return res.status(400).json({ error: 'Required fields are missing.' });
+  if (!name || !email || !service) {
+    return res.status(400).json({ error: 'Required fields (name, email, service) are missing.' });
   }
+
+  const summaryText = summary || details || challenge || 'Direct Strategy Inquiry';
+  const challengeText = challenge || details || summary || 'N/A';
 
   const leadData = {
     name,
     email,
     company: company || '',
     service,
-    summary,
-    challenge,
+    summary: summaryText,
+    challenge: challengeText,
     timeline: timeline || '',
     budget: budget || '',
     guide: guide || '',
@@ -156,20 +218,24 @@ app.post('/api/leads', async (req, res) => {
   };
 
   try {
+    let createdLead;
     if (useMongoose) {
       const newLead = new Lead(leadData);
-      await newLead.save();
-      return res.status(201).json(newLead);
+      createdLead = await newLead.save();
     } else {
       const leads = readLocalLeads();
-      const newLead = {
+      createdLead = {
         id: Math.random().toString(36).substring(2) + Date.now().toString(36),
         ...leadData
       };
-      leads.push(newLead);
+      leads.push(createdLead);
       writeLocalLeads(leads);
-      return res.status(201).json(newLead);
     }
+
+    // Trigger automated email alert to bhalisasodo10@gmail.com
+    sendLeadEmailNotification(createdLead);
+
+    return res.status(201).json(createdLead);
   } catch (err) {
     console.error('[API] Error saving lead:', err);
     return res.status(500).json({ error: 'Failed to save lead.' });
