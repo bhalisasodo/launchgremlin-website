@@ -4,12 +4,12 @@ export default function HeroLaptop({ style }) {
   return (
     <div
       style={style}
-      className="absolute z-25 w-[54%] max-w-[315px] transform -rotate-[5deg] hover:-rotate-[2deg] transition-all duration-500 will-change-transform pointer-events-auto"
+      className="absolute z-25 w-[52%] max-w-[310px] transform -rotate-[5deg] hover:-rotate-[2deg] transition-all duration-500 will-change-transform pointer-events-auto"
     >
-      {/* Realist Diffused Directional Ground Shadow (Light from Upper-Left) */}
-      <div className="absolute inset-x-2 bottom-[-10px] h-12 bg-black/80 blur-xl rounded-full pointer-events-none transform translate-x-4 translate-y-2" />
+      {/* Realist Workspace Ground Shadow (Upper-Left Light Source) */}
+      <div className="absolute inset-x-2 bottom-[-10px] h-12 bg-black/85 blur-xl rounded-full pointer-events-none transform translate-x-4 translate-y-2" />
 
-      {/* Production Laptop Asset Container with New High-Res Transparent Image */}
+      {/* Production Transparent Laptop Container */}
       <div className="relative z-10 overflow-hidden rounded-2xl">
         <img
           src="/assets/laptop-trans.png"
@@ -20,7 +20,7 @@ export default function HeroLaptop({ style }) {
             WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 98%)',
           }}
         />
-        {/* Soft Shadow Vignette Mask for Seamless Lighting Blend */}
+        {/* Soft Vignette Overlay for Workspace Depth */}
         <div className="absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-zinc-950 via-zinc-950/70 to-transparent pointer-events-none" />
       </div>
     </div>
