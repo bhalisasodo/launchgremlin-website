@@ -4,14 +4,14 @@ import { Heart, Play, UserPlus, Instagram, Youtube, Linkedin, Sparkles } from 'l
 export default function HeroFloatingUI() {
   return (
     <>
-      {/* 1. Top Left Card: New Follower (+1° rotation + floatSlow) */}
-      <div className="absolute top-[28px] left-[20px] sm:top-[35px] sm:left-[30px] z-30 transform rotate-[1deg] animate-float-slow pointer-events-auto">
-        <div className="p-3.5 rounded-2xl bg-zinc-950/90 border border-emerald-400/40 backdrop-blur-2xl shadow-[0_12px_30px_rgba(0,0,0,0.7)] flex items-center gap-3.5 group hover:scale-105 transition-all">
+      {/* 1. Top Left Card: New Follower (-2° rotation + floatSlow) */}
+      <div className="absolute top-[25px] left-[15px] sm:top-[30px] sm:left-[25px] z-35 transform -rotate-[2deg] animate-float-slow pointer-events-auto">
+        <div className="p-3 sm:p-3.5 rounded-2xl bg-zinc-950/85 border border-white/10 backdrop-blur-xl shadow-[0_15px_30px_rgba(0,0,0,0.75)] flex items-center gap-3 group hover:scale-105 transition-all">
           <div className="relative">
-            <div className="w-9 h-9 rounded-full bg-emerald-400/20 text-emerald-400 flex items-center justify-center font-bold text-xs shrink-0 border border-emerald-400/40 shadow-[0_0_12px_rgba(52,211,153,0.3)]">
+            <div className="w-8.5 h-8.5 rounded-full bg-emerald-400/20 text-emerald-400 flex items-center justify-center font-bold text-xs shrink-0 border border-emerald-400/40">
               <UserPlus className="w-4 h-4" />
             </div>
-            <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-emerald-400 border-2 border-zinc-950 animate-ping" />
+            <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-zinc-950 animate-ping" />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
@@ -25,9 +25,9 @@ export default function HeroFloatingUI() {
         </div>
       </div>
 
-      {/* 2. Lower Left Card: Views (-3° rotation + floatReverse) */}
-      <div className="absolute top-[270px] left-[15px] sm:top-[290px] sm:left-[25px] z-30 transform -rotate-[3deg] animate-float-reverse pointer-events-auto">
-        <div className="px-4 py-2.5 rounded-2xl bg-zinc-950/90 border border-emerald-400/35 backdrop-blur-2xl text-xs font-mono text-emerald-400 flex items-center gap-2.5 shadow-[0_12px_25px_rgba(0,0,0,0.6)] hover:scale-105 transition-all">
+      {/* 2. Middle Left Card: Views (-1° rotation + floatReverse) */}
+      <div className="absolute top-[260px] left-[10px] sm:top-[280px] sm:left-[20px] z-35 transform -rotate-[1deg] animate-float-reverse pointer-events-auto">
+        <div className="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl bg-zinc-950/85 border border-white/10 backdrop-blur-xl text-xs font-mono text-emerald-400 flex items-center gap-2.5 shadow-[0_15px_30px_rgba(0,0,0,0.7)] hover:scale-105 transition-all">
           <div className="p-1.5 rounded-lg bg-emerald-400/20 text-emerald-400 border border-emerald-400/30">
             <Play className="w-3.5 h-3.5 fill-emerald-400" />
           </div>
@@ -36,9 +36,9 @@ export default function HeroFloatingUI() {
         </div>
       </div>
 
-      {/* 3. Lower Left Card (beneath Views): Likes (+4° rotation + floatSlow) */}
-      <div className="absolute top-[330px] left-[30px] sm:top-[355px] sm:left-[45px] z-30 transform rotate-[4deg] animate-float-slow pointer-events-auto">
-        <div className="px-4 py-2.5 rounded-2xl bg-zinc-950/90 border border-rose-500/35 backdrop-blur-2xl text-xs font-mono text-rose-400 flex items-center gap-2.5 shadow-[0_12px_25px_rgba(0,0,0,0.6)] hover:scale-105 transition-all">
+      {/* 3. Lower Left Card: Likes (+2° rotation + floatSlow) */}
+      <div className="absolute top-[320px] left-[25px] sm:top-[345px] sm:left-[35px] z-35 transform rotate-[2deg] animate-float-slow pointer-events-auto">
+        <div className="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl bg-zinc-950/85 border border-white/10 backdrop-blur-xl text-xs font-mono text-rose-400 flex items-center gap-2.5 shadow-[0_15px_30px_rgba(0,0,0,0.7)] hover:scale-105 transition-all">
           <div className="p-1.5 rounded-lg bg-rose-500/20 text-rose-400 border border-rose-500/30">
             <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500" />
           </div>
@@ -47,8 +47,8 @@ export default function HeroFloatingUI() {
         </div>
       </div>
 
-      {/* 4. Lower Accent: Creator Sticky Note (-3° rotation + floatReverse) */}
-      <div className="absolute bottom-[20px] left-[15px] sm:bottom-[30px] sm:left-[25px] z-30 p-3.5 rounded-2xl bg-amber-400 text-zinc-950 font-mono text-[10px] font-extrabold shadow-[0_12px_30px_rgba(251,191,36,0.35)] transform -rotate-[3deg] animate-float-reverse pointer-events-auto hidden sm:block">
+      {/* 4. Lower Left Sticky Note (-3° rotation) */}
+      <div className="absolute bottom-[20px] left-[15px] sm:bottom-[25px] sm:left-[25px] z-35 p-3 rounded-2xl bg-amber-400 text-zinc-950 font-mono text-[10px] font-extrabold shadow-[0_15px_30px_rgba(251,191,36,0.3)] transform -rotate-[3deg] animate-float-reverse pointer-events-auto hidden sm:block">
         <div className="space-y-1 leading-tight tracking-wider">
           <div className="flex items-center gap-1.5"><span>💡</span> <span>IDEA</span></div>
           <div className="flex items-center gap-1.5"><span>📊</span> <span>PLAN</span></div>
@@ -57,15 +57,15 @@ export default function HeroFloatingUI() {
         </div>
       </div>
 
-      {/* 5. Social Stack Sidebar */}
-      <div className="absolute right-[15px] top-[140px] z-30 flex flex-col gap-2.5 p-2 rounded-2xl bg-zinc-950/90 border border-zinc-800/90 backdrop-blur-xl shadow-2xl pointer-events-auto hidden sm:flex">
-        <span className="p-2 rounded-xl text-zinc-400 hover:text-emerald-400 hover:bg-zinc-900 transition-all">
+      {/* 5. Social Media Sidebar Stack */}
+      <div className="absolute right-[15px] top-[140px] z-35 flex flex-col gap-2 p-2 rounded-2xl bg-zinc-950/85 border border-white/10 backdrop-blur-xl shadow-[0_15px_30px_rgba(0,0,0,0.7)] pointer-events-auto hidden sm:flex">
+        <span className="p-1.5 rounded-xl text-zinc-400 hover:text-emerald-400 hover:bg-zinc-900 transition-all">
           <Instagram className="w-3.5 h-3.5" />
         </span>
-        <span className="p-2 rounded-xl text-zinc-400 hover:text-emerald-400 hover:bg-zinc-900 transition-all">
+        <span className="p-1.5 rounded-xl text-zinc-400 hover:text-emerald-400 hover:bg-zinc-900 transition-all">
           <Youtube className="w-3.5 h-3.5" />
         </span>
-        <span className="p-2 rounded-xl text-zinc-400 hover:text-emerald-400 hover:bg-zinc-900 transition-all">
+        <span className="p-1.5 rounded-xl text-zinc-400 hover:text-emerald-400 hover:bg-zinc-900 transition-all">
           <Linkedin className="w-3.5 h-3.5" />
         </span>
       </div>

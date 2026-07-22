@@ -4,16 +4,22 @@ export default function HeroPhone({ style }) {
   return (
     <div
       style={style}
-      className="absolute z-25 w-[28%] max-w-[150px] transform rotate-[6deg] hover:rotate-[2deg] transition-all duration-500 pointer-events-auto"
+      className="absolute z-25 w-[22%] max-w-[125px] transform rotate-[6deg] hover:rotate-[2deg] transition-all duration-500 pointer-events-auto"
     >
-      {/* Smartphone Ambient Shadow */}
-      <div className="absolute inset-0 bg-emerald-400/20 blur-xl rounded-2xl pointer-events-none" />
+      {/* Soft Directional Shadow (Upper-Left Light Source) */}
+      <div className="absolute inset-0 bg-black/60 blur-lg rounded-2xl pointer-events-none transform translate-x-2 translate-y-3" />
 
-      <img
-        src="/assets/smartphones.png"
-        alt="LaunchGremlin Creator Smartphone"
-        className="w-full h-auto object-contain relative z-10 drop-shadow-[0_15px_30px_rgba(0,0,0,0.9)]"
-      />
+      <div className="relative z-10 overflow-hidden rounded-xl">
+        <img
+          src="/assets/smartphones.png"
+          alt="LaunchGremlin Creator Smartphone"
+          className="w-full h-auto object-contain drop-shadow-[-10px_15px_30px_rgba(0,0,0,0.85)]"
+          style={{
+            maskImage: 'linear-gradient(to bottom, black 80%, transparent 98%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 98%)',
+          }}
+        />
+      </div>
     </div>
   );
 }

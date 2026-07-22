@@ -4,9 +4,9 @@ import { TrendingUp, BarChart2, Zap } from 'lucide-react';
 export default function HeroAnalytics() {
   return (
     <>
-      {/* 1. Top Right Card: Audience Growth (+2° rotation + floatSlow) */}
-      <div className="absolute top-[20px] right-[15px] sm:top-[25px] sm:right-[25px] z-30 transform rotate-[2deg] animate-float-slow pointer-events-auto">
-        <div className="p-4 rounded-2xl bg-zinc-950/90 border border-emerald-400/35 backdrop-blur-2xl shadow-[0_15px_35px_rgba(0,0,0,0.7)] w-48 sm:w-52 hover:scale-105 transition-all">
+      {/* 1. Top Right Card: Audience Growth (+3° rotation + floatSlow) */}
+      <div className="absolute top-[20px] right-[15px] sm:top-[25px] sm:right-[25px] z-35 transform rotate-[3deg] animate-float-slow pointer-events-auto">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-zinc-950/85 border border-white/10 backdrop-blur-xl shadow-[0_15px_30px_rgba(0,0,0,0.7)] w-48 sm:w-52 hover:scale-105 transition-all">
           <div className="flex items-center justify-between text-xs mb-1.5">
             <span className="font-mono text-zinc-400 text-[10px] uppercase font-bold tracking-wider">
               Audience Growth
@@ -16,15 +16,15 @@ export default function HeroAnalytics() {
             </span>
           </div>
           {/* Mini Line Chart Graphic */}
-          <svg viewBox="0 0 100 30" className="w-full h-8 stroke-emerald-400 fill-none stroke-2 drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]">
+          <svg viewBox="0 0 100 30" className="w-full h-8 stroke-emerald-400 fill-none stroke-2 drop-shadow-[0_0_8px_rgba(52,211,153,0.4)]">
             <path d="M0 25 Q20 20 40 18 T80 8 T100 2" strokeLinecap="round" />
           </svg>
         </div>
       </div>
 
       {/* 2. Middle Right Card: Engagement Rate (-2° rotation + floatReverse) */}
-      <div className="absolute top-[160px] right-[15px] sm:top-[175px] sm:right-[20px] z-30 transform -rotate-[2deg] animate-float-reverse pointer-events-auto">
-        <div className="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800/90 backdrop-blur-2xl shadow-[0_12px_30px_rgba(0,0,0,0.6)] w-44 sm:w-48 hover:scale-105 transition-all">
+      <div className="absolute top-[160px] right-[15px] sm:top-[175px] sm:right-[20px] z-35 transform -rotate-[2deg] animate-float-reverse pointer-events-auto">
+        <div className="p-3 sm:p-3.5 rounded-2xl bg-zinc-950/85 border border-white/10 backdrop-blur-xl shadow-[0_15px_30px_rgba(0,0,0,0.7)] w-44 sm:w-48 hover:scale-105 transition-all">
           <div className="flex items-center justify-between text-xs">
             <span className="font-mono text-zinc-400 text-[10px] uppercase font-bold tracking-wider">
               Engagement Rate
