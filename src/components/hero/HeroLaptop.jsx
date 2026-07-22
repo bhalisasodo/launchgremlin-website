@@ -9,18 +9,18 @@ export default function HeroLaptop({ style }) {
       {/* Realist Diffused Directional Ground Shadow (Light from Upper-Left) */}
       <div className="absolute inset-x-2 bottom-[-10px] h-12 bg-black/80 blur-xl rounded-full pointer-events-none transform translate-x-4 translate-y-2" />
 
-      {/* Production Laptop Asset Container with Strict Alpha Gradient Mask */}
+      {/* Production Laptop Asset Container with New High-Res Transparent Image */}
       <div className="relative z-10 overflow-hidden rounded-2xl">
         <img
-          src="/assets/laptop-transparent.png"
+          src="/assets/laptop-trans.png"
           alt="LaunchGremlin Studio Laptop"
           className="w-full h-auto object-contain drop-shadow-[-15px_20px_40px_rgba(0,0,0,0.9)]"
           style={{
-            maskImage: 'linear-gradient(to bottom, black 65%, transparent 95%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, black 65%, transparent 95%)',
+            maskImage: 'linear-gradient(to bottom, black 70%, transparent 98%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 98%)',
           }}
         />
-        {/* Soft Shadow Vignette Mask to eliminate any potential checkerboard trace */}
+        {/* Soft Shadow Vignette Mask for Seamless Lighting Blend */}
         <div className="absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-zinc-950 via-zinc-950/70 to-transparent pointer-events-none" />
       </div>
     </div>
