@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, Play, UserPlus, Instagram, Youtube, Linkedin, Sparkles } from 'lucide-react';
+import { Heart, Play, UserPlus, Instagram, Sparkles } from 'lucide-react';
 
 export default function HeroFloatingUI() {
   return (
@@ -57,17 +57,28 @@ export default function HeroFloatingUI() {
         </div>
       </div>
 
-      {/* 5. Social Stack Sidebar */}
+      {/* 5. Social Stack Sidebar (TikTok & Instagram) */}
       <div className="absolute right-[15px] top-[125px] z-35 flex flex-col gap-2 p-2 rounded-2xl bg-zinc-950/85 border border-white/10 backdrop-blur-xl shadow-[0_15px_30px_rgba(0,0,0,0.7)] pointer-events-auto hidden sm:flex">
-        <span className="p-1.5 rounded-xl text-zinc-400 hover:text-emerald-400 hover:bg-zinc-900 transition-all">
+        <a
+          href="https://www.tiktok.com/@launchgremlin"
+          target="_blank"
+          rel="noreferrer"
+          className="p-1.5 rounded-xl text-zinc-400 hover:text-emerald-400 hover:bg-zinc-900 transition-all"
+          title="TikTok: @launchgremlin"
+        >
+          <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 1 1-5.2-1.74 2.89 2.89 0 0 1 2.31-2.84V7.59a6.34 6.34 0 0 0-5.11 6.18A6.34 6.34 0 1 0 15.8 7.61a8.31 8.31 0 0 0 3.79.95v-3.47a4.87 4.87 0 0 1 0 1.6z"/>
+          </svg>
+        </a>
+        <a
+          href="https://www.instagram.com/launchgremlin/"
+          target="_blank"
+          rel="noreferrer"
+          className="p-1.5 rounded-xl text-zinc-400 hover:text-emerald-400 hover:bg-zinc-900 transition-all"
+          title="Instagram: @launchgremlin"
+        >
           <Instagram className="w-3.5 h-3.5" />
-        </span>
-        <span className="p-1.5 rounded-xl text-zinc-400 hover:text-emerald-400 hover:bg-zinc-900 transition-all">
-          <Youtube className="w-3.5 h-3.5" />
-        </span>
-        <span className="p-1.5 rounded-xl text-zinc-400 hover:text-emerald-400 hover:bg-zinc-900 transition-all">
-          <Linkedin className="w-3.5 h-3.5" />
-        </span>
+        </a>
       </div>
     </>
   );

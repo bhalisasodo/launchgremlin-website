@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Calendar, Mail, ArrowRight, Check, Send, Globe, Twitter, Linkedin, Github } from 'lucide-react';
+import { Sparkles, Calendar, Mail, ArrowRight, Check, Send, Globe, Instagram } from 'lucide-react';
 
 export default function MaintenancePage({ onOpenBookingModal }) {
   const [emailInput, setEmailInput] = useState('');
@@ -133,14 +133,27 @@ export default function MaintenancePage({ onOpenBookingModal }) {
         </div>
 
         <div className="flex items-center gap-5 text-zinc-400">
-          <a href="https://twitter.com" target="_blank" rel="noreferrer" className="hover:text-emerald-400 transition-colors">
-            <Twitter className="w-4 h-4" />
+          <a
+            href="https://www.tiktok.com/@launchgremlin"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-emerald-400 transition-colors flex items-center gap-1.5"
+            title="LaunchGremlin TikTok"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 1 1-5.2-1.74 2.89 2.89 0 0 1 2.31-2.84V7.59a6.34 6.34 0 0 0-5.11 6.18A6.34 6.34 0 1 0 15.8 7.61a8.31 8.31 0 0 0 3.79.95v-3.47a4.87 4.87 0 0 1 0 1.6z"/>
+            </svg>
+            <span>TikTok</span>
           </a>
-          <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-emerald-400 transition-colors">
-            <Linkedin className="w-4 h-4" />
-          </a>
-          <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-emerald-400 transition-colors">
-            <Github className="w-4 h-4" />
+          <a
+            href="https://www.instagram.com/launchgremlin/"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-emerald-400 transition-colors flex items-center gap-1.5"
+            title="LaunchGremlin Instagram"
+          >
+            <Instagram className="w-4 h-4" />
+            <span>Instagram</span>
           </a>
         </div>
       </footer>
