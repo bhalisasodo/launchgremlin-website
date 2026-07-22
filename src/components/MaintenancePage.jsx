@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Sparkles, Calendar, Mail, ArrowRight, Check, Send, Globe, Twitter, Linkedin, Github } from 'lucide-react';
 
-export default function MaintenancePage({ onOpenBookingModal, onPreviewSite }) {
+export default function MaintenancePage({ onOpenBookingModal }) {
   const [emailInput, setEmailInput] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -36,15 +36,6 @@ export default function MaintenancePage({ onOpenBookingModal, onPreviewSite }) {
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span>Strategic Upgrade in Progress</span>
           </span>
-
-          {onPreviewSite && (
-            <button
-              onClick={onPreviewSite}
-              className="px-3 py-1 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-zinc-400 hover:text-white hover:border-emerald-400 transition-all font-mono"
-            >
-              Preview Live Site →
-            </button>
-          )}
         </div>
       </header>
 

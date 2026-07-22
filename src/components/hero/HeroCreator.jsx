@@ -1,16 +1,19 @@
 import React from 'react';
 
-export default function HeroCreator() {
+export default function HeroCreator({ style }) {
   return (
-    <div className="relative z-10 w-full max-w-[480px] mx-auto transition-transform duration-500 hover:scale-[1.02]">
-      {/* Neon Green Ambient Ring Glow Behind Creator */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] sm:w-[420px] sm:h-[420px] rounded-full border-2 border-emerald-400/40 shadow-[0_0_80px_rgba(52,211,153,0.35)] bg-emerald-400/5 animate-pulse-slow pointer-events-none" />
+    <div
+      style={style}
+      className="absolute z-10 w-[112%] max-w-[540px] transition-all duration-500 will-change-transform pointer-events-none"
+    >
+      {/* Radial Green Glow behind Creator for crisp background separation */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[380px] h-[380px] sm:w-[460px] sm:h-[460px] rounded-full border border-emerald-400/30 shadow-[0_0_120px_rgba(52,211,153,0.35)] bg-emerald-400/10 blur-xl animate-pulse-slow pointer-events-none" />
 
-      {/* Production Creator Image Asset */}
+      {/* Creator Handcrafted Artwork Image */}
       <img
         src="/assets/hero-creator.png"
         alt="LaunchGremlin Creator"
-        className="w-full h-auto object-contain relative z-10 drop-shadow-[0_15px_30px_rgba(0,0,0,0.7)]"
+        className="w-full h-auto object-contain relative z-10 drop-shadow-[0_20px_40px_rgba(0,0,0,0.85)] filter contrast-[1.05]"
       />
     </div>
   );

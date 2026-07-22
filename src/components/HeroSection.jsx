@@ -24,21 +24,22 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
       {/* Main 2-Column Hero Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         {/* LEFT COLUMN — Value Proposition & Pillar Cards */}
-        <div className="lg:col-span-6 space-y-6">
+        <div className="lg:col-span-6 space-y-6 relative z-10">
           {/* Top Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900/90 border border-emerald-400/40 text-emerald-400 text-xs font-mono font-bold tracking-wider shadow-[0_0_15px_rgba(52,211,153,0.2)]">
             <Zap className="w-3.5 h-3.5 fill-current" />
             <span>FOR CREATORS. BY CREATORS.</span>
           </div>
 
-          {/* Headline */}
-          <div className="space-y-1">
+          {/* Headline with Seamless Flowing Underline into Hero Scene */}
+          <div className="space-y-1 relative">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.05] uppercase">
               BUILD WEBSITES. <br />
               <span className="relative inline-block text-emerald-400">
                 GROW AUDIENCES.
+                {/* Underline SVG */}
                 <svg
-                  className="absolute -bottom-2 inset-x-0 w-full h-3 text-emerald-400/80"
+                  className="absolute -bottom-2 inset-x-0 w-full h-3 text-emerald-400/80 overflow-visible"
                   viewBox="0 0 300 12"
                   fill="none"
                 >
@@ -53,6 +54,27 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
               <br />
               SCALE WITH AI.
             </h1>
+
+            {/* Glowing Flow Line connecting GROW AUDIENCES to Right Art Scene (Desktop) */}
+            <div className="hidden lg:block absolute left-[85%] top-[45%] w-[180px] h-[60px] pointer-events-none z-20">
+              <svg className="w-full h-full overflow-visible" viewBox="0 0 180 60" fill="none">
+                <path
+                  d="M0 10 C 60 10, 100 45, 180 35"
+                  stroke="url(#headlineFlowGlow)"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeDasharray="6 4"
+                  className="animate-pulse"
+                />
+                <circle cx="180" cy="35" r="4" fill="#34d399" className="animate-ping" />
+                <defs>
+                  <linearGradient id="headlineFlowGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#34d399" stopOpacity="0.9" />
+                    <stop offset="100%" stopColor="#059669" stopOpacity="0.4" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
           </div>
 
           {/* Supporting Copy */}
@@ -182,8 +204,8 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
           </div>
         </div>
 
-        {/* RIGHT COLUMN — 3D Modular Asset Composition */}
-        <div className="lg:col-span-6 relative">
+        {/* RIGHT COLUMN — Art Directed Handcrafted 3D Scene */}
+        <div className="lg:col-span-6 relative mt-6 lg:mt-0">
           <HeroScene />
         </div>
       </div>
