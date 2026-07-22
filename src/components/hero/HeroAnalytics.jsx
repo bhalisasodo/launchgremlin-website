@@ -5,7 +5,7 @@ export default function HeroAnalytics() {
   return (
     <>
       {/* 1. Top Right Card: Audience Growth (+3° rotation + floatSlow) */}
-      <div className="absolute top-[15px] right-[20px] sm:top-[20px] sm:right-[30px] z-35 transform rotate-[3deg] animate-float-slow pointer-events-auto">
+      <div className="absolute top-[15px] right-[20px] sm:top-[20px] sm:right-[25px] z-35 transform rotate-[3deg] animate-float-slow pointer-events-auto">
         <div className="p-3.5 sm:p-4 rounded-2xl bg-zinc-950/85 border border-white/10 backdrop-blur-xl shadow-[0_15px_30px_rgba(0,0,0,0.7)] w-48 sm:w-52 hover:scale-105 transition-all">
           <div className="flex items-center justify-between text-xs mb-1.5">
             <span className="font-mono text-zinc-400 text-[10px] uppercase font-bold tracking-wider">
@@ -22,8 +22,8 @@ export default function HeroAnalytics() {
         </div>
       </div>
 
-      {/* 2. Right Shoulder Card: Engagement Rate (-2° rotation + floatReverse) */}
-      <div className="absolute top-[160px] right-[25px] sm:top-[175px] sm:right-[35px] z-35 transform -rotate-[2deg] animate-float-reverse pointer-events-auto">
+      {/* 2. Right / Shoulder Card: Engagement Rate (-2° rotation + floatReverse) */}
+      <div className="absolute top-[165px] right-[20px] sm:top-[180px] sm:right-[30px] z-35 transform -rotate-[2deg] animate-float-reverse pointer-events-auto">
         <div className="p-3 sm:p-3.5 rounded-2xl bg-zinc-950/85 border border-white/10 backdrop-blur-xl shadow-[0_15px_30px_rgba(0,0,0,0.7)] w-44 sm:w-48 hover:scale-105 transition-all">
           <div className="flex items-center justify-between text-xs">
             <span className="font-mono text-zinc-400 text-[10px] uppercase font-bold tracking-wider">

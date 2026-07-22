@@ -5,7 +5,7 @@ export default function HeroFloatingUI() {
   return (
     <>
       {/* 1. Top Left Card: New Follower (-2° rotation + floatSlow) */}
-      <div className="absolute top-[20px] left-[10px] sm:top-[25px] sm:left-[15px] z-35 transform -rotate-[2deg] animate-float-slow pointer-events-auto">
+      <div className="absolute top-[20px] left-[10px] sm:top-[22px] sm:left-[15px] z-35 transform -rotate-[2deg] animate-float-slow pointer-events-auto">
         <div className="p-3 sm:p-3.5 rounded-2xl bg-zinc-950/85 border border-white/10 backdrop-blur-xl shadow-[0_15px_30px_rgba(0,0,0,0.75)] flex items-center gap-3 group hover:scale-105 transition-all">
           <div className="relative">
             <div className="w-8.5 h-8.5 rounded-full bg-emerald-400/20 text-emerald-400 flex items-center justify-center font-bold text-xs shrink-0 border border-emerald-400/40">
@@ -25,8 +25,8 @@ export default function HeroFloatingUI() {
         </div>
       </div>
 
-      {/* 2. Left Chest Card: Views (-1° rotation + floatReverse) */}
-      <div className="absolute top-[245px] left-[12px] sm:top-[265px] sm:left-[18px] z-35 transform -rotate-[1deg] animate-float-reverse pointer-events-auto">
+      {/* 2. Left Card: Views (-1° rotation + floatReverse) */}
+      <div className="absolute top-[240px] left-[10px] sm:top-[260px] sm:left-[15px] z-35 transform -rotate-[1deg] animate-float-reverse pointer-events-auto">
         <div className="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl bg-zinc-950/85 border border-white/10 backdrop-blur-xl text-xs font-mono text-emerald-400 flex items-center gap-2.5 shadow-[0_15px_30px_rgba(0,0,0,0.7)] hover:scale-105 transition-all">
           <div className="p-1.5 rounded-lg bg-emerald-400/20 text-emerald-400 border border-emerald-400/30">
             <Play className="w-3.5 h-3.5 fill-emerald-400" />
@@ -36,8 +36,8 @@ export default function HeroFloatingUI() {
         </div>
       </div>
 
-      {/* 3. Below Views Card: Likes (+2° rotation + floatSlow) */}
-      <div className="absolute top-[310px] left-[22px] sm:top-[330px] sm:left-[30px] z-35 transform rotate-[2deg] animate-float-slow pointer-events-auto">
+      {/* 3. Lower Left Card: Likes (+2° rotation + floatSlow) */}
+      <div className="absolute top-[305px] left-[20px] sm:top-[325px] sm:left-[28px] z-35 transform rotate-[2deg] animate-float-slow pointer-events-auto">
         <div className="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl bg-zinc-950/85 border border-white/10 backdrop-blur-xl text-xs font-mono text-rose-400 flex items-center gap-2.5 shadow-[0_15px_30px_rgba(0,0,0,0.7)] hover:scale-105 transition-all">
           <div className="p-1.5 rounded-lg bg-rose-500/20 text-rose-400 border border-rose-500/30">
             <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500" />
@@ -57,7 +57,7 @@ export default function HeroFloatingUI() {
         </div>
       </div>
 
-      {/* 5. Social Media Ecosystem Stack */}
+      {/* 5. Social Stack Sidebar */}
       <div className="absolute right-[15px] top-[125px] z-35 flex flex-col gap-2 p-2 rounded-2xl bg-zinc-950/85 border border-white/10 backdrop-blur-xl shadow-[0_15px_30px_rgba(0,0,0,0.7)] pointer-events-auto hidden sm:flex">
         <span className="p-1.5 rounded-xl text-zinc-400 hover:text-emerald-400 hover:bg-zinc-900 transition-all">
           <Instagram className="w-3.5 h-3.5" />
