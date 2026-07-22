@@ -1,10 +1,11 @@
 import React from 'react';
 import HeroSection from '../components/HeroSection';
-import { ArrowRight, Sparkles, Globe, TrendingUp, Bot, ShieldCheck, Zap, Layers, RefreshCw, CheckCircle } from 'lucide-react';
+import PricingSection from '../components/common/PricingSection';
+import { ArrowRight, Globe, TrendingUp, Bot, Zap, Layers, RefreshCw, CheckCircle } from 'lucide-react';
 
 export default function HomePage({ onSelectTab, onOpenBooking }) {
   return (
-    <div className="space-y-24 pb-20">
+    <div className="space-y-24 pb-20 select-none">
       {/* REDESIGNED CREATOR HERO SECTION */}
       <HeroSection onSelectTab={onSelectTab} onOpenBooking={onOpenBooking} />
 
@@ -152,6 +153,9 @@ export default function HomePage({ onSelectTab, onOpenBooking }) {
           </div>
         </div>
       </section>
+
+      {/* AI-NATIVE PRICING SECTION */}
+      <PricingSection onOpenBooking={onOpenBooking} />
 
       {/* COMPANY PHILOSOPHY: AGGRESSIVE ITERATION */}
       <section className="px-6 max-w-6xl mx-auto">
