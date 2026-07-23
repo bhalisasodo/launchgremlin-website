@@ -4,16 +4,19 @@ export default function HeroCreator({ style }) {
   return (
     <div
       style={style}
-      className="absolute z-15 w-[118%] max-w-[585px] transition-all duration-500 will-change-transform pointer-events-none"
+      className="absolute z-25 w-[132%] max-w-[690px] transition-all duration-500 will-change-transform pointer-events-none"
     >
-      {/* Upper-Left Light Source Atmosphere Glow behind Creator */}
-      <div className="absolute top-1/3 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[440px] h-[440px] sm:w-[520px] sm:h-[520px] rounded-full border border-emerald-400/25 shadow-[0_0_160px_rgba(52,211,153,0.35)] bg-emerald-500/18 blur-3xl animate-pulse-slow pointer-events-none" />
+      {/* 1. Upper-Left Front Key Light & Soft Green Radial Lens Bloom */}
+      <div className="absolute top-1/3 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[460px] h-[460px] sm:w-[540px] sm:h-[540px] rounded-full border border-emerald-400/30 shadow-[0_0_170px_rgba(52,211,153,0.4)] bg-emerald-500/20 blur-3xl animate-pulse-slow pointer-events-none" />
 
-      {/* Creator High-Res Image Asset — Hands & Camera Fully Visible */}
+      {/* 2. Green Rim Light Accent Glow */}
+      <div className="absolute top-10 right-10 w-[280px] h-[280px] rounded-full bg-emerald-400/15 blur-2xl pointer-events-none" />
+
+      {/* 3. Creator High-Res Image Asset (+20% size boost, centered balance, hands & camera unobstructed) */}
       <img
         src="/assets/hero-creator.png"
         alt="LaunchGremlin Creator"
-        className="w-full h-auto object-contain relative z-10 drop-shadow-[-12px_22px_45px_rgba(0,0,0,0.85)] filter contrast-[1.05] brightness-[1.03]"
+        className="w-full h-auto object-contain relative z-10 drop-shadow-[-15px_25px_50px_rgba(0,0,0,0.9)] filter contrast-[1.06] brightness-[1.04]"
       />
     </div>
   );
