@@ -11,32 +11,65 @@ import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import AdminDashboard from './components/AdminDashboard';
 
+const VALID_TABS = ['home', 'websites', 'content-strategy', 'ai-consulting', 'about', 'contact', 'admin'];
+
+const getTabFromUrl = () => {
+  if (typeof window === 'undefined') return 'home';
+  
+  // 1. Check query parameter e.g. ?tab=about or ?preview=true&tab=websites
+  const params = new URLSearchParams(window.location.search);
+  const tabParam = params.get('tab');
+  if (tabParam && VALID_TABS.includes(tabParam)) {
+    return tabParam;
+  }
+
+  // 2. Fallback check URL hash e.g. /#about or /#websites
+  const hash = window.location.hash.replace(/^#\/?/, '');
+  if (hash && VALID_TABS.includes(hash)) {
+    return hash;
+  }
+
+  return 'home';
+};
+
 export default function App() {
-  const [activeTab, setActiveTab] = useState('home');
-  const [isMaintenance, setIsMaintenance] = useState(true);
+  const [activeTab, setActiveTab] = useState(getTabFromUrl);
+  const [isMaintenance, setIsMaintenance] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    const params = new URLSearchParams(window.location.search);
+    return params.get('preview') !== 'true';
+  });
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
-  // Check URL query parameters: ?preview=true bypasses maintenance overlay for reviewing
+  // Synchronize state with browser history (back/forward & refresh)
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window === 'undefined') return;
+
+    const handlePopState = () => {
       const params = new URLSearchParams(window.location.search);
       if (params.get('preview') === 'true') {
         setIsMaintenance(false);
       }
-      if (params.get('tab')) {
-        setActiveTab(params.get('tab') || 'home');
-      }
-    }
+      setActiveTab(getTabFromUrl());
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   const handleSelectTab = (tab) => {
     setActiveTab(tab);
     if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      params.set('tab', tab);
+      const newSearch = params.toString() ? `?${params.toString()}` : '';
+      const newUrl = `${window.location.pathname}${newSearch}`;
+      window.history.pushState({ tab }, '', newUrl);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
-  // Maintenance Mode View (Default for all public visitors)
+  // Maintenance Mode View (Default for all public visitors without ?preview=true)
   if (isMaintenance) {
     return (
       <>
@@ -51,7 +84,7 @@ export default function App() {
     );
   }
 
-  // Full Website View (Visible when ?preview=true is added to the URL)
+  // Full Website View (Visible when ?preview=true is present in the URL query)
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex flex-col justify-between selection:bg-emerald-400 selection:text-black">
       <Navbar
@@ -92,6 +125,7 @@ export default function App() {
         {activeTab === 'about' && (
           <AboutPage
             onOpenBooking={() => setIsBookingModalOpen(true)}
+            onSelectTab={handleSelectTab}
           />
         )}
 
