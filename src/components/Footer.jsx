@@ -7,9 +7,9 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 mb-12">
         {/* Brand & Mantra Column */}
         <div className="md:col-span-5 space-y-4">
-          <div className="flex items-center gap-3.5">
-            <img src="/assets/logo-icon.png" alt="LaunchGremlin Logo Icon" className="h-12 w-auto object-contain" />
-            <span className="font-black text-2xl text-white tracking-tight">
+          <div className="flex items-center gap-4">
+            <img src="/assets/logo-icon.png" alt="LaunchGremlin Logo Icon" className="h-16 sm:h-20 w-auto object-contain" />
+            <span className="font-black text-2xl sm:text-3xl text-white tracking-tight">
               Launch<span className="text-emerald-400">Gremlin</span>
             </span>
           </div>

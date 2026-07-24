@@ -20,22 +20,22 @@ export default function Navbar({
 
   return (
     <header className="sticky top-0 z-40 w-full bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/80">
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 py-3 min-h-[96px] flex items-center justify-between">
         {/* Brand Logo & Name */}
         <button
           onClick={() => onSelectTab('home')}
-          className="flex items-center gap-3.5 group text-left focus:outline-none"
+          className="flex items-center gap-4 group text-left focus:outline-none"
         >
           <img
             src="/assets/logo-icon.png"
             alt="LaunchGremlin Logo Icon"
-            className="h-14 sm:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            className="h-20 sm:h-24 md:h-28 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
           />
           <div className="flex flex-col">
-            <span className="font-black text-2xl sm:text-3xl text-white tracking-tight leading-none">
+            <span className="font-black text-2xl sm:text-3xl md:text-4xl text-white tracking-tight leading-none">
               Launch<span className="text-emerald-400">Gremlin</span>
             </span>
-            <span className="text-[11px] font-mono text-zinc-400 tracking-widest uppercase mt-1">
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400 tracking-widest uppercase mt-1">
               Build. Grow. Scale.
             </span>
           </div>
