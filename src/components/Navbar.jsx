@@ -27,9 +27,9 @@ export default function Navbar({
           className="flex items-center gap-3.5 group text-left focus:outline-none"
         >
           <img
-            src="/assets/logo-transparent.png"
+            src="/assets/logo-icon.png"
             alt="LaunchGremlin Logo Icon"
-            className="h-11 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            className="h-14 sm:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
           />
           <div className="flex flex-col">
             <span className="font-black text-2xl sm:text-3xl text-white tracking-tight leading-none">
