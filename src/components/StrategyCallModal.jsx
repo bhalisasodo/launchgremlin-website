@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Calendar, Check, Send, Sparkles, Building, Mail, User, Phone } from 'lucide-react';
+import { submitLead } from '../services/leadService';
 
 export default function StrategyCallModal({ isOpen, onClose }) {
   const [pillar, setPillar] = useState('Websites');
@@ -29,15 +30,7 @@ export default function StrategyCallModal({ isOpen, onClose }) {
       created_at: new Date().toISOString(),
     };
 
-    try {
-      await fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-    } catch (e) {
-      console.warn('Backend offline, saving lead locally.', e);
-    }
+    await submitLead(payload);
 
     setSubmitting(false);
     setSubmitted(true);

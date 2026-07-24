@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Send, Check, Calendar, ArrowRight, Sparkles } from 'lucide-react';
+import { submitLead } from '../services/leadService';
 
 export default function ContactPage({ onOpenBooking }) {
   const [name, setName] = useState('');
@@ -10,20 +11,14 @@ export default function ContactPage({ onOpenBooking }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          email,
-          phone,
-          service: 'General Inquiry',
-          details: message,
-          created_at: new Date().toISOString(),
-        }),
-      });
-    } catch {}
+    await submitLead({
+      name,
+      email,
+      phone,
+      service: 'General Inquiry',
+      details: message,
+      created_at: new Date().toISOString(),
+    });
     setSent(true);
   };
 
