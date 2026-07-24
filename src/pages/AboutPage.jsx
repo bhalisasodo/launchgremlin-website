@@ -2,39 +2,86 @@ import React, { useState } from 'react';
 import ServiceHeroBackground from '../components/common/ServiceHeroBackground';
 import AboutHeroScene from '../components/about/AboutHeroScene';
 import {
-  Sparkles, Zap, Rocket, Target, BarChart2, Palette, ArrowRight, CheckCircle,
-  GitCommit, Terminal, Cpu, Users, Layers, Repeat, ShieldCheck, Flame, Globe, Bot
+  Sparkles, Zap, Rocket, Target, BarChart2, ArrowRight, CheckCircle2,
+  Terminal, Globe, ShieldCheck, Flame, Repeat, Code, Activity, Users,
+  Check, Layers, Cpu, Compass, RefreshCw, MessageSquare
 } from 'lucide-react';
 
 export default function AboutPage({ onOpenBooking, onSelectTab }) {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeLoopStep, setActiveLoopStep] = useState(2); // SHIP
 
-  const timelineSteps = [
-    { step: '01', title: 'Discover Problem', desc: 'Identify core friction points, user pain, and key growth constraints.' },
-    { step: '02', title: 'Prototype Fast', desc: 'Wireframe and build functional MVP scaffolds in days, not months.' },
-    { step: '03', title: 'Launch to Market', desc: 'Deploy live to production using edge infrastructure and modern stacks.' },
-    { step: '04', title: 'Collect Feedback', desc: 'Analyze real user behavior, analytics data, and conversion rates.' },
-    { step: '05', title: 'Improve & Scale', desc: 'Refine UI, optimize bottlenecks, and scale infrastructure seamlessly.' },
-    { step: '06', title: 'Repeat Loop', desc: 'Maintain aggressive iteration velocity for continuous growth.' },
+  const buildLoop = [
+    { num: '01', name: 'IDEA', title: 'Idea & Friction', desc: 'Identify core friction points, user pain, and key growth constraints.' },
+    { num: '02', name: 'BUILD', title: 'Build MVP', desc: 'Build functional software scaffolds in days, not months.' },
+    { num: '03', name: 'SHIP', title: 'Ship to Production', desc: 'Deploy live to global edge infrastructure instantly.' },
+    { num: '04', name: 'MEASURE', title: 'Measure Data', desc: 'Analyze real user behavior, telemetry data, and conversion rates.' },
+    { num: '05', name: 'LEARN', title: 'Learn Insights', desc: 'Extract high-signal insights from real market usage.' },
+    { num: '06', name: 'ITERATE', title: 'Iterate Fast', desc: 'Refine UI, optimize bottlenecks, and scale continuously.' },
+    { num: '07', name: 'REPEAT', title: 'Repeat Loop', desc: 'Maintain aggressive build velocity for exponential growth.' },
+  ];
+
+  const manifestoCards = [
+    {
+      icon: Rocket,
+      title: 'Ship > Perfect',
+      subtitle: 'Speed Creates Velocity',
+      desc: 'Speed creates learning velocity. A shipped product in user hands beats 6 months of internal presentations.',
+      badge: 'CULTURE 01',
+    },
+    {
+      icon: Repeat,
+      title: 'Iteration Beats Perfection',
+      subtitle: 'Continuous Optimization',
+      desc: "We don't build once and walk away. We measure real user conversion data and optimize continuously.",
+      badge: 'CULTURE 02',
+    },
+    {
+      icon: Terminal,
+      title: 'Build in Public',
+      subtitle: '100% Transparent',
+      desc: 'No corporate jargon, hidden markups, or middle management. You work directly with senior builders.',
+      badge: 'CULTURE 03',
+    },
+    {
+      icon: Users,
+      title: 'Creator First',
+      subtitle: 'Built for Founders',
+      desc: 'We engineer software, design systems, and AI workflows tailored specifically for internet-native creators.',
+      badge: 'CULTURE 04',
+    },
+    {
+      icon: Zap,
+      title: 'Default to Action',
+      subtitle: 'Prototype First',
+      desc: 'When in doubt, build a working prototype. Momentum solves far more problems than analysis paralysis.',
+      badge: 'CULTURE 05',
+    },
+    {
+      icon: Target,
+      title: 'Customer > Ego',
+      subtitle: 'Outcome Driven',
+      desc: 'We measure success strictly by business growth, conversion metrics, and time returned to the founder.',
+      badge: 'CULTURE 06',
+    },
   ];
 
   return (
     <div className="space-y-24 pb-20 select-none">
       
-      {/* 1. HERO SECTION — Handcrafted 2-Column Hero System */}
+      {/* ---------------- 1. HERO SECTION & MANIFESTO INTRO ---------------- */}
       <ServiceHeroBackground glowPosition="top-left">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-8 pb-12">
-          {/* Left Column — Headline & Value Prop */}
+          {/* Left Column — Manifesto Headline & Copy */}
           <div className="lg:col-span-6 space-y-6">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900/90 border border-emerald-400/40 text-emerald-400 text-xs font-mono font-bold tracking-wider shadow-[0_0_15px_rgba(52,211,153,0.2)]">
               <Sparkles className="w-3.5 h-3.5 fill-current" />
-              <span>ABOUT LAUNCHGREMLIN — INTERNET NATIVE OPERATING SYSTEM</span>
+              <span>THE LAUNCHGREMLIN MANIFESTO — INTERNET NATIVE</span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.05] uppercase">
               INTERNET NATIVE BUILDERS. <br />
               <span className="relative inline-block text-emerald-400">
-                SHIPPING AT LIGHTSPEED.
+                WE EARN TRUST BY SHIPPING.
                 <svg
                   className="absolute -bottom-2 inset-x-0 w-full h-3 text-emerald-400/80 overflow-visible"
                   viewBox="0 0 300 12"
@@ -51,143 +98,153 @@ export default function AboutPage({ onOpenBooking, onSelectTab }) {
             </h1>
 
             <p className="text-sm sm:text-base text-zinc-300 font-light leading-relaxed max-w-xl">
-              We are not a traditional, slow-moving agency. We are an internet-native growth product company that builds fast, tests with real market feedback, and iterates relentlessly alongside ambitious creators and founders.
+              LaunchGremlin is not a slow-moving agency. We are an internet-native product company built for creators and founders. We build fast, learn faster, and ship continuously.
             </p>
 
+            {/* Collaborative CTA */}
             <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
               <button
                 onClick={onOpenBooking}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
               >
-                <span>Work With Us</span>
+                <span>Build With Us</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
               <div className="flex items-center gap-2 text-xs font-mono text-zinc-400">
-                <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Build. Ship. Measure. Improve. Repeat.</span>
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Shipping Beats Meetings</span>
               </div>
             </div>
           </div>
 
-          {/* Right Column — Handcrafted Creative OS Scene */}
+          {/* Right Column — Living LaunchGremlin OS Scene */}
           <div className="lg:col-span-6 relative mt-6 lg:mt-0">
             <AboutHeroScene />
           </div>
         </div>
       </ServiceHeroBackground>
 
-      {/* 2. THE MANIFESTO GRID — 5 Core Pillars */}
+      {/* ---------------- 2. THE BUILD LOOP OPERATING WORKFLOW ---------------- */}
+      <section className="max-w-7xl mx-auto px-6 space-y-8">
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <span className="text-xs font-mono text-emerald-400 font-bold uppercase tracking-widest block">
+            Our Operating Philosophy
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight uppercase">
+            The Continuous Build Loop
+          </h2>
+          <p className="text-xs sm:text-sm text-zinc-400 font-light">
+            How we take ideas to market and scale them through relentless iteration.
+          </p>
+        </div>
+
+        {/* 7-Step Interactive Flow Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-7 gap-3">
+          {buildLoop.map((step, idx) => {
+            const isActive = idx === activeLoopStep;
+            return (
+              <div
+                key={step.name}
+                onClick={() => setActiveLoopStep(idx)}
+                className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between space-y-3 relative overflow-hidden ${
+                  isActive
+                    ? 'bg-zinc-900 border-emerald-400 text-white shadow-[0_0_25px_rgba(52,211,153,0.25)]'
+                    : 'bg-zinc-950/80 border-zinc-800/80 hover:border-zinc-700 text-zinc-400'
+                }`}
+              >
+                {isActive && (
+                  <div className="absolute top-0 inset-x-0 h-1 bg-emerald-400 animate-pulse" />
+                )}
+                <div className="space-y-1">
+                  <span className="text-[11px] font-mono font-bold text-emerald-400 block">{step.num}</span>
+                  <h4 className="text-xs font-extrabold text-white font-mono uppercase">{step.name}</h4>
+                </div>
+                <p className="text-[10px] text-zinc-400 font-light leading-snug">{step.desc}</p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ---------------- 3. BRAND MANIFESTO GRID — 6 Culture Cards ---------------- */}
       <section className="max-w-7xl mx-auto px-6 space-y-10">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs font-mono text-emerald-400 font-bold uppercase tracking-widest block">
             The LaunchGremlin Code
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight uppercase">
-            Our Culture & Manifesto
+            How We Think & Build
           </h2>
           <p className="text-xs sm:text-sm text-zinc-400 font-light">
-            How we think, build, and execute every single day.
+            An opinionated culture of speed, craftsmanship, and execution.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-          {/* Manifesto Card 1 */}
-          <div className="p-6 rounded-3xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/50 hover:shadow-[0_0_25px_rgba(52,211,153,0.2)] transition-all space-y-3 group">
-            <div className="w-10 h-10 rounded-xl bg-zinc-950 border border-emerald-400/30 text-emerald-400 flex items-center justify-center">
-              <Zap className="w-5 h-5 fill-current" />
-            </div>
-            <h3 className="text-sm font-bold text-white uppercase group-hover:text-emerald-300">
-              Aggressive Iteration
-            </h3>
-            <p className="text-[11px] text-zinc-400 leading-relaxed font-light">
-              Build. Ship. Measure. Improve. Repeat. Speed creates learning velocity.
-            </p>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {manifestoCards.map((item, idx) => {
+            const IconComp = item.icon;
+            return (
+              <div
+                key={idx}
+                className="p-7 rounded-3xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/50 hover:shadow-[0_0_30px_rgba(52,211,153,0.2)] transition-all space-y-4 group relative overflow-hidden"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="w-12 h-12 rounded-2xl bg-zinc-950 border border-emerald-400/30 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <IconComp className="w-6 h-6" />
+                  </div>
+                  <span className="px-2.5 py-1 rounded-full bg-zinc-950 border border-zinc-800 text-[10px] font-mono text-emerald-400 font-bold">
+                    {item.badge}
+                  </span>
+                </div>
 
-          {/* Manifesto Card 2 */}
-          <div className="p-6 rounded-3xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/50 hover:shadow-[0_0_25px_rgba(52,211,153,0.2)] transition-all space-y-3 group">
-            <div className="w-10 h-10 rounded-xl bg-zinc-950 border border-emerald-400/30 text-emerald-400 flex items-center justify-center">
-              <Rocket className="w-5 h-5" />
-            </div>
-            <h3 className="text-sm font-bold text-white uppercase group-hover:text-emerald-300">
-              Speed & Execution
-            </h3>
-            <p className="text-[11px] text-zinc-400 leading-relaxed font-light">
-              Move faster than everyone else. Momentum solves most problems.
-            </p>
-          </div>
+                <div>
+                  <h3 className="text-lg font-bold text-white uppercase group-hover:text-emerald-300 transition-colors">
+                    {item.title}
+                  </h3>
+                  <span className="text-xs font-mono text-zinc-400 font-medium block mt-0.5">
+                    {item.subtitle}
+                  </span>
+                </div>
 
-          {/* Manifesto Card 3 */}
-          <div className="p-6 rounded-3xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/50 hover:shadow-[0_0_25px_rgba(52,211,153,0.2)] transition-all space-y-3 group">
-            <div className="w-10 h-10 rounded-xl bg-zinc-950 border border-emerald-400/30 text-emerald-400 flex items-center justify-center">
-              <Target className="w-5 h-5" />
-            </div>
-            <h3 className="text-sm font-bold text-white uppercase group-hover:text-emerald-300">
-              Obsessive Quality
-            </h3>
-            <p className="text-[11px] text-zinc-400 leading-relaxed font-light">
-              Fast without quality is noise. We ship products that feel exceptional.
-            </p>
-          </div>
-
-          {/* Manifesto Card 4 */}
-          <div className="p-6 rounded-3xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/50 hover:shadow-[0_0_25px_rgba(52,211,153,0.2)] transition-all space-y-3 group">
-            <div className="w-10 h-10 rounded-xl bg-zinc-950 border border-emerald-400/30 text-emerald-400 flex items-center justify-center">
-              <BarChart2 className="w-5 h-5" />
-            </div>
-            <h3 className="text-sm font-bold text-white uppercase group-hover:text-emerald-300">
-              Data Informed
-            </h3>
-            <p className="text-[11px] text-zinc-400 leading-relaxed font-light">
-              Data beats assumptions. Every architectural decision is backed by telemetry.
-            </p>
-          </div>
-
-          {/* Manifesto Card 5 */}
-          <div className="p-6 rounded-3xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/50 hover:shadow-[0_0_25px_rgba(52,211,153,0.2)] transition-all space-y-3 group">
-            <div className="w-10 h-10 rounded-xl bg-zinc-950 border border-emerald-400/30 text-emerald-400 flex items-center justify-center">
-              <Palette className="w-5 h-5" />
-            </div>
-            <h3 className="text-sm font-bold text-white uppercase group-hover:text-emerald-300">
-              Creator Driven
-            </h3>
-            <p className="text-[11px] text-zinc-400 leading-relaxed font-light">
-              Creators deserve software, strategy, and AI systems built specifically for them.
-            </p>
-          </div>
+                <p className="text-xs text-zinc-400 leading-relaxed font-light">
+                  {item.desc}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </section>
 
-      {/* 3. SECTION WITH VISUAL RHYTHM — "We Build Like Internet Companies" */}
-      <section className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        {/* Left Visual — Behind-the-scenes Design & Code Artifact Card */}
+      {/* ---------------- 4. COMPARISON: TRADITIONAL AGENCY vs LAUNCHGREMLIN ---------------- */}
+      <section className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        {/* Left Telemetry Artifact Card */}
         <div className="lg:col-span-6 relative">
-          <div className="p-6 rounded-3xl bg-zinc-900/90 border border-zinc-800 space-y-4 shadow-2xl relative overflow-hidden">
+          <div className="p-6 rounded-3xl bg-zinc-900/90 border border-zinc-800 space-y-4 shadow-2xl relative overflow-hidden backdrop-blur-xl">
             <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
               <div className="flex items-center gap-2">
                 <Terminal className="w-4 h-4 text-emerald-400" />
-                <span className="text-xs font-bold text-white font-mono">LaunchGremlin Deploy Logs</span>
+                <span className="text-xs font-bold text-white font-mono">LaunchGremlin Telemetry Logs</span>
               </div>
-              <span className="px-2.5 py-0.5 rounded-full bg-emerald-400/10 text-emerald-400 text-[10px] font-mono font-bold">
+              <span className="px-2.5 py-0.5 rounded-full bg-emerald-400/10 text-emerald-400 text-[10px] font-mono font-bold border border-emerald-400/20">
                 ● 100% AUTOMATED
               </span>
             </div>
 
-            {/* Artifact 1: Live Git Commit Log */}
+            {/* Live Commit Log */}
             <div className="p-3.5 rounded-2xl bg-zinc-950 border border-zinc-800 font-mono text-[11px] space-y-1">
               <div className="flex items-center justify-between text-emerald-400 font-bold">
-                <span>commit a03098a (main -&gt; origin/main)</span>
+                <span>commit c49021a (main -&gt; origin/main)</span>
                 <span>JUST NOW</span>
               </div>
-              <p className="text-zinc-300">&gt; Feature: High-converting edge UI + AI workflow RAG pipeline</p>
-              <div className="text-[10px] text-zinc-500">Author: LaunchGremlin Studio OS &lt;dev@launchgremlin.com&gt;</div>
+              <p className="text-zinc-300">&gt; Feature: Edge UI + Autonomous 24/7 AI workforce integration</p>
+              <div className="text-[10px] text-zinc-500">Author: LaunchGremlin OS &lt;dev@launchgremlin.com&gt;</div>
             </div>
 
-            {/* Artifact 2: Real-time System Metrics */}
+            {/* Metrics */}
             <div className="grid grid-cols-2 gap-3 font-mono">
               <div className="p-3 rounded-2xl bg-zinc-950 border border-zinc-800 text-xs">
                 <span className="text-zinc-400 text-[10px] block">Build Time</span>
-                <span className="text-base font-extrabold text-white block mt-0.5">0.18 seconds</span>
+                <span className="text-base font-extrabold text-white block mt-0.5">0.14 seconds</span>
               </div>
 
               <div className="p-3 rounded-2xl bg-zinc-950 border border-zinc-800 text-xs">
@@ -198,11 +255,11 @@ export default function AboutPage({ onOpenBooking, onSelectTab }) {
           </div>
         </div>
 
-        {/* Right Text Content */}
+        {/* Right Comparison Content */}
         <div className="lg:col-span-6 space-y-6">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono">
             <Globe className="w-3.5 h-3.5" />
-            <span>INTERNET NATIVE vs TRADITIONAL AGENCIES</span>
+            <span>THE LAUNCHGREMLIN DIFFERENCE</span>
           </div>
 
           <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight uppercase">
@@ -211,109 +268,44 @@ export default function AboutPage({ onOpenBooking, onSelectTab }) {
           </h2>
 
           <p className="text-sm sm:text-base text-zinc-300 font-light leading-relaxed">
-            Traditional agencies charge huge retainers, hold endless meetings, and take 6 months to deliver a basic website. We operate like an agile software startup. We build in sprints, measure real user conversion data, and ship continuously.
+            Traditional agencies charge huge retainers, hold endless status meetings, and take 6 months to deliver a static site. We operate like an agile software startup. We build in sprints, measure real user conversion data, and ship continuously.
           </p>
 
-          <ul className="space-y-2.5 text-xs font-mono text-zinc-300">
-            <li className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Sprint-based delivery — Days, not months</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Full-stack React, Next.js, and AI automation</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Direct access to senior builders & engineers</span>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      {/* 4. INTERACTIVE TIMELINE — "The Iteration Loop" */}
-      <section className="max-w-6xl mx-auto px-6 space-y-12">
-        <div className="text-center max-w-xl mx-auto space-y-2">
-          <span className="text-xs font-mono text-emerald-400 font-bold uppercase tracking-widest block">
-            The Continuous Iteration Engine
-          </span>
-          <h2 className="text-3xl font-bold text-white uppercase">How We Work With You</h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-3">
-          {timelineSteps.map((item, idx) => (
-            <div
-              key={idx}
-              onClick={() => setActiveStep(idx)}
-              className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between space-y-3 ${
-                activeStep === idx
-                  ? 'bg-zinc-900 border-emerald-400 shadow-[0_0_20px_rgba(52,211,153,0.25)]'
-                  : 'bg-zinc-950/80 border-zinc-800/80 hover:border-zinc-700'
-              }`}
-            >
-              <div className="space-y-1">
-                <span className="text-xs font-mono font-bold text-emerald-400 block">{item.step}</span>
-                <h4 className="text-xs font-bold text-white">{item.title}</h4>
-              </div>
-              <p className="text-[10px] text-zinc-400 font-light leading-snug">{item.desc}</p>
+          <div className="space-y-3 font-mono text-xs text-zinc-300">
+            <div className="flex items-center gap-2 p-2.5 rounded-xl bg-zinc-900 border border-zinc-800">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>Sprint Delivery — Days, Not Months</span>
             </div>
-          ))}
+            <div className="flex items-center gap-2 p-2.5 rounded-xl bg-zinc-900 border border-zinc-800">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>Full-Stack React, Next.js, and AI Automation</span>
+            </div>
+            <div className="flex items-center gap-2 p-2.5 rounded-xl bg-zinc-900 border border-zinc-800">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>Direct Access to Senior Builders & Engineers</span>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* 5. BRAND PRINCIPLES GRID — 5 Glass Cards */}
-      <section className="max-w-7xl mx-auto px-6 space-y-10">
-        <div className="text-center max-w-xl mx-auto space-y-2">
-          <span className="text-xs font-mono text-emerald-400 font-bold uppercase tracking-widest block">
-            Engineering Excellence
+      {/* ---------------- 5. CULTURAL COMMANDMENTS BANNER (REMOVING EMPTY SPACE) ---------------- */}
+      <section className="max-w-7xl mx-auto px-6">
+        <div className="p-8 rounded-3xl bg-zinc-900/90 border border-emerald-400/30 backdrop-blur-2xl text-center space-y-4 shadow-[0_0_50px_rgba(52,211,153,0.12)]">
+          <span className="text-[11px] font-mono text-emerald-400 font-bold uppercase tracking-widest block">
+            Our Cultural Commandment
           </span>
-          <h2 className="text-3xl font-bold text-white uppercase">Our Operating Principles</h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          <div className="p-6 rounded-3xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/40 transition-all space-y-3">
-            <Zap className="w-6 h-6 text-emerald-400" />
-            <h4 className="text-sm font-bold text-white">⚡ Ship Fast</h4>
-            <p className="text-xs text-zinc-400 font-light leading-relaxed">
-              We optimize for learning velocity. Fast feedback beats slow planning.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-3xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/40 transition-all space-y-3">
-            <Target className="w-6 h-6 text-emerald-400" />
-            <h4 className="text-sm font-bold text-white">🎯 Build with Purpose</h4>
-            <p className="text-xs text-zinc-400 font-light leading-relaxed">
-              No fluff or vanity features. Everything solves a concrete growth problem.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-3xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/40 transition-all space-y-3">
-            <BarChart2 className="w-6 h-6 text-emerald-400" />
-            <h4 className="text-sm font-bold text-white">📊 Measure Everything</h4>
-            <p className="text-xs text-zinc-400 font-light leading-relaxed">
-              Data beats assumptions. Every optimization is backed by metric proof.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-3xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/40 transition-all space-y-3">
-            <Users className="w-6 h-6 text-emerald-400" />
-            <h4 className="text-sm font-bold text-white">🤝 Create Together</h4>
-            <p className="text-xs text-zinc-400 font-light leading-relaxed">
-              We build alongside our clients as embedded growth product partners.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-3xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/40 transition-all space-y-3">
-            <Bot className="w-6 h-6 text-emerald-400" />
-            <h4 className="text-sm font-bold text-white">🤖 AI Native</h4>
-            <p className="text-xs text-zinc-400 font-light leading-relaxed">
-              AI isn&apos;t a gimmick. It is embedded into how we build, write, and scale.
-            </p>
+          <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight font-mono uppercase">
+            Move Quickly. Stay Humble. Obsess Over Outcomes.
+          </h3>
+          <div className="flex flex-wrap items-center justify-center gap-6 pt-2 text-xs font-mono text-zinc-400">
+            <span>● 100% Product Mindset</span>
+            <span>● 0% Corporate Fluff</span>
+            <span>● Always Shipping</span>
           </div>
         </div>
       </section>
 
-      {/* 6. POWERFUL END CALL TO ACTION */}
+      {/* ---------------- 6. COLLABORATIVE BUILDER CALL TO ACTION ---------------- */}
       <section className="max-w-4xl mx-auto px-6">
         <div className="p-10 sm:p-14 rounded-3xl bg-zinc-900/90 border border-emerald-400/40 backdrop-blur-2xl text-center space-y-6 shadow-[0_0_60px_rgba(52,211,153,0.18)] relative overflow-hidden">
           {/* Subtle Ambient Glow */}
@@ -321,32 +313,32 @@ export default function AboutPage({ onOpenBooking, onSelectTab }) {
 
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono relative z-10">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Ready to Build?</span>
+            <span>Build With Us</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight relative z-10">
-            Ready to Build Something <br />
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight relative z-10 uppercase">
+            Ready to Ship Something <br />
             <span className="text-emerald-400 italic">People Remember?</span>
           </h2>
 
           <p className="text-sm sm:text-base text-zinc-300 font-light max-w-xl mx-auto leading-relaxed relative z-10">
-            Whether you&apos;re launching your first high-converting website, growing your creator audience, or integrating custom AI into your business, let&apos;s build something exceptional together.
+            Stop waiting for slow agencies. Collaborate with internet-native builders obsessed with helping creators and founders win on the web.
           </p>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
             <button
               onClick={onOpenBooking}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
             >
-              <span>Book a Strategy Call</span>
+              <span>Build With Us</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
             <button
               onClick={() => onSelectTab && onSelectTab('websites')}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-zinc-950 border border-zinc-800 text-zinc-200 text-xs font-semibold hover:border-emerald-400 hover:text-white transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-zinc-950 border border-zinc-800 text-zinc-200 text-xs font-semibold hover:border-emerald-400 hover:text-white transition-all cursor-pointer"
             >
-              <span>Explore Our Work</span>
+              <span>Explore Our Products</span>
             </button>
           </div>
         </div>
