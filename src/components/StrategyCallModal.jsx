@@ -68,7 +68,7 @@ export default function StrategyCallModal({ isOpen, onClose }) {
             </div>
             <h4 className="text-xl font-bold text-white">Strategy Request Received!</h4>
             <p className="text-xs text-zinc-400 max-w-xs mx-auto">
-              Our lead consultant will review your inquiry for <strong className="text-emerald-400">{pillar}</strong> and send your booking invitation within 2 hours.
+              Our lead consultant will review your inquiry for <strong className="text-emerald-400">{pillar}</strong> and send your booking invitation within 24 hours.
             </p>
             <button
               onClick={() => {
