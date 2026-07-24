@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Mail, Send, Check, Calendar, ArrowRight, Sparkles } from 'lucide-react';
-import { submitLead } from '../services/leadService';
+import ServiceHeroBackground from '../components/common/ServiceHeroBackground';
+import { Send, Check, Mail, Phone, Calendar, Sparkles } from 'lucide-react';
 
 export default function ContactPage({ onOpenBooking }) {
   const [name, setName] = useState('');
@@ -9,45 +9,44 @@ export default function ContactPage({ onOpenBooking }) {
   const [message, setMessage] = useState('');
   const [sent, setSent] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    await submitLead({
-      name,
-      email,
-      phone,
-      service: 'General Inquiry',
-      details: message,
-      created_at: new Date().toISOString(),
-    });
     setSent(true);
   };
 
   return (
-    <div className="space-y-20 pb-20">
-      <section className="pt-16 max-w-4xl mx-auto px-6 text-center space-y-6">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono">
-          <Mail className="w-3.5 h-3.5" />
-          <span>Get in Touch</span>
+    <div className="space-y-20 pb-20 select-none">
+      {/* Handcrafted Service Hero System */}
+      <ServiceHeroBackground glowPosition="top-right">
+        <div className="text-center max-w-2xl mx-auto space-y-4 pt-8 pb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900/90 border border-emerald-400/40 text-emerald-400 text-xs font-mono font-bold tracking-wider shadow-[0_0_15px_rgba(52,211,153,0.2)]">
+            <Sparkles className="w-3.5 h-3.5 fill-current" />
+            <span>CONTACT & SCOPE BUILDER</span>
+          </div>
+
+          <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight uppercase">
+            LET&apos;S BUILD SOMETHING <br />
+            <span className="text-emerald-400">EXCEPTIONAL.</span>
+          </h1>
+
+          <p className="text-xs sm:text-sm text-zinc-300 font-light leading-relaxed max-w-lg mx-auto">
+            Have a project in mind? Reach out directly to our engineering team or schedule a strategy call.
+          </p>
         </div>
+      </ServiceHeroBackground>
 
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
-          Let&apos;s Build Something Extraordinary.
-        </h1>
-
-        <p className="text-zinc-300 text-sm sm:text-base max-w-lg mx-auto font-light leading-relaxed">
-          Have a project inquiry, partnership idea, or custom build request? Send us a message or book a strategy call directly.
-        </p>
-      </section>
-
-      <section className="max-w-xl mx-auto px-6">
-        <div className="p-8 rounded-3xl bg-zinc-900/80 border border-zinc-800 space-y-6">
+      {/* Form Container */}
+      <section className="max-w-xl mx-auto px-4 sm:px-6">
+        <div className="p-6 sm:p-8 rounded-3xl bg-zinc-900/80 border border-zinc-800 space-y-6">
           {sent ? (
             <div className="p-6 text-center space-y-3">
-              <div className="w-12 h-12 rounded-full bg-emerald-400/10 text-emerald-400 flex items-center justify-center mx-auto">
+              <div className="w-12 h-12 rounded-full bg-emerald-400/10 text-emerald-400 flex items-center justify-center mx-auto border border-emerald-400/30">
                 <Check className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-bold text-white">Message Sent!</h3>
-              <p className="text-xs text-zinc-400">We will respond to {email} ({phone}) within 4 hours.</p>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                We will respond to {email} ({phone}) within 24 hours.
+              </p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -60,7 +59,7 @@ export default function ContactPage({ onOpenBooking }) {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Alex Vance"
-                    className="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-white focus:outline-none focus:border-emerald-400"
+                    className="w-full px-4 py-3 min-h-[48px] rounded-xl bg-zinc-950 border border-zinc-800 text-base sm:text-xs text-white focus:outline-none focus:border-emerald-400"
                   />
                 </div>
 
@@ -72,7 +71,7 @@ export default function ContactPage({ onOpenBooking }) {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="+27 82 123 4567"
-                    className="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-white focus:outline-none focus:border-emerald-400"
+                    className="w-full px-4 py-3 min-h-[48px] rounded-xl bg-zinc-950 border border-zinc-800 text-base sm:text-xs text-white focus:outline-none focus:border-emerald-400"
                   />
                 </div>
               </div>
@@ -85,7 +84,7 @@ export default function ContactPage({ onOpenBooking }) {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="alex@company.com"
-                  className="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-white focus:outline-none focus:border-emerald-400"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl bg-zinc-950 border border-zinc-800 text-base sm:text-xs text-white focus:outline-none focus:border-emerald-400"
                 />
               </div>
 
@@ -96,13 +95,14 @@ export default function ContactPage({ onOpenBooking }) {
                   required
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-white focus:outline-none focus:border-emerald-400 resize-none"
+                  placeholder="Tell us about your project goals, timeline, or requirements..."
+                  className="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-800 text-base sm:text-xs text-white focus:outline-none focus:border-emerald-400 resize-none"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3.5 rounded-xl bg-emerald-400 text-zinc-950 font-bold text-xs shadow-lg hover:bg-emerald-300 transition-all flex items-center justify-center gap-2"
+                className="w-full py-3.5 min-h-[48px] rounded-xl bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-lg hover:bg-emerald-300 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Send className="w-4 h-4" />
                 <span>Send Direct Inquiry</span>
@@ -113,7 +113,7 @@ export default function ContactPage({ onOpenBooking }) {
           <div className="pt-6 border-t border-zinc-800 text-center">
             <button
               onClick={onOpenBooking}
-              className="text-xs font-mono text-emerald-400 hover:underline inline-flex items-center gap-1"
+              className="text-xs font-mono text-emerald-400 hover:underline inline-flex items-center gap-1 min-h-[44px] cursor-pointer"
             >
               <Calendar className="w-3.5 h-3.5" />
               <span>Or click here to Schedule a Strategy Call →</span>

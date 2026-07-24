@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Calendar, Check, Send, Sparkles, Building, Mail, User, Phone } from 'lucide-react';
+import { X, Check, Sparkles, Send, User, Mail, Phone, Building, Calendar } from 'lucide-react';
 import { submitLead } from '../services/leadService';
 
 export default function StrategyCallModal({ isOpen, onClose }) {
@@ -8,46 +8,51 @@ export default function StrategyCallModal({ isOpen, onClose }) {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [company, setCompany] = useState('');
-  const [budget, setBudget] = useState('R15k - R30k');
+  const [budget, setBudget] = useState('R10k - R25k');
   const [details, setDetails] = useState('');
-  const [submitting, setSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   if (!isOpen) return null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitting(true);
+    setIsSubmitting(true);
+    setErrorMessage('');
 
-    const payload = {
-      name,
-      email,
-      phone,
-      company,
-      service: pillar,
-      budget,
-      details,
-      created_at: new Date().toISOString(),
-    };
+    try {
+      const result = await submitLead({
+        name,
+        email,
+        phone,
+        company,
+        budget,
+        details,
+        service: pillar,
+      });
 
-    await submitLead(payload);
-
-    setSubmitting(false);
-    setSubmitted(true);
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        setErrorMessage(result.message || 'Submission failed. Please try again.');
+      }
+    } catch (err) {
+      setErrorMessage('Network error occurred. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-up">
-      <div className="w-full max-w-lg bg-zinc-950 border border-zinc-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 relative overflow-hidden">
-        {/* Top Glow Accent */}
-        <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-400" />
-
-        {/* Modal Header */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/80 backdrop-blur-md animate-fade-up">
+      <div className="relative w-full max-w-lg bg-zinc-950 border border-zinc-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto custom-scrollbar">
+        {/* Top Bar Header */}
         <div className="flex items-center justify-between border-b border-zinc-900 pb-4">
-          <div className="flex items-center gap-2">
-            <span className="p-2 rounded-xl bg-emerald-400/10 text-emerald-400 border border-emerald-400/30">
-              <Calendar className="w-4 h-4" />
-            </span>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 flex items-center justify-center">
+              <Sparkles className="w-5 h-5" />
+            </div>
             <div>
               <h3 className="text-base font-bold text-white">Book a Strategy Call</h3>
               <p className="text-xs text-zinc-400">Build. Grow. Scale your product with LaunchGremlin.</p>
@@ -55,7 +60,8 @@ export default function StrategyCallModal({ isOpen, onClose }) {
           </div>
           <button
             onClick={onClose}
-            className="text-zinc-400 hover:text-white p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 transition-all text-xs"
+            aria-label="Close booking modal"
+            className="text-zinc-400 hover:text-white p-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 transition-all text-xs min-h-[44px] min-w-[44px] flex items-center justify-center cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -67,7 +73,7 @@ export default function StrategyCallModal({ isOpen, onClose }) {
               <Check className="w-8 h-8" />
             </div>
             <h4 className="text-xl font-bold text-white">Strategy Request Received!</h4>
-            <p className="text-xs text-zinc-400 max-w-xs mx-auto">
+            <p className="text-xs text-zinc-400 max-w-xs mx-auto leading-relaxed">
               Our lead consultant will review your inquiry for <strong className="text-emerald-400">{pillar}</strong> and send your booking invitation within 24 hours.
             </p>
             <button
@@ -75,7 +81,7 @@ export default function StrategyCallModal({ isOpen, onClose }) {
                 setSubmitted(false);
                 onClose();
               }}
-              className="px-6 py-2.5 rounded-xl bg-emerald-400 text-zinc-950 font-bold text-xs shadow-lg hover:bg-emerald-300 transition-all"
+              className="px-6 py-3 min-h-[48px] rounded-xl bg-emerald-400 text-zinc-950 font-bold text-xs shadow-lg hover:bg-emerald-300 transition-all cursor-pointer"
             >
               Done
             </button>
@@ -93,7 +99,7 @@ export default function StrategyCallModal({ isOpen, onClose }) {
                     key={p}
                     type="button"
                     onClick={() => setPillar(p)}
-                    className={`py-2.5 px-3 rounded-xl border text-xs font-semibold transition-all ${
+                    className={`py-3 px-2 min-h-[48px] rounded-xl border text-[11px] sm:text-xs font-semibold transition-all cursor-pointer flex items-center justify-center text-center ${
                       pillar === p
                         ? 'bg-emerald-400/15 border-emerald-400 text-emerald-300 font-bold shadow-[0_0_15px_rgba(52,211,153,0.2)]'
                         : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white'
@@ -117,7 +123,7 @@ export default function StrategyCallModal({ isOpen, onClose }) {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Alex Vance"
-                    className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-white focus:outline-none focus:border-emerald-400"
+                    className="w-full pl-10 pr-3 py-3 min-h-[48px] rounded-xl bg-zinc-900 border border-zinc-800 text-base sm:text-xs text-white focus:outline-none focus:border-emerald-400"
                   />
                 </div>
               </div>
@@ -132,7 +138,7 @@ export default function StrategyCallModal({ isOpen, onClose }) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="alex@company.com"
-                    className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-white focus:outline-none focus:border-emerald-400"
+                    className="w-full pl-10 pr-3 py-3 min-h-[48px] rounded-xl bg-zinc-900 border border-zinc-800 text-base sm:text-xs text-white focus:outline-none focus:border-emerald-400"
                   />
                 </div>
               </div>
@@ -147,7 +153,7 @@ export default function StrategyCallModal({ isOpen, onClose }) {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="+27 82 123 4567"
-                    className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-white focus:outline-none focus:border-emerald-400"
+                    className="w-full pl-10 pr-3 py-3 min-h-[48px] rounded-xl bg-zinc-900 border border-zinc-800 text-base sm:text-xs text-white focus:outline-none focus:border-emerald-400"
                   />
                 </div>
               </div>
@@ -163,7 +169,7 @@ export default function StrategyCallModal({ isOpen, onClose }) {
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
                     placeholder="Acme Labs"
-                    className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-white focus:outline-none focus:border-emerald-400"
+                    className="w-full pl-10 pr-3 py-3 min-h-[48px] rounded-xl bg-zinc-900 border border-zinc-800 text-base sm:text-xs text-white focus:outline-none focus:border-emerald-400"
                   />
                 </div>
               </div>
@@ -173,7 +179,7 @@ export default function StrategyCallModal({ isOpen, onClose }) {
                 <select
                   value={budget}
                   onChange={(e) => setBudget(e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-white focus:outline-none focus:border-emerald-400"
+                  className="w-full px-3 py-3 min-h-[48px] rounded-xl bg-zinc-900 border border-zinc-800 text-base sm:text-xs text-white focus:outline-none focus:border-emerald-400"
                 >
                   <option value="R10k - R25k">R10,000 – R25,000</option>
                   <option value="R25k - R50k">R25,000 – R50,000</option>
@@ -189,28 +195,29 @@ export default function StrategyCallModal({ isOpen, onClose }) {
                 rows={3}
                 value={details}
                 onChange={(e) => setDetails(e.target.value)}
-                placeholder="What are you building or trying to scale?"
-                className="w-full px-3 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-white focus:outline-none focus:border-emerald-400 resize-none"
+                placeholder="Briefly describe your objectives, timeframe, or key features needed..."
+                className="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-800 text-base sm:text-xs text-white focus:outline-none focus:border-emerald-400"
               />
             </div>
 
-            <div className="pt-2 flex items-center justify-end gap-3 border-t border-zinc-900">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-4 py-2.5 rounded-xl border border-zinc-800 text-xs text-zinc-400 hover:text-white"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={submitting}
-                className="px-6 py-2.5 rounded-xl bg-emerald-400 text-zinc-950 font-bold text-xs shadow-[0_0_15px_rgba(52,211,153,0.3)] hover:bg-emerald-300 transition-all flex items-center gap-1.5"
-              >
-                <Send className="w-3.5 h-3.5" />
-                <span>{submitting ? 'Submitting Request...' : 'Confirm Strategy Session'}</span>
-              </button>
-            </div>
+            {errorMessage && (
+              <p className="text-xs text-rose-400 font-mono text-center">{errorMessage}</p>
+            )}
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full py-3.5 min-h-[48px] rounded-xl bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:bg-emerald-300 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+            >
+              {isSubmitting ? (
+                <span>Submitting...</span>
+              ) : (
+                <>
+                  <span>Request Strategy Booking</span>
+                  <Send className="w-4 h-4" />
+                </>
+              )}
+            </button>
           </form>
         )}
       </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Sparkles, Menu, X, ArrowUpRight } from 'lucide-react';
+import { Calendar, Menu, X } from 'lucide-react';
 
 export default function Navbar({
   activeTab,
@@ -19,23 +19,24 @@ export default function Navbar({
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/80">
-      <div className="max-w-7xl mx-auto px-6 py-3 min-h-[96px] flex items-center justify-between">
+    <header className="sticky top-0 z-40 w-full bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-800/80">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 sm:py-3 min-h-[72px] sm:min-h-[88px] flex items-center justify-between gap-2">
         {/* Brand Logo & Name */}
         <button
           onClick={() => onSelectTab('home')}
-          className="flex items-center gap-4 group text-left focus:outline-none"
+          aria-label="LaunchGremlin Homepage"
+          className="flex items-center gap-2.5 sm:gap-4 group text-left focus:outline-none shrink-0"
         >
           <img
             src="/assets/logo-icon.png"
             alt="LaunchGremlin Logo Icon"
-            className="h-20 sm:h-24 md:h-28 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            className="h-12 sm:h-18 md:h-22 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
           />
           <div className="flex flex-col">
-            <span className="font-black text-2xl sm:text-3xl md:text-4xl text-white tracking-tight leading-none">
+            <span className="font-black text-xl sm:text-2xl md:text-3xl text-white tracking-tight leading-none">
               Launch<span className="text-emerald-400">Gremlin</span>
             </span>
-            <span className="text-[11px] sm:text-xs font-mono text-zinc-400 tracking-widest uppercase mt-1">
+            <span className="text-[9px] sm:text-xs font-mono text-zinc-400 tracking-widest uppercase mt-0.5 sm:mt-1">
               Build. Grow. Scale.
             </span>
           </div>
@@ -49,7 +50,7 @@ export default function Navbar({
               <button
                 key={link.id}
                 onClick={() => onSelectTab(link.id)}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ${
+                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer ${
                   isActive
                     ? 'bg-emerald-400 text-zinc-950 font-bold shadow-[0_0_15px_rgba(52,211,153,0.3)]'
                     : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60'
@@ -62,11 +63,11 @@ export default function Navbar({
         </nav>
 
         {/* Right Header Actions */}
-        <div className="flex items-center gap-3">
-          {/* Phase 5 Maintenance Mode Toggle Pill */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          {/* Maintenance Mode Toggle Pill */}
           <button
             onClick={onToggleMaintenance}
-            className={`hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono border transition-all ${
+            className={`hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono border transition-all cursor-pointer ${
               isMaintenance
                 ? 'bg-amber-500/10 border-amber-500/30 text-amber-300'
                 : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white'
@@ -79,17 +80,18 @@ export default function Navbar({
 
           <button
             onClick={onOpenBooking}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-400 text-zinc-950 font-bold text-xs shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all"
+            className="inline-flex items-center gap-2 px-3.5 sm:px-5 py-2.5 min-h-[44px] sm:min-h-[48px] rounded-xl bg-emerald-400 text-zinc-950 font-bold text-xs shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
           >
-            <Calendar className="w-3.5 h-3.5" />
+            <Calendar className="w-3.5 h-3.5 shrink-0" />
             <span className="hidden sm:inline">Book Strategy Call</span>
-            <span className="sm:hidden">Book Call</span>
+            <span className="sm:hidden text-[11px] font-bold">Book Call</span>
           </button>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button (48px Touch Target) */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white"
+            aria-label="Toggle Mobile Navigation Menu"
+            className="md:hidden p-3 min-h-[44px] min-w-[44px] rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white flex items-center justify-center cursor-pointer"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -98,7 +100,7 @@ export default function Navbar({
 
       {/* Mobile Drawer Navigation */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-zinc-950 border-b border-zinc-800 px-6 py-4 space-y-2 animate-fade-up">
+        <div className="md:hidden bg-zinc-950 border-b border-zinc-800 px-4 sm:px-6 py-4 space-y-2 animate-fade-up">
           {navLinks.map((link) => (
             <button
               key={link.id}
@@ -106,7 +108,7 @@ export default function Navbar({
                 onSelectTab(link.id);
                 setMobileMenuOpen(false);
               }}
-              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
+              className={`w-full text-left px-4 py-3 min-h-[48px] rounded-xl text-sm font-semibold transition-all flex items-center cursor-pointer ${
                 activeTab === link.id
                   ? 'bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 font-bold'
                   : 'text-zinc-400 hover:text-white'
@@ -119,7 +121,7 @@ export default function Navbar({
           <div className="pt-2 border-t border-zinc-900 flex items-center justify-between">
             <button
               onClick={onToggleMaintenance}
-              className="text-xs font-mono text-amber-400 underline"
+              className="text-xs font-mono text-amber-400 underline py-2 min-h-[44px] cursor-pointer"
             >
               Toggle Maintenance Mode
             </button>

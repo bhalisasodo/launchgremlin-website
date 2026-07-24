@@ -7,17 +7,17 @@ import HeroAnalytics from './HeroAnalytics';
 
 export default function HeroScene() {
   return (
-    <div className="relative w-full h-[550px] sm:h-[620px] lg:h-[660px] max-w-[670px] mx-auto select-none rounded-3xl border border-zinc-800/80 bg-zinc-950/70 backdrop-blur-2xl shadow-[0_0_90px_rgba(52,211,153,0.12)] overflow-hidden">
+    <div className="relative w-full h-[420px] sm:h-[620px] lg:h-[660px] max-w-[670px] mx-auto select-none rounded-3xl border border-zinc-800/80 bg-zinc-950/70 backdrop-blur-2xl shadow-[0_0_90px_rgba(52,211,153,0.12)] overflow-hidden">
       
       {/* LAYER 1: Back Layer — Cyber Grid, Ambient Glow, Soft Vignette & Atmospheric Particles */}
       <div className="absolute inset-0 bg-[radial-gradient(#34d399_1px,transparent_1px)] [background-size:28px_28px] opacity-10 pointer-events-none z-0" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_25%,rgba(9,9,11,0.95)_100%)] pointer-events-none z-1" />
 
       {/* Upper-Left Key Light Source Radial Bloom */}
-      <div className="absolute top-0 left-0 w-[360px] h-[360px] bg-emerald-400/14 rounded-full blur-[110px] pointer-events-none z-1" />
+      <div className="absolute top-0 left-0 w-[240px] sm:w-[360px] h-[240px] sm:h-[360px] bg-emerald-400/14 rounded-full blur-[80px] sm:blur-[110px] pointer-events-none z-1" />
 
       {/* Soft Green Atmospheric Glow behind Creator Center */}
-      <div className="absolute top-[45%] left-[42%] -translate-x-1/2 -translate-y-1/2 w-[540px] h-[540px] bg-emerald-500/20 rounded-full blur-[140px] pointer-events-none z-1" />
+      <div className="absolute top-[45%] left-[42%] -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[540px] h-[340px] sm:h-[540px] bg-emerald-500/20 rounded-full blur-[90px] sm:blur-[140px] pointer-events-none z-1" />
 
       {/* Faint Floating Ambient Particles */}
       <div className="absolute inset-0 pointer-events-none z-1">
@@ -27,7 +27,7 @@ export default function HeroScene() {
         <span className="absolute bottom-24 right-1/3 w-2 h-2 rounded-full bg-emerald-400/90 blur-[1px] animate-pulse" style={{ animationDelay: '1.5s' }} />
       </div>
 
-      {/* LAYER 2: Curved Flowing Line (Begins near GROW in headline, connects into right-hand artwork ending near tablet analytics) */}
+      {/* LAYER 2: Curved Flowing Line */}
       <div className="absolute inset-0 pointer-events-none z-2">
         <svg className="w-full h-full" viewBox="0 0 670 660" fill="none">
           <path
@@ -53,10 +53,10 @@ export default function HeroScene() {
       <HeroAnalytics />
       <HeroPhone style={{ right: '45px', top: '75px' }} />
 
-      {/* LAYER 4: Front Layer — Creator Visual Anchor (+20% size boost, centered balance, z-25) */}
+      {/* LAYER 4: Front Layer — Creator Visual Anchor */}
       <HeroCreator style={{ left: '-15px', bottom: '0px' }} />
 
-      {/* LAYER 5: Front-Most Layer — Tablet (-35% size, -8° tilt, bottom-right corner, z-35, overlapping creator lower torso) */}
+      {/* LAYER 5: Front-Most Layer — Tablet */}
       <HeroLaptop style={{ right: '25px', bottom: '20px' }} />
 
       {/* LAYER 6: Floating Layer — Metric Chips & Social Stack Sidebar (z-40) */}
