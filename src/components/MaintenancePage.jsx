@@ -25,8 +25,8 @@ export default function MaintenancePage({ onOpenBookingModal }) {
       {/* Header */}
       <header className="p-6 md:p-8 flex items-center justify-between relative z-10 max-w-6xl mx-auto w-full">
         <div className="flex items-center gap-4">
-          <img src="/assets/logo-icon.png" alt="LaunchGremlin Logo Icon" className="h-28 sm:h-36 md:h-44 w-auto object-contain" />
-          <span className="font-black tracking-tight text-3xl sm:text-4xl md:text-5xl hidden sm:inline text-zinc-100">
+          <img src="/assets/logo-icon.png" alt="LaunchGremlin Logo Icon" className="h-20 sm:h-24 md:h-28 w-auto object-contain" />
+          <span className="font-black tracking-tight text-2xl sm:text-3xl md:text-4xl hidden sm:inline text-zinc-100">
             Launch<span className="text-emerald-400">Gremlin</span>
           </span>
         </div>

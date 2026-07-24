@@ -30,13 +30,13 @@ export default function Navbar({
           <img
             src="/assets/logo-icon.png"
             alt="LaunchGremlin Logo Icon"
-            className="h-20 sm:h-28 md:h-36 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            className="h-12 sm:h-18 md:h-22 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
           />
           <div className="flex flex-col">
-            <span className="font-black text-2xl sm:text-4xl md:text-5xl text-white tracking-tight leading-none">
+            <span className="font-black text-xl sm:text-2xl md:text-3xl text-white tracking-tight leading-none">
               Launch<span className="text-emerald-400">Gremlin</span>
             </span>
-            <span className="text-[10px] sm:text-xs font-mono text-zinc-400 tracking-widest uppercase mt-0.5 sm:mt-1">
+            <span className="text-[9px] sm:text-xs font-mono text-zinc-400 tracking-widest uppercase mt-0.5 sm:mt-1">
               Build. Grow. Scale.
             </span>
           </div>
