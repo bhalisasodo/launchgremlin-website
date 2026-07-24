@@ -347,9 +347,9 @@ export default function AdminDashboard({ token, onLogout }) {
       {/* Header */}
       <header className="border-b border-zinc-800 bg-zinc-900/40 backdrop-blur-md sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img src="./legacy_and_assets/web-icon.png" alt="Logo" className="w-10 h-10" />
-            <h1 className="text-xl md:text-2xl font-bold">
+          <div className="flex items-center gap-3.5">
+            <img src="/assets/logo-transparent.png" alt="LaunchGremlin Logo Icon" className="h-11 w-auto object-contain" />
+            <h1 className="text-2xl md:text-3xl font-black">
               Launch<span className="text-emerald-400">Gremlin</span> <span className="text-xs uppercase font-normal tracking-widest text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded-md border border-emerald-400/20 ml-2">Console</span>
             </h1>
           </div>

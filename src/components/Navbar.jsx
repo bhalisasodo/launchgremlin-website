@@ -24,18 +24,18 @@ export default function Navbar({
         {/* Brand Logo & Name */}
         <button
           onClick={() => onSelectTab('home')}
-          className="flex items-center gap-3 group text-left focus:outline-none"
+          className="flex items-center gap-3.5 group text-left focus:outline-none"
         >
           <img
             src="/assets/logo-transparent.png"
-            alt="LaunchGremlin Logo"
-            className="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            alt="LaunchGremlin Logo Icon"
+            className="h-11 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
           />
           <div className="flex flex-col">
-            <span className="font-bold text-lg text-white tracking-tight leading-none">
+            <span className="font-black text-2xl sm:text-3xl text-white tracking-tight leading-none">
               Launch<span className="text-emerald-400">Gremlin</span>
             </span>
-            <span className="text-[10px] font-mono text-zinc-400 tracking-widest uppercase mt-0.5">
+            <span className="text-[11px] font-mono text-zinc-400 tracking-widest uppercase mt-1">
               Build. Grow. Scale.
             </span>
           </div>
