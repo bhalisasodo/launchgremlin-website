@@ -192,14 +192,6 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
                 <span>Let&apos;s Build Something</span>
                 <Zap className="w-3.5 h-3.5 fill-current" />
               </button>
-
-              <button
-                onClick={onOpenBooking}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-zinc-900/90 border border-zinc-800 text-zinc-200 text-xs font-semibold hover:border-emerald-400 hover:text-white transition-all"
-              >
-                <Phone className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Book a Strategy Call</span>
-              </button>
             </div>
           </div>
         </div>

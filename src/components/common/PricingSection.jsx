@@ -410,13 +410,6 @@ export default function PricingSection({ onOpenBooking, onSelectTab }) {
             <span>Book a Strategy Call</span>
             <ArrowRight className="w-4 h-4" />
           </button>
-
-          <button
-            onClick={handleViewWork}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-zinc-950 border border-zinc-800 text-zinc-200 text-xs font-bold uppercase tracking-wider hover:border-emerald-400 hover:text-white transition-all cursor-pointer"
-          >
-            <span>View Our Work</span>
-          </button>
         </div>
       </div>
 

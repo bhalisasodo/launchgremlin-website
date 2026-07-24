@@ -85,14 +85,6 @@ export default function MaintenancePage({ onOpenBookingModal }) {
               <span>Book a Strategy Call</span>
               <ArrowRight className="w-4 h-4" />
             </button>
-
-            <a
-              href="mailto:hello@launchgremlin.com"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-zinc-950 border border-zinc-800 text-zinc-200 text-sm font-semibold hover:border-zinc-700 hover:text-white transition-all"
-            >
-              <Mail className="w-4 h-4 text-emerald-400" />
-              <span>hello@launchgremlin.com</span>
-            </a>
           </div>
 
           {/* Early Access / VIP Lead Capture Form */}

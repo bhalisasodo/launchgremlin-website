@@ -50,7 +50,7 @@ export default function AIConsultingHeroScene({ onOpenBooking }) {
           </button>
           <div className="flex items-center gap-2 text-xs font-mono text-zinc-400">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-            <span>SOC2 Compliant & Enterprise Ready</span>
+            <span>ISAE 3000 Compliant & Enterprise Ready</span>
           </div>
         </div>
       </div>
