@@ -155,7 +155,7 @@ export default function HomePage({ onSelectTab, onOpenBooking }) {
       </section>
 
       {/* AI-NATIVE PRICING SECTION */}
-      <PricingSection onOpenBooking={onOpenBooking} />
+      <PricingSection onOpenBooking={onOpenBooking} onSelectTab={onSelectTab} />
 
       {/* COMPANY PHILOSOPHY: AGGRESSIVE ITERATION */}
       <section className="px-6 max-w-6xl mx-auto">

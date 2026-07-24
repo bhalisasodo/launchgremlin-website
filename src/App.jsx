@@ -72,6 +72,7 @@ export default function App() {
 
         {activeTab === 'websites' && (
           <WebsitesPage
+            onSelectTab={handleSelectTab}
             onOpenBooking={() => setIsBookingModalOpen(true)}
           />
         )}

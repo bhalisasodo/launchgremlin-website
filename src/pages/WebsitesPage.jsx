@@ -4,7 +4,7 @@ import WebsitesHeroScene from '../components/services/WebsitesHeroScene';
 import PricingSection from '../components/common/PricingSection';
 import { Gauge, Code, Zap } from 'lucide-react';
 
-export default function WebsitesPage({ onOpenBooking }) {
+export default function WebsitesPage({ onOpenBooking, onSelectTab }) {
   return (
     <div className="space-y-20 pb-20 select-none">
       {/* Handcrafted Service Hero System */}
@@ -48,7 +48,7 @@ export default function WebsitesPage({ onOpenBooking }) {
       </section>
 
       {/* AI-NATIVE PRICING SECTION */}
-      <PricingSection onOpenBooking={onOpenBooking} />
+      <PricingSection onOpenBooking={onOpenBooking} onSelectTab={onSelectTab} />
     </div>
   );
 }
