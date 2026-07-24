@@ -16,7 +16,7 @@ const VALID_TABS = ['home', 'websites', 'content-strategy', 'ai-consulting', 'ab
 const getTabFromUrl = () => {
   if (typeof window === 'undefined') return 'home';
   
-  // 1. Check query parameter e.g. ?tab=about or ?preview=true&tab=websites
+  // 1. Check query parameter e.g. ?tab=about or ?tab=websites
   const params = new URLSearchParams(window.location.search);
   const tabParam = params.get('tab');
   if (tabParam && VALID_TABS.includes(tabParam)) {
@@ -34,11 +34,7 @@ const getTabFromUrl = () => {
 
 export default function App() {
   const [activeTab, setActiveTab] = useState(getTabFromUrl);
-  const [isMaintenance, setIsMaintenance] = useState(() => {
-    if (typeof window === 'undefined') return true;
-    const params = new URLSearchParams(window.location.search);
-    return params.get('preview') !== 'true';
-  });
+  const [isMaintenance, setIsMaintenance] = useState(false); // Live Website by default
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   // Synchronize state with browser history (back/forward & refresh)
@@ -46,10 +42,6 @@ export default function App() {
     if (typeof window === 'undefined') return;
 
     const handlePopState = () => {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('preview') === 'true') {
-        setIsMaintenance(false);
-      }
       setActiveTab(getTabFromUrl());
     };
 
@@ -69,7 +61,7 @@ export default function App() {
     }
   };
 
-  // Maintenance Mode View (Default for all public visitors without ?preview=true)
+  // Maintenance Mode View (If manually toggled via Navbar/Footer)
   if (isMaintenance) {
     return (
       <>
@@ -84,7 +76,7 @@ export default function App() {
     );
   }
 
-  // Full Website View (Visible when ?preview=true is present in the URL query)
+  // Live Website View (Default for all public visitors)
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex flex-col justify-between selection:bg-emerald-400 selection:text-black">
       <Navbar
