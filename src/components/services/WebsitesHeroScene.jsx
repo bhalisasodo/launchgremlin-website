@@ -1,31 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  Gauge, Code, Zap, ArrowRight, Globe, CheckCircle, Search, Layout, MousePointer, Activity
+  Globe, Zap, Search, ArrowRight, CheckCircle2, ShieldCheck, Gauge,
+  Activity, TrendingUp, Cpu, Terminal, Sparkles, Layers, Lock, Play, RefreshCw, Check
 } from 'lucide-react';
 
 export default function WebsitesHeroScene({ onOpenBooking }) {
+  const [activeTab, setActiveTab] = useState('preview');
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-8 pb-12">
-      {/* LEFT COLUMN — Value Proposition & Action CTAs */}
-      <div className="lg:col-span-6 space-y-6">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center pt-6 pb-12">
+      
+      {/* LEFT COLUMN — Outcome-Driven Value Proposition */}
+      <div className="lg:col-span-5 space-y-7 text-left">
         {/* Top Badge */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900/90 border border-emerald-400/40 text-emerald-400 text-xs font-mono font-bold tracking-wider shadow-[0_0_15px_rgba(52,211,153,0.2)]">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900/90 border border-emerald-400/35 text-emerald-400 text-xs font-mono font-medium tracking-wide shadow-[0_0_20px_rgba(52,211,153,0.15)] backdrop-blur-md">
           <Globe className="w-3.5 h-3.5 fill-current" />
           <span>PILLAR 01 — WEBSITES & DIGITAL PRODUCTS</span>
         </div>
 
         {/* Headline */}
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.05] uppercase">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.03] uppercase">
           WEBSITES THAT BECOME <br />
-          <span className="relative inline-block text-emerald-400">
+          <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-emerald-400 to-teal-200 font-black">
             GROWTH ENGINES.
             <svg
-              className="absolute -bottom-2 inset-x-0 w-full h-3 text-emerald-400/80 overflow-visible"
-              viewBox="0 0 300 12"
+              className="absolute -bottom-2 inset-x-0 w-full h-3.5 text-emerald-400/90 overflow-visible pointer-events-none"
+              viewBox="0 0 300 14"
               fill="none"
             >
               <path
-                d="M3 9C50 3 150 2 297 8"
+                d="M3 10 C 60 3, 160 2, 297 9"
                 stroke="currentColor"
                 strokeWidth="4"
                 strokeLinecap="round"
@@ -34,144 +38,396 @@ export default function WebsitesHeroScene({ onOpenBooking }) {
           </span>
         </h1>
 
-        {/* Copy */}
-        <p className="text-sm sm:text-base text-zinc-300 font-light leading-relaxed max-w-xl">
-          We don&apos;t build slow, bloated WordPress templates. We engineer custom high-converting web applications using Vite, React, and Next.js that load in milliseconds and turn visitors into buyers.
+        {/* Outcome-Driven Copy */}
+        <p className="text-base text-zinc-300 font-light leading-relaxed max-w-xl">
+          We engineer high-performance web applications optimized for sub-second page loads, automated Google search indexing, and maximum lead conversion.
         </p>
 
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+        {/* Outcome Pill Checklist */}
+        <div className="grid grid-cols-2 gap-3 text-xs font-mono text-zinc-300 pt-1">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span>Deploy in Seconds</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span>Optimized for Google</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span>Built to Convert</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span>AI Powered Workflow</span>
+          </div>
+        </div>
+
+        {/* Action CTAs */}
+        <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
           <button
             onClick={onOpenBooking}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all"
+            className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer group"
           >
             <span>Start Website Build</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
-          <div className="flex items-center gap-2 text-xs font-mono text-zinc-400">
-            <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
-            <span>100 Lighthouse Performance Guaranteed</span>
+
+          <div className="flex items-center justify-center gap-2 text-xs font-mono text-zinc-400 px-4 py-3 rounded-2xl bg-zinc-900/50 border border-zinc-800/80">
+            <Gauge className="w-4 h-4 text-emerald-400" />
+            <span>100 Lighthouse Guaranteed</span>
           </div>
         </div>
       </div>
 
-      {/* RIGHT COLUMN — 3D Modern Browser & Digital Product Artwork Scene */}
-      <div className="lg:col-span-6 relative mt-6 lg:mt-0">
-        <div className="relative w-full h-[520px] sm:h-[580px] lg:h-[620px] max-w-[620px] mx-auto select-none rounded-3xl border border-zinc-800/80 bg-zinc-950/70 backdrop-blur-2xl shadow-[0_0_80px_rgba(52,211,153,0.12)] overflow-hidden">
-          
-          {/* Cyber Dot Background & Vignette */}
-          <div className="absolute inset-0 bg-[radial-gradient(#34d399_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none z-0" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(9,9,11,0.9)_100%)] pointer-events-none z-1" />
+      {/* RIGHT COLUMN — SINGLE UNIFIED COHESIVE APPLICATION WINDOW */}
+      <div className="lg:col-span-7 relative z-10">
+        
+        {/* Ambient Glows around Chrome Window */}
+        <div className="absolute -top-10 -right-10 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-10 -left-10 w-96 h-96 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none" />
 
-          {/* Central Modern Browser Window Art Asset */}
-          <div className="absolute top-[80px] left-[40px] sm:left-[55px] z-15 w-[85%] max-w-[480px] bg-zinc-900 border border-zinc-700/80 rounded-2xl shadow-[0_25px_60px_rgba(0,0,0,0.95)] overflow-hidden transform -rotate-[2deg] hover:rotate-0 transition-all duration-500">
-            {/* Browser Header Bar & Address Bar */}
-            <div className="bg-zinc-950 px-4 py-2.5 flex items-center justify-between border-b border-zinc-800">
+        {/* 1. COHESIVE APPLICATION BROWSER CONTAINER */}
+        <div className="relative w-full rounded-2xl bg-zinc-950/90 border border-zinc-800/90 backdrop-blur-2xl shadow-[0_30px_70px_rgba(0,0,0,0.95)] overflow-hidden transition-all duration-300">
+          
+          {/* A. BROWSER CHROME HEADER */}
+          <div className="bg-zinc-900/90 px-4 py-3 flex flex-wrap items-center justify-between border-b border-zinc-800/80 gap-3">
+            {/* Traffic Lights Controls & Title */}
+            <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+                <span className="w-3 h-3 rounded-full bg-rose-500/80 inline-block" />
+                <span className="w-3 h-3 rounded-full bg-amber-500/80 inline-block" />
+                <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block" />
               </div>
-              <div className="px-3 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-400 flex items-center gap-1.5 w-60 justify-center">
-                <Globe className="w-3 h-3 text-emerald-400" />
-                <span className="text-zinc-200">https://launchgremlin.com</span>
-              </div>
-              <div className="w-8" />
+              <span className="text-xs font-mono text-zinc-400 font-bold hidden sm:inline">
+                LaunchGremlin Studio Platform
+              </span>
             </div>
 
-            {/* Browser Content Canvas — Studio Web Product Dashboard & Live Code snippet */}
-            <div className="p-4 bg-zinc-950 font-mono space-y-3">
-              <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-xs font-bold text-white font-sans">React 18 + Vite Production App</span>
+            {/* Address Bar */}
+            <div className="flex-1 max-w-sm mx-auto px-3 py-1 rounded-lg bg-zinc-950 border border-zinc-800/80 text-[11px] font-mono text-zinc-300 flex items-center justify-between shadow-inner">
+              <div className="flex items-center gap-1.5 truncate">
+                <Lock className="w-3 h-3 text-emerald-400 shrink-0" />
+                <span className="text-emerald-400 font-semibold">https://</span>
+                <span className="text-zinc-200 truncate">launchgremlin.com/studio/platform</span>
+              </div>
+              <span className="px-1.5 py-0.5 rounded bg-emerald-400/10 text-emerald-400 text-[9px] font-bold border border-emerald-400/30 shrink-0">
+                ● 100% LIVE
+              </span>
+            </div>
+
+            {/* Deploy Status Indicator */}
+            <div className="hidden md:flex items-center gap-2 text-[10px] font-mono text-zinc-400">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Vercel Edge (0.18s)</span>
+            </div>
+          </div>
+
+          {/* B. INTERFACE NAVIGATION TABS */}
+          <div className="bg-zinc-950 px-4 py-2 flex items-center gap-2 border-b border-zinc-800/60 overflow-x-auto custom-scrollbar">
+            <button
+              onClick={() => setActiveTab('preview')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
+                activeTab === 'preview'
+                  ? 'bg-zinc-900 text-emerald-400 border border-emerald-400/40 shadow-sm'
+                  : 'text-zinc-400 hover:text-white hover:bg-zinc-900/50'
+              }`}
+            >
+              <Globe className="w-3.5 h-3.5" />
+              <span>1. Live Website</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('performance')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
+                activeTab === 'performance'
+                  ? 'bg-zinc-900 text-emerald-400 border border-emerald-400/40 shadow-sm'
+                  : 'text-zinc-400 hover:text-white hover:bg-zinc-900/50'
+              }`}
+            >
+              <Gauge className="w-3.5 h-3.5" />
+              <span>2. Lighthouse & SEO</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('growth')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
+                activeTab === 'growth'
+                  ? 'bg-zinc-900 text-emerald-400 border border-emerald-400/40 shadow-sm'
+                  : 'text-zinc-400 hover:text-white hover:bg-zinc-900/50'
+              }`}
+            >
+              <TrendingUp className="w-3.5 h-3.5" />
+              <span>3. Growth Analytics</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('code')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
+                activeTab === 'code'
+                  ? 'bg-zinc-900 text-emerald-400 border border-emerald-400/40 shadow-sm'
+                  : 'text-zinc-400 hover:text-white hover:bg-zinc-900/50'
+              }`}
+            >
+              <Terminal className="w-3.5 h-3.5" />
+              <span>4. Production Code</span>
+            </button>
+          </div>
+
+          {/* C. MAIN APPLICATION DASHBOARD GRID */}
+          <div className="p-5 space-y-5 bg-zinc-950">
+            
+            {/* TOP HALF: 2-COLUMN DASHBOARD MODULES */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch">
+              
+              {/* MODULE 1: REALISTIC MINIATURE WEBSITE PREVIEW (Col-span-7) */}
+              <div className="md:col-span-7 p-4 rounded-xl bg-zinc-900/90 border border-zinc-800/90 space-y-4 shadow-lg relative overflow-hidden flex flex-col justify-between">
+                
+                {/* Header HUD */}
+                <div className="flex items-center justify-between border-b border-zinc-800/80 pb-2.5">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                    <span className="text-xs font-bold text-white font-mono">Live Website Preview</span>
+                  </div>
+                  <span className="px-2 py-0.5 rounded bg-emerald-400/10 text-emerald-400 text-[10px] font-mono font-bold border border-emerald-400/30">
+                    Production Ready
+                  </span>
                 </div>
-                <span className="px-2 py-0.5 rounded-md bg-emerald-400/10 text-emerald-400 text-[9px] font-bold">
-                  SSR & SSG Active
-                </span>
-              </div>
 
-              {/* Live Code Snippet Display */}
-              <div className="p-3 rounded-xl bg-zinc-900/90 border border-zinc-800 text-[10px] text-zinc-300 leading-relaxed font-mono">
-                <span className="text-emerald-400 font-bold">// High-converting component scaffold</span> <br />
-                <span className="text-purple-400">export default function</span> <span className="text-emerald-300 font-bold">GrowthEngine</span>() {'{'} <br />
-                &nbsp;&nbsp;<span className="text-blue-400">return</span> &lt;<span className="text-rose-400">WebsiteApp</span> speed={<span className="text-amber-300">&quot;100%&quot;</span>} conversion={<span className="text-amber-300">&quot;MAX&quot;</span>} /&gt; <br />
-                {'}'}
-              </div>
+                {/* Miniature Website Mockup Canvas */}
+                <div className="p-3.5 rounded-lg bg-zinc-950 border border-zinc-800/80 space-y-3 relative">
+                  
+                  {/* Website Mini Nav */}
+                  <div className="flex items-center justify-between text-[10px] font-mono border-b border-zinc-900 pb-2">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-4 h-4 rounded bg-emerald-400 text-zinc-950 font-bold flex items-center justify-center text-[9px]">LG</div>
+                      <span className="text-white font-bold font-sans">LaunchGremlin</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-zinc-400 text-[9px]">
+                      <span>Services</span>
+                      <span>Pricing</span>
+                      <span className="px-2 py-0.5 rounded bg-emerald-400 text-zinc-950 font-bold">Book Call</span>
+                    </div>
+                  </div>
 
-              {/* Core Performance Metric Sparkline */}
-              <div className="p-2.5 rounded-xl bg-zinc-900/70 border border-zinc-800 flex items-center justify-between text-[10px]">
-                <div>
-                  <span className="text-zinc-400 block text-[9px]">First Contentful Paint (FCP)</span>
-                  <span className="text-emerald-400 font-bold text-xs">0.24s (Instant)</span>
+                  {/* Website Mini Hero */}
+                  <div className="space-y-1.5 text-left py-1">
+                    <span className="text-[9px] font-mono text-emerald-400 font-bold">● SUB-SECOND ENGINE</span>
+                    <h4 className="text-xs font-bold text-white leading-tight font-sans">
+                      High-Performance Websites & AI Workflows
+                    </h4>
+                    <p className="text-[10px] text-zinc-400 font-light leading-snug">
+                      Turn visitors into clients with sub-second speeds and conversion architecture.
+                    </p>
+                  </div>
+
+                  {/* Mini Stats Bar Overlay */}
+                  <div className="grid grid-cols-3 gap-2 pt-1 border-t border-zinc-900 text-center font-mono">
+                    <div className="p-1 rounded bg-zinc-900 border border-zinc-800">
+                      <span className="text-[8px] text-zinc-400 block">FCP</span>
+                      <span className="text-[10px] font-bold text-emerald-400">0.24s</span>
+                    </div>
+                    <div className="p-1 rounded bg-zinc-900 border border-zinc-800">
+                      <span className="text-[8px] text-zinc-400 block">SEO</span>
+                      <span className="text-[10px] font-bold text-emerald-400">99/100</span>
+                    </div>
+                    <div className="p-1 rounded bg-zinc-900 border border-zinc-800">
+                      <span className="text-[8px] text-zinc-400 block">Status</span>
+                      <span className="text-[10px] font-bold text-white">200 OK</span>
+                    </div>
+                  </div>
                 </div>
-                <svg viewBox="0 0 100 25" className="w-24 h-6 stroke-emerald-400 fill-none stroke-2">
-                  <path d="M0 20 Q20 18 40 10 T80 5 T100 2" strokeLinecap="round" />
-                </svg>
+
+                {/* Footer Telemetry Banner */}
+                <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400 pt-1">
+                  <span>Framework: React 18 + Vite</span>
+                  <span className="text-emerald-400 font-bold flex items-center gap-1">
+                    <Check className="w-3 h-3" /> Core Web Vitals Pass
+                  </span>
+                </div>
               </div>
-            </div>
-          </div>
 
-          {/* Floating Metric Cards & Badges */}
-          
-          {/* Card 1: Lighthouse Score 100 (Top Right +2°) */}
-          <div className="absolute top-[20px] right-[20px] z-35 transform rotate-[2deg] animate-float-slow pointer-events-auto">
-            <div className="p-3 rounded-2xl bg-zinc-950/90 border border-emerald-400/40 backdrop-blur-xl shadow-[0_15px_30px_rgba(0,0,0,0.7)] flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-emerald-400/20 text-emerald-400 flex items-center justify-center font-bold text-xs border border-emerald-400/30">
-                <Gauge className="w-4 h-4" />
+              {/* MODULE 2: REAL SOFTWARE METRICS SUITE (Col-span-5) */}
+              <div className="md:col-span-5 p-4 rounded-xl bg-zinc-900/90 border border-zinc-800/90 space-y-3 shadow-lg flex flex-col justify-between">
+                
+                <div className="flex items-center justify-between border-b border-zinc-800/80 pb-2">
+                  <span className="text-xs font-bold text-white font-mono flex items-center gap-1.5">
+                    <Gauge className="w-4 h-4 text-emerald-400" /> Software Metrics Audit
+                  </span>
+                  <span className="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-400/10 px-2 py-0.5 rounded border border-emerald-400/30">
+                    Lighthouse
+                  </span>
+                </div>
+
+                {/* Metric Ring & Grid */}
+                <div className="space-y-2.5">
+                  
+                  {/* Metric 1: Lighthouse Score 100 */}
+                  <div className="p-2.5 rounded-lg bg-zinc-950 border border-zinc-800 flex items-center justify-between font-mono">
+                    <div>
+                      <span className="text-[10px] text-zinc-400 block">Performance Score</span>
+                      <span className="text-xs font-bold text-white">Google PageSpeed</span>
+                    </div>
+                    <div className="px-2.5 py-1 rounded-md bg-emerald-400/15 border border-emerald-400/40 text-emerald-400 font-extrabold text-sm shadow-[0_0_10px_rgba(52,211,153,0.2)]">
+                      100 / 100
+                    </div>
+                  </div>
+
+                  {/* Metric 2: SEO Score 99 */}
+                  <div className="p-2.5 rounded-lg bg-zinc-950 border border-zinc-800 flex items-center justify-between font-mono">
+                    <div>
+                      <span className="text-[10px] text-zinc-400 block">SEO & Indexing</span>
+                      <span className="text-xs font-bold text-white">Pages Indexed</span>
+                    </div>
+                    <div className="px-2.5 py-1 rounded-md bg-emerald-400/15 border border-emerald-400/40 text-emerald-400 font-extrabold text-sm">
+                      99 / 100
+                    </div>
+                  </div>
+
+                  {/* Metric 3: Core Web Vitals Breakdown */}
+                  <div className="grid grid-cols-3 gap-1.5 text-center font-mono text-[9px]">
+                    <div className="p-1.5 rounded bg-zinc-950 border border-zinc-800">
+                      <span className="text-zinc-400 block">LCP</span>
+                      <span className="text-emerald-400 font-bold">0.4s</span>
+                    </div>
+                    <div className="p-1.5 rounded bg-zinc-950 border border-zinc-800">
+                      <span className="text-zinc-400 block">CLS</span>
+                      <span className="text-emerald-400 font-bold">0.00</span>
+                    </div>
+                    <div className="p-1.5 rounded bg-zinc-950 border border-zinc-800">
+                      <span className="text-zinc-400 block">FID</span>
+                      <span className="text-emerald-400 font-bold">12ms</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="text-[10px] font-mono text-zinc-400 flex items-center justify-between border-t border-zinc-800/80 pt-2">
+                  <span>Average Load Time:</span>
+                  <span className="text-emerald-400 font-bold">0.24s (240ms)</span>
+                </div>
               </div>
-              <div>
-                <span className="text-[10px] font-mono text-zinc-400 block font-bold uppercase">Lighthouse Score</span>
-                <span className="text-xs text-emerald-400 font-extrabold font-mono">100 / 100 PERFECT</span>
+
+            </div>
+
+            {/* BOTTOM HALF: 2-COLUMN CONNECTED TELEMETRY & CODE PANELS */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch">
+              
+              {/* MODULE 3: GROWTH & LEAD GENERATION CHART (Col-span-6) */}
+              <div className="md:col-span-6 p-4 rounded-xl bg-zinc-900/90 border border-zinc-800/90 space-y-3 shadow-lg flex flex-col justify-between">
+                
+                <div className="flex items-center justify-between border-b border-zinc-800/80 pb-2">
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4 text-emerald-400" />
+                    <span className="text-xs font-bold text-white font-mono">Growth & Conversion Engine</span>
+                  </div>
+                  <span className="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-400/10 px-2 py-0.5 rounded border border-emerald-400/30">
+                    +284% Organic
+                  </span>
+                </div>
+
+                {/* Metric Counters */}
+                <div className="grid grid-cols-3 gap-2 font-mono text-center">
+                  <div className="p-2 rounded-lg bg-zinc-950 border border-zinc-800">
+                    <span className="text-[9px] text-zinc-400 block">Monthly Leads</span>
+                    <span className="text-xs font-extrabold text-white">1,420 /mo</span>
+                  </div>
+                  <div className="p-2 rounded-lg bg-zinc-950 border border-zinc-800">
+                    <span className="text-[9px] text-zinc-400 block">Conversion Rate</span>
+                    <span className="text-xs font-extrabold text-emerald-400">14.8%</span>
+                  </div>
+                  <div className="p-2 rounded-lg bg-zinc-950 border border-zinc-800">
+                    <span className="text-[9px] text-zinc-400 block">Bounce Rate</span>
+                    <span className="text-xs font-extrabold text-emerald-400">22.1%</span>
+                  </div>
+                </div>
+
+                {/* Animated Growth SVG Chart */}
+                <div className="p-2 rounded-lg bg-zinc-950 border border-zinc-800/80 relative">
+                  <div className="flex items-center justify-between text-[9px] font-mono text-zinc-400 mb-1">
+                    <span>30-Day Conversion Trajectory</span>
+                    <span className="text-emerald-400 font-bold">$64.2K Revenue</span>
+                  </div>
+                  <svg viewBox="0 0 200 40" className="w-full h-9 stroke-emerald-400 fill-none stroke-2 drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]">
+                    <path d="M0 36 Q40 32 80 20 T150 12 T200 4" strokeLinecap="round" />
+                    <circle cx="200" cy="4" r="3" fill="#34d399" className="animate-ping" />
+                  </svg>
+                </div>
               </div>
-            </div>
-          </div>
 
-          {/* Card 2: SEO Score 99/100 (Top Left -3°) */}
-          <div className="absolute top-[25px] left-[15px] z-35 transform -rotate-[3deg] animate-float-reverse pointer-events-auto">
-            <div className="px-3.5 py-2.5 rounded-2xl bg-zinc-950/90 border border-white/10 backdrop-blur-xl text-xs font-mono text-emerald-400 flex items-center gap-2 shadow-[0_15px_30px_rgba(0,0,0,0.7)]">
-              <Search className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="font-bold text-white">SEO Score</span>
-              <span className="text-emerald-400 font-extrabold">99/100</span>
-            </div>
-          </div>
+              {/* MODULE 4: PRODUCTION CODE & DEPLOYMENT PANEL (Col-span-6) */}
+              <div className="md:col-span-6 p-4 rounded-xl bg-zinc-900/90 border border-zinc-800/90 space-y-3 shadow-lg flex flex-col justify-between">
+                
+                <div className="flex items-center justify-between border-b border-zinc-800/80 pb-2">
+                  <div className="flex items-center gap-2">
+                    <Terminal className="w-4 h-4 text-emerald-400" />
+                    <span className="text-xs font-bold text-white font-mono">Production React / Next.js Stack</span>
+                  </div>
+                  <span className="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-400/10 px-2 py-0.5 rounded border border-emerald-400/30">
+                    Vite / React 18
+                  </span>
+                </div>
 
-          {/* Card 3: Performance +340% (Middle Right -2°) */}
-          <div className="absolute top-[180px] right-[15px] z-35 transform -rotate-[2deg] animate-float-slow pointer-events-auto">
-            <div className="p-3 rounded-2xl bg-zinc-950/90 border border-white/10 backdrop-blur-xl shadow-[0_15px_30px_rgba(0,0,0,0.7)] w-44">
-              <div className="flex items-center justify-between text-xs mb-1">
-                <span className="font-mono text-zinc-400 text-[10px] uppercase font-bold">Speed Lift</span>
-                <Zap className="w-3.5 h-3.5 text-emerald-400 fill-current" />
+                {/* Production Code Snippet */}
+                <div className="p-3 rounded-lg bg-zinc-950 border border-zinc-800/90 font-mono text-[10px] leading-relaxed text-zinc-300 overflow-x-auto custom-scrollbar">
+                  <div className="text-zinc-500">// Production Component Scaffold</div>
+                  <div>
+                    <span className="text-purple-400">import</span> {'{'} LaunchEngine {'}'} <span className="text-purple-400">from</span> <span className="text-amber-300">&apos;@launchgremlin/core&apos;</span>;
+                  </div>
+                  <div className="mt-1">
+                    <span className="text-purple-400">export default async function</span> <span className="text-emerald-300 font-bold">App</span>() {'{'}
+                  </div>
+                  <div className="pl-3">
+                    <span className="text-purple-400">const</span> app = <span className="text-purple-400">await</span> LaunchEngine.<span className="text-blue-400">optimize</span>({'{'}
+                  </div>
+                  <div className="pl-6 text-zinc-400">
+                    speed: <span className="text-amber-300">&apos;100_LIGHTHOUSE&apos;</span>,
+                  </div>
+                  <div className="pl-6 text-zinc-400">
+                    seo: <span className="text-amber-300">&apos;AUTOMATED_RAG&apos;</span>,
+                  </div>
+                  <div className="pl-3 text-zinc-300 font-light">
+                    {'}'});
+                  </div>
+                  <div className="pl-3">
+                    <span className="text-purple-400">return</span> &lt;<span className="text-rose-400">ProductionPlatform</span> status=<span className="text-amber-300">&quot;LIVE&quot;</span> /&gt;;
+                  </div>
+                  <div>{'}'}</div>
+                </div>
+
+                <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400 pt-1 border-t border-zinc-800/80">
+                  <span>Build Status: <strong className="text-white">0.18s (Success)</strong></span>
+                  <span className="text-emerald-400 font-bold flex items-center gap-1">
+                    <ShieldCheck className="w-3.5 h-3.5" /> Edge Deployed
+                  </span>
+                </div>
               </div>
-              <span className="text-base font-extrabold font-mono text-emerald-400 block">+340% Faster</span>
-              <span className="text-[9px] font-mono text-zinc-400 block">vs WordPress / Wix</span>
+
             </div>
+
           </div>
 
-          {/* Card 4: Deployment Complete (Middle Left -1°) */}
-          <div className="absolute top-[260px] left-[10px] z-35 transform -rotate-[1deg] animate-float-reverse pointer-events-auto">
-            <div className="px-3.5 py-2 rounded-2xl bg-zinc-950/90 border border-emerald-400/30 backdrop-blur-xl text-xs font-mono text-emerald-400 flex items-center gap-2 shadow-[0_15px_30px_rgba(0,0,0,0.7)]">
-              <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="font-bold text-white">Deployment Complete</span>
-              <span className="text-emerald-400 font-bold">Vercel Edge</span>
+          {/* D. CHROME FOOTER STATUS BAR */}
+          <div className="bg-zinc-900/90 px-4 py-2 border-t border-zinc-800/80 flex flex-wrap items-center justify-between text-[10px] font-mono text-zinc-400 gap-2">
+            <div className="flex items-center gap-3">
+              <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>AI Workflow Pipeline Active</span>
+              </span>
+              <span className="hidden sm:inline text-zinc-700">•</span>
+              <span className="hidden sm:inline text-zinc-300">Global Edge (32 PoPs)</span>
             </div>
-          </div>
-
-          {/* Card 5: Core Web Vitals Pass (Lower Left +2°) */}
-          <div className="absolute bottom-[35px] left-[20px] z-35 transform rotate-[2deg] animate-float-slow pointer-events-auto">
-            <div className="px-3.5 py-2 rounded-2xl bg-zinc-950/90 border border-white/10 backdrop-blur-xl text-xs font-mono text-white flex items-center gap-2 shadow-[0_15px_30px_rgba(0,0,0,0.7)]">
-              <Activity className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="font-bold">Core Web Vitals: PASS</span>
+            <div className="flex items-center gap-2 text-zinc-300">
+              <span className="px-2 py-0.5 rounded bg-zinc-800 text-zinc-200">React 18</span>
+              <span className="px-2 py-0.5 rounded bg-zinc-800 text-zinc-200">Next.js</span>
+              <span className="px-2 py-0.5 rounded bg-zinc-800 text-zinc-200">Vite</span>
+              <span className="px-2 py-0.5 rounded bg-emerald-400/20 text-emerald-400 font-bold">Tailwind v4</span>
             </div>
-          </div>
-
-          {/* Floating Cursor Accent */}
-          <div className="absolute top-[140px] left-[220px] z-40 transform translate-x-2 translate-y-2 pointer-events-none animate-pulse">
-            <MousePointer className="w-5 h-5 text-emerald-400 fill-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
           </div>
 
         </div>
+
       </div>
+
     </div>
   );
 }
