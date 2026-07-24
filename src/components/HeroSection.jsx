@@ -30,9 +30,12 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
             <span>FOR CREATORS. BY CREATORS.</span>
           </div>
 
-          {/* Headline with Seamless Flowing Underline */}
+          {/* Headline with Fluid clamp() Typography */}
           <div className="space-y-1 relative">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.05] uppercase">
+            <h1
+              className="font-black text-white tracking-tight leading-[1.05] uppercase"
+              style={{ fontSize: 'clamp(2.2rem, 7vw, 3.8rem)' }}
+            >
               BUILD WEBSITES. <br />
               <span className="relative inline-block text-emerald-400">
                 GROW AUDIENCES.
@@ -174,6 +177,8 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
                     key={i}
                     src={url}
                     alt="Creator avatar"
+                    loading="lazy"
+                    decoding="async"
                     className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 border-zinc-950 object-cover"
                   />
                 ))}
@@ -186,7 +191,7 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
             <div className="flex flex-col sm:flex-row items-center gap-3">
               <button
                 onClick={onOpenBooking}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 min-h-[48px] rounded-full bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 min-h-[48px] rounded-full bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer focus:ring-2 focus:ring-emerald-400 focus:outline-none"
               >
                 <span>Let&apos;s Build Something</span>
                 <Zap className="w-3.5 h-3.5 fill-current shrink-0" />
