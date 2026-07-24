@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import ServiceHeroBackground from '../components/common/ServiceHeroBackground';
 import AboutHeroScene from '../components/about/AboutHeroScene';
 import {
-  Sparkles, Zap, Rocket, Target, BarChart2, ArrowRight, CheckCircle2,
-  Terminal, Globe, ShieldCheck, Flame, Repeat, Code, Activity, Users,
-  Check, Layers, Cpu, Compass, RefreshCw, MessageSquare
+  Sparkles, Zap, Rocket, Target, ArrowRight, CheckCircle2,
+  Terminal, Globe, Repeat, Users,
 } from 'lucide-react';
 
 export default function AboutPage({ onOpenBooking, onSelectTab }) {
@@ -124,7 +123,7 @@ export default function AboutPage({ onOpenBooking, onSelectTab }) {
         </div>
       </ServiceHeroBackground>
 
-      {/* ---------------- 2. THE BUILD LOOP OPERATING WORKFLOW ---------------- */}
+      {/* ---------------- 2. THE BUILD LOOP OPERATING WORKFLOW (EQUAL HEIGHT GRID) ---------------- */}
       <section className="max-w-7xl mx-auto px-6 space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs font-mono text-emerald-400 font-bold uppercase tracking-widest block">
@@ -138,15 +137,15 @@ export default function AboutPage({ onOpenBooking, onSelectTab }) {
           </p>
         </div>
 
-        {/* 7-Step Interactive Flow Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-7 gap-3">
+        {/* 7-Step Interactive Equal Height Flow Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-7 gap-3 items-stretch">
           {buildLoop.map((step, idx) => {
             const isActive = idx === activeLoopStep;
             return (
               <div
                 key={step.name}
                 onClick={() => setActiveLoopStep(idx)}
-                className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between space-y-3 relative overflow-hidden ${
+                className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between space-y-3 h-full relative overflow-hidden ${
                   isActive
                     ? 'bg-zinc-900 border-emerald-400 text-white shadow-[0_0_25px_rgba(52,211,153,0.25)]'
                     : 'bg-zinc-950/80 border-zinc-800/80 hover:border-zinc-700 text-zinc-400'
@@ -166,7 +165,7 @@ export default function AboutPage({ onOpenBooking, onSelectTab }) {
         </div>
       </section>
 
-      {/* ---------------- 3. BRAND MANIFESTO GRID — 6 Culture Cards ---------------- */}
+      {/* ---------------- 3. BRAND MANIFESTO GRID — 6 Culture Cards (EQUAL HEIGHT) ---------------- */}
       <section className="max-w-7xl mx-auto px-6 space-y-10">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs font-mono text-emerald-400 font-bold uppercase tracking-widest block">
@@ -180,35 +179,41 @@ export default function AboutPage({ onOpenBooking, onSelectTab }) {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch">
           {manifestoCards.map((item, idx) => {
             const IconComp = item.icon;
             return (
               <div
                 key={idx}
-                className="p-7 rounded-3xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/50 hover:shadow-[0_0_30px_rgba(52,211,153,0.2)] transition-all space-y-4 group relative overflow-hidden"
+                className="p-7 rounded-3xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/50 hover:shadow-[0_0_30px_rgba(52,211,153,0.2)] transition-all flex flex-col justify-between space-y-4 group relative overflow-hidden h-full"
               >
-                <div className="flex items-center justify-between">
-                  <div className="w-12 h-12 rounded-2xl bg-zinc-950 border border-emerald-400/30 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <IconComp className="w-6 h-6" />
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="w-12 h-12 rounded-2xl bg-zinc-950 border border-emerald-400/30 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <IconComp className="w-6 h-6" />
+                    </div>
+                    <span className="px-2.5 py-1 rounded-full bg-zinc-950 border border-zinc-800 text-[10px] font-mono text-emerald-400 font-bold">
+                      {item.badge}
+                    </span>
                   </div>
-                  <span className="px-2.5 py-1 rounded-full bg-zinc-950 border border-zinc-800 text-[10px] font-mono text-emerald-400 font-bold">
-                    {item.badge}
-                  </span>
+
+                  <div>
+                    <h3 className="text-lg font-bold text-white uppercase group-hover:text-emerald-300 transition-colors">
+                      {item.title}
+                    </h3>
+                    <span className="text-xs font-mono text-zinc-400 font-medium block mt-0.5">
+                      {item.subtitle}
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-zinc-400 leading-relaxed font-light">
+                    {item.desc}
+                  </p>
                 </div>
 
-                <div>
-                  <h3 className="text-lg font-bold text-white uppercase group-hover:text-emerald-300 transition-colors">
-                    {item.title}
-                  </h3>
-                  <span className="text-xs font-mono text-zinc-400 font-medium block mt-0.5">
-                    {item.subtitle}
-                  </span>
+                <div className="pt-3 border-t border-zinc-800/80 text-[10px] font-mono text-emerald-400 font-bold">
+                  ● LAUNCHGREMLIN MANIFESTO
                 </div>
-
-                <p className="text-xs text-zinc-400 leading-relaxed font-light">
-                  {item.desc}
-                </p>
               </div>
             );
           })}
