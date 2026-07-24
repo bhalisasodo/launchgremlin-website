@@ -201,7 +201,7 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
         </div>
 
         {/* RIGHT COLUMN — Art Directed Handcrafted 3D Scene */}
-        <div className="lg:col-span-6 relative mt-4 lg:mt-0">
+        <div className="hidden lg:block lg:col-span-6 relative mt-4 lg:mt-0">
           <HeroScene />
         </div>
       </div>

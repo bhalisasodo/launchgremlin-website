@@ -117,7 +117,7 @@ export default function AboutPage({ onOpenBooking, onSelectTab }) {
           </div>
 
           {/* Right Column — Living LaunchGremlin OS Scene */}
-          <div className="lg:col-span-6 relative mt-6 lg:mt-0">
+          <div className="hidden lg:block lg:col-span-6 relative mt-6 lg:mt-0">
             <AboutHeroScene />
           </div>
         </div>

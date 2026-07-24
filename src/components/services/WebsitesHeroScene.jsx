@@ -81,7 +81,7 @@ export default function WebsitesHeroScene({ onOpenBooking }) {
       </div>
 
       {/* RIGHT COLUMN — SINGLE UNIFIED COHESIVE APPLICATION WINDOW */}
-      <div className="lg:col-span-7 relative z-10">
+      <div className="hidden lg:block lg:col-span-7 relative z-10">
         
         {/* Ambient Glows around Chrome Window */}
         <div className="absolute -top-10 -right-10 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
