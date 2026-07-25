@@ -5,8 +5,6 @@ export default function Navbar({
   activeTab,
   onSelectTab,
   onOpenBooking,
-  isMaintenance,
-  onToggleMaintenance,
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
@@ -64,20 +62,6 @@ export default function Navbar({
 
         {/* Right Header Actions */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          {/* Maintenance Mode Toggle Pill */}
-          <button
-            onClick={onToggleMaintenance}
-            className={`hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono border transition-all cursor-pointer ${
-              isMaintenance
-                ? 'bg-amber-500/10 border-amber-500/30 text-amber-300'
-                : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white'
-            }`}
-            title="Toggle Phase 5 Maintenance Mode Overlay"
-          >
-            <span className={`w-2 h-2 rounded-full ${isMaintenance ? 'bg-amber-400 animate-ping' : 'bg-emerald-400'}`} />
-            <span>{isMaintenance ? 'Maintenance Active' : 'Phase 5 View'}</span>
-          </button>
-
           <button
             onClick={onOpenBooking}
             className="inline-flex items-center gap-2 px-3.5 sm:px-5 py-2.5 min-h-[44px] sm:min-h-[48px] rounded-xl bg-emerald-400 text-zinc-950 font-bold text-xs shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
@@ -117,15 +101,6 @@ export default function Navbar({
               {link.label}
             </button>
           ))}
-
-          <div className="pt-2 border-t border-zinc-900 flex items-center justify-between">
-            <button
-              onClick={onToggleMaintenance}
-              className="text-xs font-mono text-amber-400 underline py-2 min-h-[44px] cursor-pointer"
-            >
-              Toggle Maintenance Mode
-            </button>
-          </div>
         </div>
       )}
     </header>

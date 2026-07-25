@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import MaintenancePage from './components/MaintenancePage';
 import StrategyCallModal from './components/StrategyCallModal';
 import HomePage from './pages/HomePage';
 import WebsitesPage from './pages/WebsitesPage';
@@ -34,7 +33,6 @@ const getTabFromUrl = () => {
 
 export default function App() {
   const [activeTab, setActiveTab] = useState(getTabFromUrl);
-  const [isMaintenance, setIsMaintenance] = useState(false); // Live Website by default
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   // Synchronize state with browser history (back/forward & refresh)
@@ -61,21 +59,6 @@ export default function App() {
     }
   };
 
-  // Maintenance Mode View (If manually toggled via Navbar/Footer)
-  if (isMaintenance) {
-    return (
-      <>
-        <MaintenancePage
-          onOpenBookingModal={() => setIsBookingModalOpen(true)}
-        />
-        <StrategyCallModal
-          isOpen={isBookingModalOpen}
-          onClose={() => setIsBookingModalOpen(false)}
-        />
-      </>
-    );
-  }
-
   // Live Website View (Default for all public visitors)
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex flex-col justify-between selection:bg-emerald-400 selection:text-black">
@@ -83,8 +66,6 @@ export default function App() {
         activeTab={activeTab}
         onSelectTab={handleSelectTab}
         onOpenBooking={() => setIsBookingModalOpen(true)}
-        isMaintenance={isMaintenance}
-        onToggleMaintenance={() => setIsMaintenance(!isMaintenance)}
       />
 
       <main className="flex-1">
