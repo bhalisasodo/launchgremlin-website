@@ -8,7 +8,7 @@ export default function StrategyCallModal({ isOpen, onClose }) {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [company, setCompany] = useState('');
-  const [budget, setBudget] = useState('R10k - R25k');
+  const [budget, setBudget] = useState('R4,999 (Launch Package)');
   const [details, setDetails] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -186,10 +186,10 @@ export default function StrategyCallModal({ isOpen, onClose }) {
                   onChange={(e) => setBudget(e.target.value)}
                   className="w-full px-3 py-3 min-h-[48px] rounded-xl bg-zinc-900 border border-zinc-800 text-base sm:text-xs text-white focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/50"
                 >
-                  <option value="R10k - R25k">R10,000 – R25,000</option>
-                  <option value="R25k - R50k">R25,000 – R50,000</option>
-                  <option value="R50k - R100k+">R50,000 – R100,000+</option>
-                  <option value="Enterprise">Enterprise / Custom retainer</option>
+                  <option value="R4,999 (Launch Package)">R4,999 (Launch Package)</option>
+                  <option value="R8,999 (Growth Engine)">R8,999 (Growth Engine)</option>
+                  <option value="From R17,999 (Custom Platform)">From R17,999 (Custom Platform)</option>
+                  <option value="Enterprise / Custom Retainer">Enterprise / Custom Retainer</option>
                 </select>
               </div>
             </div>

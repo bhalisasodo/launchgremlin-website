@@ -78,7 +78,7 @@ export default function PricingSection({ onOpenBooking, onSelectTab }) {
               <span className="text-xs font-mono text-zinc-400 uppercase tracking-widest block mb-1">Package 01</span>
               <h3 className="text-2xl font-bold text-white">Launch</h3>
               <div className="mt-3 flex items-baseline gap-1">
-                <span className="text-4xl font-extrabold text-emerald-400 font-mono tracking-tight">R5,500</span>
+                <span className="text-4xl font-extrabold text-emerald-400 font-mono tracking-tight">R4,999</span>
               </div>
               <p className="mt-3 text-xs text-zinc-300 font-light leading-relaxed">
                 Perfect for creators, startups and small businesses looking to establish a premium online presence without agency pricing.
@@ -142,7 +142,7 @@ export default function PricingSection({ onOpenBooking, onSelectTab }) {
               <span className="text-xs font-mono text-emerald-400 uppercase tracking-widest block mb-1">Package 02</span>
               <h3 className="text-2xl font-bold text-white">Growth Engine</h3>
               <div className="mt-3 flex items-baseline gap-1">
-                <span className="text-4xl font-extrabold text-emerald-400 font-mono tracking-tight">R10,500</span>
+                <span className="text-4xl font-extrabold text-emerald-400 font-mono tracking-tight">R8,999</span>
               </div>
               <p className="mt-3 text-xs text-zinc-300 font-light leading-relaxed">
                 Everything you need to grow your audience, generate leads and scale your business with a high-performance digital presence.
@@ -203,7 +203,7 @@ export default function PricingSection({ onOpenBooking, onSelectTab }) {
               <h3 className="text-2xl font-bold text-white">Custom Platform</h3>
               <div className="mt-3 flex items-baseline gap-1">
                 <span className="text-xs text-zinc-400 font-mono">From</span>
-                <span className="text-4xl font-extrabold text-emerald-400 font-mono tracking-tight">R19,999</span>
+                <span className="text-4xl font-extrabold text-emerald-400 font-mono tracking-tight">R17,999</span>
               </div>
               <p className="mt-3 text-xs text-zinc-300 font-light leading-relaxed">
                 Custom web applications, AI-powered systems and business platforms engineered specifically for your workflow and growth.

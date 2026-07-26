@@ -369,7 +369,7 @@ export default function WebsitesHeroScene({ onOpenBooking }) {
 
                 {/* Production Code Snippet */}
                 <div className="p-3 rounded-lg bg-zinc-950 border border-zinc-800/90 font-mono text-[10px] leading-relaxed text-zinc-300 overflow-x-auto custom-scrollbar">
-                  <div className="text-zinc-500">// Production Component Scaffold</div>
+                  <div className="text-zinc-500">{'// Production Component Scaffold'}</div>
                   <div>
                     <span className="text-purple-400">import</span> {'{'} LaunchEngine {'}'} <span className="text-purple-400">from</span> <span className="text-amber-300">&apos;@launchgremlin/core&apos;</span>;
                   </div>
