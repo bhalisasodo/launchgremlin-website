@@ -10,6 +10,19 @@ export default defineConfig({
         react(),
         tailwindcss(),
     ],
+    build: {
+        minify: 'esbuild',
+        cssMinify: true,
+        sourcemap: false,
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    'react-vendor': ['react', 'react-dom'],
+                    'lucide-icons': ['lucide-react'],
+                },
+            },
+        },
+    },
     server: {
         proxy: {
             '/api': {
@@ -27,4 +40,3 @@ export default defineConfig({
         },
     },
 })
-

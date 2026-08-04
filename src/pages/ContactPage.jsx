@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ServiceHeroBackground from '../components/common/ServiceHeroBackground';
-import { Send, Check, Mail, Phone, Calendar, Sparkles } from 'lucide-react';
+import { Send, Check, Calendar, Sparkles } from 'lucide-react';
 
 export default function ContactPage({ onOpenBooking }) {
   const [name, setName] = useState('');
@@ -36,14 +36,14 @@ export default function ContactPage({ onOpenBooking }) {
       </ServiceHeroBackground>
 
       {/* Form Container */}
-      <section className="max-w-xl mx-auto px-4 sm:px-6">
+      <section aria-label="Contact Form Section" className="max-w-xl mx-auto px-4 sm:px-6">
         <div className="p-6 sm:p-8 rounded-3xl bg-zinc-900/80 border border-zinc-800 space-y-6">
           {sent ? (
             <div className="p-6 text-center space-y-3">
               <div className="w-12 h-12 rounded-full bg-emerald-400/10 text-emerald-400 flex items-center justify-center mx-auto border border-emerald-400/30">
                 <Check className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-white">Message Sent!</h3>
+              <h2 className="text-lg font-bold text-white">Message Sent!</h2>
               <p className="text-xs text-zinc-400 leading-relaxed">
                 We will respond to {email} ({phone}) within 24 hours.
               </p>
@@ -52,8 +52,9 @@ export default function ContactPage({ onOpenBooking }) {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1">Your Name *</label>
+                  <label htmlFor="contact-name" className="block text-xs font-medium text-zinc-300 mb-1">Your Name *</label>
                   <input
+                    id="contact-name"
                     type="text"
                     required
                     value={name}
@@ -64,8 +65,9 @@ export default function ContactPage({ onOpenBooking }) {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1">Contact Phone *</label>
+                  <label htmlFor="contact-phone" className="block text-xs font-medium text-zinc-300 mb-1">Contact Phone *</label>
                   <input
+                    id="contact-phone"
                     type="tel"
                     required
                     value={phone}
@@ -77,8 +79,9 @@ export default function ContactPage({ onOpenBooking }) {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-300 mb-1">Work Email *</label>
+                <label htmlFor="contact-email" className="block text-xs font-medium text-zinc-300 mb-1">Work Email *</label>
                 <input
+                  id="contact-email"
                   type="email"
                   required
                   value={email}
@@ -89,8 +92,9 @@ export default function ContactPage({ onOpenBooking }) {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-300 mb-1">Message / Project Details</label>
+                <label htmlFor="contact-message" className="block text-xs font-medium text-zinc-300 mb-1">Message / Project Details</label>
                 <textarea
+                  id="contact-message"
                   rows={4}
                   required
                   value={message}

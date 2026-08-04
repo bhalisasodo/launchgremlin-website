@@ -13,7 +13,11 @@ export default function HeroPhone({ style }) {
       <div className="relative z-10 overflow-hidden rounded-2xl drop-shadow-[-15px_22px_40px_rgba(0,0,0,0.95)]">
         <img
           src="/assets/smartphones-trans.png"
-          alt="LaunchGremlin Creator Smartphone"
+          alt="LaunchGremlin Mobile UI App Showcase on Smartphone"
+          width="195"
+          height="390"
+          loading="lazy"
+          decoding="async"
           className="w-full h-auto object-contain"
           style={{
             maskImage: 'linear-gradient(to bottom, black 88%, transparent 98%)',

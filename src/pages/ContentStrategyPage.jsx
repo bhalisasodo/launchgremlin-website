@@ -12,7 +12,19 @@ export default function ContentStrategyPage({ onOpenBooking }) {
       </ServiceHeroBackground>
 
       {/* 3 Creator Growth Pillars Grid — Equal Height Geometric Cards */}
-      <section className="max-w-6xl mx-auto px-6">
+      <section aria-labelledby="content-pillars-title" className="max-w-6xl mx-auto px-6">
+        <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
+          <span className="text-xs font-mono uppercase tracking-widest text-emerald-400 font-bold block">
+            Audience Building Engine
+          </span>
+          <h2 id="content-pillars-title" className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight uppercase">
+            Content Growth & Distribution Systems
+          </h2>
+          <p className="text-xs sm:text-sm text-zinc-400 font-light">
+            Turn content into predictable client acquisition with multi-channel distribution funnels.
+          </p>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
           
           {/* Card 1: 30 Days Planned & AI Optimized */}

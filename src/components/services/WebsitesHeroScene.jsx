@@ -213,9 +213,9 @@ export default function WebsitesHeroScene({ onOpenBooking }) {
                   {/* Website Mini Hero */}
                   <div className="space-y-1.5 text-left py-1">
                     <span className="text-[9px] font-mono text-emerald-400 font-bold">● SUB-SECOND ENGINE</span>
-                    <h4 className="text-xs font-bold text-white leading-tight font-sans">
+                    <span className="text-xs font-bold text-white leading-tight font-sans block">
                       High-Performance Websites & AI Workflows
-                    </h4>
+                    </span>
                     <p className="text-[10px] text-zinc-400 font-light leading-snug">
                       Turn visitors into clients with sub-second speeds and conversion architecture.
                     </p>

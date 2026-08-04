@@ -13,7 +13,19 @@ export default function WebsitesPage({ onOpenBooking, onSelectTab }) {
       </ServiceHeroBackground>
 
       {/* Feature Grid — Outcome-Driven Value Pillars (Equal Height Geometry) */}
-      <section className="max-w-6xl mx-auto px-6">
+      <section aria-labelledby="websites-features-title" className="max-w-6xl mx-auto px-6">
+        <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
+          <span className="text-xs font-mono uppercase tracking-widest text-emerald-400 font-bold block">
+            Engineered For Speed & Growth
+          </span>
+          <h2 id="websites-features-title" className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight uppercase">
+            High-Performance Web Engineering
+          </h2>
+          <p className="text-xs sm:text-sm text-zinc-400 font-light">
+            Every site we build is optimized for instant loading, top search placement, and maximum user conversion.
+          </p>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
           
           {/* Card 1: Lightning Fast Performance */}

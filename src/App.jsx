@@ -9,20 +9,28 @@ import AIConsultingPage from './pages/AIConsultingPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import AdminDashboard from './components/AdminDashboard';
+import SEO from './components/common/SEO';
+import Breadcrumbs from './components/common/Breadcrumbs';
 
 const VALID_TABS = ['home', 'websites', 'content-strategy', 'ai-consulting', 'about', 'contact', 'admin'];
 
 const getTabFromUrl = () => {
   if (typeof window === 'undefined') return 'home';
   
-  // 1. Check query parameter e.g. ?tab=about or ?tab=websites
+  // 1. Check pathname e.g. /websites or /content-strategy
+  const pathname = window.location.pathname.replace(/^\/+|\/+$/g, '');
+  if (pathname && VALID_TABS.includes(pathname)) {
+    return pathname;
+  }
+
+  // 2. Check query parameter e.g. ?tab=about or ?tab=websites
   const params = new URLSearchParams(window.location.search);
   const tabParam = params.get('tab');
   if (tabParam && VALID_TABS.includes(tabParam)) {
     return tabParam;
   }
 
-  // 2. Fallback check URL hash e.g. /#about or /#websites
+  // 3. Fallback check URL hash e.g. /#about or /#websites
   const hash = window.location.hash.replace(/^#\/?/, '');
   if (hash && VALID_TABS.includes(hash)) {
     return hash;
@@ -50,25 +58,29 @@ export default function App() {
   const handleSelectTab = (tab) => {
     setActiveTab(tab);
     if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      params.set('tab', tab);
-      const newSearch = params.toString() ? `?${params.toString()}` : '';
-      const newUrl = `${window.location.pathname}${newSearch}`;
-      window.history.pushState({ tab }, '', newUrl);
+      const targetPath = tab === 'home' ? '/' : `/${tab}`;
+      if (window.location.pathname !== targetPath) {
+        window.history.pushState({ tab }, '', targetPath);
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
-  // Live Website View (Default for all public visitors)
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex flex-col justify-between selection:bg-emerald-400 selection:text-black">
+      {/* Dynamic SEO Metadata Tag Injector */}
+      <SEO pageKey={activeTab} />
+
       <Navbar
         activeTab={activeTab}
         onSelectTab={handleSelectTab}
         onOpenBooking={() => setIsBookingModalOpen(true)}
       />
 
-      <main className="flex-1">
+      {/* Visual Breadcrumb Navigation */}
+      <Breadcrumbs pageKey={activeTab} onSelectTab={handleSelectTab} />
+
+      <main id="main-content" className="flex-1">
         {activeTab === 'home' && (
           <HomePage
             onSelectTab={handleSelectTab}
@@ -85,12 +97,14 @@ export default function App() {
 
         {activeTab === 'content-strategy' && (
           <ContentStrategyPage
+            onSelectTab={handleSelectTab}
             onOpenBooking={() => setIsBookingModalOpen(true)}
           />
         )}
 
         {activeTab === 'ai-consulting' && (
           <AIConsultingPage
+            onSelectTab={handleSelectTab}
             onOpenBooking={() => setIsBookingModalOpen(true)}
           />
         )}

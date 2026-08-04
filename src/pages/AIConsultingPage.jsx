@@ -12,7 +12,19 @@ export default function AIConsultingPage({ onOpenBooking }) {
       </ServiceHeroBackground>
 
       {/* AI Solutions Grid — Equal Height Geometric Cards */}
-      <section className="max-w-6xl mx-auto px-6">
+      <section aria-labelledby="ai-solutions-title" className="max-w-6xl mx-auto px-6">
+        <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
+          <span className="text-xs font-mono uppercase tracking-widest text-emerald-400 font-bold block">
+            Enterprise AI Systems
+          </span>
+          <h2 id="ai-solutions-title" className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight uppercase">
+            Autonomous AI & Workflow Infrastructure
+          </h2>
+          <p className="text-xs sm:text-sm text-zinc-400 font-light">
+            Custom AI solutions built to eliminate operational friction, automate client onboarding, and save hundreds of hours monthly.
+          </p>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
           
           <div className="p-8 rounded-3xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/50 hover:shadow-[0_0_30px_rgba(52,211,153,0.15)] transition-all duration-300 group h-full flex flex-col justify-between space-y-6">

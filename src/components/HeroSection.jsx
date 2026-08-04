@@ -7,13 +7,18 @@ import {
 export default function HeroSection({ onSelectTab, onOpenBooking }) {
   // Creator Avatar stack images
   const avatars = [
-    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80',
+    { url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80', name: 'Creator Client Sarah' },
+    { url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80', name: 'Founder Client Marcus' },
+    { url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80', name: 'Creator Client Elena' },
+    { url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80', name: 'Founder Client David' },
+    { url: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80', name: 'Creator Client Chloe' },
+    { url: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80', name: 'Founder Client James' },
   ];
+
+  const handleLinkClick = (e, tab) => {
+    e.preventDefault();
+    if (onSelectTab) onSelectTab(tab);
+  };
 
   return (
     <section className="relative pt-6 sm:pt-8 pb-12 sm:pb-16 px-4 sm:px-6 max-w-7xl mx-auto z-10 select-none overflow-hidden">
@@ -30,7 +35,7 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
             <span>FOR CREATORS. BY CREATORS.</span>
           </div>
 
-          {/* Headline with Fluid clamp() Typography */}
+          {/* Headline with Fluid clamp() Typography — Single Primary H1 */}
           <div className="space-y-1 relative">
             <h1
               className="font-black text-white tracking-tight leading-[1.05] uppercase"
@@ -44,6 +49,7 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
                   className="absolute -bottom-2 inset-x-0 w-full h-3 text-emerald-400/80 overflow-visible"
                   viewBox="0 0 300 12"
                   fill="none"
+                  aria-hidden="true"
                 >
                   <path
                     d="M3 9C50 3 150 2 297 8"
@@ -59,7 +65,7 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
 
             {/* Glowing Flow Line connecting GROW AUDIENCES to Right Art Scene (Desktop) */}
             <div className="hidden lg:block absolute left-[85%] top-[45%] w-[180px] h-[60px] pointer-events-none z-20">
-              <svg className="w-full h-full overflow-visible" viewBox="0 0 180 60" fill="none">
+              <svg className="w-full h-full overflow-visible" viewBox="0 0 180 60" fill="none" aria-hidden="true">
                 <path
                   d="M0 10 C 60 10, 100 45, 180 35"
                   stroke="url(#headlineFlowGlow)"
@@ -87,8 +93,9 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
           {/* 3 Pillar Cards Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 sm:pt-2">
             {/* Card 1: BUILD */}
-            <div
-              onClick={() => onSelectTab('websites')}
+            <a
+              href="/websites"
+              onClick={(e) => handleLinkClick(e, 'websites')}
               className="group p-3.5 sm:p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/60 hover:shadow-[0_0_20px_rgba(52,211,153,0.2)] transition-all cursor-pointer flex flex-col justify-between"
             >
               <div className="space-y-2">
@@ -96,7 +103,7 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
                   <Globe className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-xs sm:text-sm font-bold text-white uppercase group-hover:text-emerald-300">BUILD</h3>
+                  <span className="text-xs sm:text-sm font-bold text-white uppercase group-hover:text-emerald-300 block">BUILD</span>
                   <span className="text-[10px] font-mono text-emerald-400 font-semibold block">
                     WEBSITES THAT CONVERT
                   </span>
@@ -110,11 +117,12 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
                   <ChevronRight className="w-3.5 h-3.5" />
                 </span>
               </div>
-            </div>
+            </a>
 
             {/* Card 2: GROW */}
-            <div
-              onClick={() => onSelectTab('content-strategy')}
+            <a
+              href="/content-strategy"
+              onClick={(e) => handleLinkClick(e, 'content-strategy')}
               className="group p-3.5 sm:p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/60 hover:shadow-[0_0_20px_rgba(52,211,153,0.2)] transition-all cursor-pointer flex flex-col justify-between"
             >
               <div className="space-y-2">
@@ -122,7 +130,7 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
                   <TrendingUp className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-xs sm:text-sm font-bold text-white uppercase group-hover:text-emerald-300">GROW</h3>
+                  <span className="text-xs sm:text-sm font-bold text-white uppercase group-hover:text-emerald-300 block">GROW</span>
                   <span className="text-[10px] font-mono text-emerald-400 font-semibold block">
                     CONTENT THAT CONNECTS
                   </span>
@@ -136,11 +144,12 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
                   <ChevronRight className="w-3.5 h-3.5" />
                 </span>
               </div>
-            </div>
+            </a>
 
             {/* Card 3: SCALE */}
-            <div
-              onClick={() => onSelectTab('ai-consulting')}
+            <a
+              href="/ai-consulting"
+              onClick={(e) => handleLinkClick(e, 'ai-consulting')}
               className="group p-3.5 sm:p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/60 hover:shadow-[0_0_20px_rgba(52,211,153,0.2)] transition-all cursor-pointer flex flex-col justify-between"
             >
               <div className="space-y-2">
@@ -148,7 +157,7 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
                   <Bot className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-xs sm:text-sm font-bold text-white uppercase group-hover:text-emerald-300">SCALE</h3>
+                  <span className="text-xs sm:text-sm font-bold text-white uppercase group-hover:text-emerald-300 block">SCALE</span>
                   <span className="text-[10px] font-mono text-emerald-400 font-semibold block">
                     AI THAT MULTIPLIES
                   </span>
@@ -162,7 +171,7 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
                   <ChevronRight className="w-3.5 h-3.5" />
                 </span>
               </div>
-            </div>
+            </a>
           </div>
 
           {/* Bottom Creator Trust Stack & Dual CTAs */}
@@ -172,11 +181,13 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
                 TRUSTED BY CREATORS & BRANDS
               </span>
               <div className="flex -space-x-2">
-                {avatars.map((url, i) => (
+                {avatars.map((avatar, i) => (
                   <img
                     key={i}
-                    src={url}
-                    alt="Creator avatar"
+                    src={avatar.url}
+                    alt={avatar.name}
+                    width="28"
+                    height="28"
                     loading="lazy"
                     decoding="async"
                     className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 border-zinc-950 object-cover"
@@ -191,6 +202,7 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
             <div className="flex flex-col sm:flex-row items-center gap-3">
               <button
                 onClick={onOpenBooking}
+                aria-label="Book a Strategy Call to start building"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 min-h-[48px] rounded-full bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer focus:ring-2 focus:ring-emerald-400 focus:outline-none"
               >
                 <span>Let&apos;s Build Something</span>

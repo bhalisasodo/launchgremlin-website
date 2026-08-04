@@ -15,7 +15,12 @@ export default function HeroCreator({ style }) {
       {/* 3. Creator High-Res Image Asset (+20% size boost, centered balance, hands & camera unobstructed) */}
       <img
         src="/assets/hero-creator.png"
-        alt="LaunchGremlin Creator"
+        alt="LaunchGremlin Internet-Native Creator Studio"
+        width="690"
+        height="690"
+        loading="eager"
+        fetchPriority="high"
+        decoding="async"
         className="w-full h-auto object-contain relative z-10 drop-shadow-[-15px_25px_50px_rgba(0,0,0,0.9)] filter contrast-[1.06] brightness-[1.04]"
       />
     </div>

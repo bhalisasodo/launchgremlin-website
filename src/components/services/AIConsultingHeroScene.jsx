@@ -268,7 +268,7 @@ export default function AIConsultingHeroScene({ onOpenBooking }) {
                         {agent.avatar}
                       </span>
                       <div>
-                        <h4 className="text-xs font-bold text-white font-sans">{agent.name}</h4>
+                        <span className="text-xs font-bold text-white font-sans block">{agent.name}</span>
                         <span className="text-[9px] font-mono text-zinc-400 block">{agent.role}</span>
                       </div>
                     </div>

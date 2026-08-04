@@ -9,25 +9,35 @@ export default function Navbar({
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   const navLinks = [
-    { id: 'websites', label: 'Websites' },
-    { id: 'content-strategy', label: 'Content Strategy' },
-    { id: 'ai-consulting', label: 'AI Consulting' },
-    { id: 'about', label: 'About' },
-    { id: 'contact', label: 'Contact' },
+    { id: 'websites', label: 'Websites', path: '/websites' },
+    { id: 'content-strategy', label: 'Content Strategy', path: '/content-strategy' },
+    { id: 'ai-consulting', label: 'AI Consulting', path: '/ai-consulting' },
+    { id: 'about', label: 'About', path: '/about' },
+    { id: 'contact', label: 'Contact', path: '/contact' },
   ];
+
+  const handleLinkClick = (e, id) => {
+    e.preventDefault();
+    onSelectTab(id);
+  };
 
   return (
     <header className="sticky top-0 z-40 w-full bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-800/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 sm:py-3 min-h-[72px] sm:min-h-[88px] flex items-center justify-between gap-2">
         {/* Brand Logo & Name */}
-        <button
-          onClick={() => onSelectTab('home')}
+        <a
+          href="/"
+          onClick={(e) => handleLinkClick(e, 'home')}
           aria-label="LaunchGremlin Homepage"
           className="flex items-center gap-2.5 sm:gap-4 group text-left focus:outline-none shrink-0"
         >
           <img
             src="/assets/logo-icon.png"
             alt="LaunchGremlin Logo Icon"
+            width="88"
+            height="88"
+            loading="eager"
+            fetchPriority="high"
             className="h-12 sm:h-18 md:h-22 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
           />
           <div className="flex flex-col">
@@ -38,16 +48,17 @@ export default function Navbar({
               Build. Grow. Scale.
             </span>
           </div>
-        </button>
+        </a>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-1 bg-zinc-900/60 p-1.5 rounded-2xl border border-zinc-800/80">
+        <nav aria-label="Main navigation" className="hidden md:flex items-center gap-1 bg-zinc-900/60 p-1.5 rounded-2xl border border-zinc-800/80">
           {navLinks.map((link) => {
             const isActive = activeTab === link.id;
             return (
-              <button
+              <a
                 key={link.id}
-                onClick={() => onSelectTab(link.id)}
+                href={link.path}
+                onClick={(e) => handleLinkClick(e, link.id)}
                 className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer ${
                   isActive
                     ? 'bg-emerald-400 text-zinc-950 font-bold shadow-[0_0_15px_rgba(52,211,153,0.3)]'
@@ -55,7 +66,7 @@ export default function Navbar({
                 }`}
               >
                 {link.label}
-              </button>
+              </a>
             );
           })}
         </nav>
@@ -64,6 +75,7 @@ export default function Navbar({
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <button
             onClick={onOpenBooking}
+            aria-label="Book a Strategy Call"
             className="inline-flex items-center gap-2 px-3.5 sm:px-5 py-2.5 min-h-[44px] sm:min-h-[48px] rounded-xl bg-emerald-400 text-zinc-950 font-bold text-xs shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
           >
             <Calendar className="w-3.5 h-3.5 shrink-0" />
@@ -84,12 +96,13 @@ export default function Navbar({
 
       {/* Mobile Drawer Navigation */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-zinc-950 border-b border-zinc-800 px-4 sm:px-6 py-4 space-y-2 animate-fade-up">
+        <nav aria-label="Mobile menu navigation" className="md:hidden bg-zinc-950 border-b border-zinc-800 px-4 sm:px-6 py-4 space-y-2 animate-fade-up">
           {navLinks.map((link) => (
-            <button
+            <a
               key={link.id}
-              onClick={() => {
-                onSelectTab(link.id);
+              href={link.path}
+              onClick={(e) => {
+                handleLinkClick(e, link.id);
                 setMobileMenuOpen(false);
               }}
               className={`w-full text-left px-4 py-3 min-h-[48px] rounded-xl text-sm font-semibold transition-all flex items-center cursor-pointer ${
@@ -99,9 +112,9 @@ export default function Navbar({
               }`}
             >
               {link.label}
-            </button>
+            </a>
           ))}
-        </div>
+        </nav>
       )}
     </header>
   );

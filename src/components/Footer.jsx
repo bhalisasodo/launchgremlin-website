@@ -1,14 +1,27 @@
 import React from 'react';
-import { ArrowUpRight, Sparkles, Heart, Instagram } from 'lucide-react';
+import { Instagram } from 'lucide-react';
 
 export default function Footer({ onSelectTab, onOpenBooking }) {
+  const handleLinkClick = (e, tab) => {
+    e.preventDefault();
+    if (onSelectTab) onSelectTab(tab);
+  };
+
   return (
     <footer className="w-full bg-zinc-950 border-t border-zinc-900 py-16 px-6 text-zinc-400 relative z-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 mb-12">
         {/* Brand & Mantra Column */}
         <div className="md:col-span-5 space-y-4">
           <div className="flex items-center gap-4">
-            <img src="/assets/logo-icon.png" alt="LaunchGremlin Logo Icon" className="h-16 sm:h-20 w-auto object-contain" />
+            <img
+              src="/assets/logo-icon.png"
+              alt="LaunchGremlin Logo Icon"
+              width="80"
+              height="80"
+              loading="lazy"
+              decoding="async"
+              className="h-16 sm:h-20 w-auto object-contain"
+            />
             <span className="font-black text-2xl sm:text-3xl text-white tracking-tight">
               Launch<span className="text-emerald-400">Gremlin</span>
             </span>
@@ -26,42 +39,65 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
 
         {/* Pillars Column */}
         <div className="md:col-span-3 space-y-3">
-          <h4 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold">Strategic Pillars</h4>
+          <h2 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold">Strategic Pillars</h2>
           <ul className="space-y-2 text-xs">
             <li>
-              <button onClick={() => onSelectTab('websites')} className="hover:text-emerald-400 transition-colors">
+              <a
+                href="/websites"
+                onClick={(e) => handleLinkClick(e, 'websites')}
+                className="hover:text-emerald-400 transition-colors inline-block py-1"
+              >
                 🌐 High-Performance Websites
-              </button>
+              </a>
             </li>
             <li>
-              <button onClick={() => onSelectTab('content-strategy')} className="hover:text-emerald-400 transition-colors">
+              <a
+                href="/content-strategy"
+                onClick={(e) => handleLinkClick(e, 'content-strategy')}
+                className="hover:text-emerald-400 transition-colors inline-block py-1"
+              >
                 📈 Content Strategy & Growth
-              </button>
+              </a>
             </li>
             <li>
-              <button onClick={() => onSelectTab('ai-consulting')} className="hover:text-emerald-400 transition-colors">
+              <a
+                href="/ai-consulting"
+                onClick={(e) => handleLinkClick(e, 'ai-consulting')}
+                className="hover:text-emerald-400 transition-colors inline-block py-1"
+              >
                 🤖 AI Consulting & Workflows
-              </button>
+              </a>
             </li>
           </ul>
         </div>
 
         {/* Navigation & Company */}
         <div className="md:col-span-2 space-y-3">
-          <h4 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold">Company</h4>
+          <h2 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold">Company</h2>
           <ul className="space-y-2 text-xs">
             <li>
-              <button onClick={() => onSelectTab('about')} className="hover:text-white transition-colors">
+              <a
+                href="/about"
+                onClick={(e) => handleLinkClick(e, 'about')}
+                className="hover:text-white transition-colors inline-block py-1"
+              >
                 About Us
-              </button>
+              </a>
             </li>
             <li>
-              <button onClick={() => onSelectTab('contact')} className="hover:text-white transition-colors">
+              <a
+                href="/contact"
+                onClick={(e) => handleLinkClick(e, 'contact')}
+                className="hover:text-white transition-colors inline-block py-1"
+              >
                 Contact & Scope Builder
-              </button>
+              </a>
             </li>
             <li>
-              <button onClick={onOpenBooking} className="text-emerald-400 hover:underline">
+              <button
+                onClick={onOpenBooking}
+                className="text-emerald-400 hover:underline py-1 text-left cursor-pointer"
+              >
                 Book Strategy Call
               </button>
             </li>
@@ -70,7 +106,7 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
 
         {/* Live System Status */}
         <div className="md:col-span-2 space-y-3">
-          <h4 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold">System Status</h4>
+          <h2 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold">System Status</h2>
           <div className="p-3.5 rounded-2xl bg-zinc-900/80 border border-zinc-800 text-xs space-y-1">
             <div className="flex items-center gap-2 text-emerald-400 font-mono font-semibold">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
@@ -91,8 +127,9 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
             rel="noreferrer"
             className="hover:text-emerald-400 transition-colors flex items-center gap-1.5"
             title="LaunchGremlin TikTok"
+            aria-label="LaunchGremlin TikTok profile"
           >
-            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 1 1-5.2-1.74 2.89 2.89 0 0 1 2.31-2.84V7.59a6.34 6.34 0 0 0-5.11 6.18A6.34 6.34 0 1 0 15.8 7.61a8.31 8.31 0 0 0 3.79.95v-3.47a4.87 4.87 0 0 1 0 1.6z"/>
             </svg>
             <span>TikTok</span>
@@ -103,8 +140,9 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
             rel="noreferrer"
             className="hover:text-emerald-400 transition-colors flex items-center gap-1.5"
             title="LaunchGremlin Instagram"
+            aria-label="LaunchGremlin Instagram profile"
           >
-            <Instagram className="w-3.5 h-3.5" />
+            <Instagram className="w-3.5 h-3.5" aria-hidden="true" />
             <span>Instagram</span>
           </a>
         </div>

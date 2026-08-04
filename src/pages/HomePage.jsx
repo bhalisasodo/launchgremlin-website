@@ -4,16 +4,21 @@ import PricingSection from '../components/common/PricingSection';
 import { ArrowRight, Globe, TrendingUp, Bot, Zap, Layers, RefreshCw, CheckCircle } from 'lucide-react';
 
 export default function HomePage({ onSelectTab, onOpenBooking }) {
+  const handleLinkClick = (e, tab) => {
+    e.preventDefault();
+    if (onSelectTab) onSelectTab(tab);
+  };
+
   return (
     <div className="space-y-24 pb-20 select-none">
       {/* REDESIGNED CREATOR HERO SECTION */}
       <HeroSection onSelectTab={onSelectTab} onOpenBooking={onOpenBooking} />
 
       {/* THREE STRATEGIC PILLARS GRID */}
-      <section className="px-6 max-w-7xl mx-auto">
+      <section aria-labelledby="core-pillars-title" className="px-6 max-w-7xl mx-auto">
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
           <span className="text-xs font-mono uppercase tracking-widest text-emerald-400">Core Services</span>
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white">Three Engine Pillars</h2>
+          <h2 id="core-pillars-title" className="text-3xl sm:text-5xl font-bold tracking-tight text-white">Three Engine Pillars</h2>
           <p className="text-zinc-400 text-sm sm:text-base font-light">
             Technology is the engine. Growth is the outcome. Designed to scale with your ambition.
           </p>
@@ -21,8 +26,9 @@ export default function HomePage({ onSelectTab, onOpenBooking }) {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Pillar 1: WEBSITES */}
-          <div
-            onClick={() => onSelectTab('websites')}
+          <a
+            href="/websites"
+            onClick={(e) => handleLinkClick(e, 'websites')}
             className="group p-8 rounded-3xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/60 hover:shadow-[0_0_35px_rgba(52,211,153,0.2)] transition-all duration-300 cursor-pointer flex flex-col justify-between"
           >
             <div className="space-y-6">
@@ -62,11 +68,12 @@ export default function HomePage({ onSelectTab, onOpenBooking }) {
               <span>View Websites Scope</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
-          </div>
+          </a>
 
           {/* Pillar 2: CONTENT STRATEGY */}
-          <div
-            onClick={() => onSelectTab('content-strategy')}
+          <a
+            href="/content-strategy"
+            onClick={(e) => handleLinkClick(e, 'content-strategy')}
             className="group p-8 rounded-3xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/60 hover:shadow-[0_0_35px_rgba(52,211,153,0.2)] transition-all duration-300 cursor-pointer flex flex-col justify-between"
           >
             <div className="space-y-6">
@@ -106,11 +113,12 @@ export default function HomePage({ onSelectTab, onOpenBooking }) {
               <span>View Content Engine</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
-          </div>
+          </a>
 
           {/* Pillar 3: AI CONSULTING */}
-          <div
-            onClick={() => onSelectTab('ai-consulting')}
+          <a
+            href="/ai-consulting"
+            onClick={(e) => handleLinkClick(e, 'ai-consulting')}
             className="group p-8 rounded-3xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/60 hover:shadow-[0_0_35px_rgba(52,211,153,0.2)] transition-all duration-300 cursor-pointer flex flex-col justify-between"
           >
             <div className="space-y-6">
@@ -150,7 +158,7 @@ export default function HomePage({ onSelectTab, onOpenBooking }) {
               <span>View AI Solutions</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
-          </div>
+          </a>
         </div>
       </section>
 
@@ -158,14 +166,14 @@ export default function HomePage({ onSelectTab, onOpenBooking }) {
       <PricingSection onOpenBooking={onOpenBooking} onSelectTab={onSelectTab} />
 
       {/* COMPANY PHILOSOPHY: AGGRESSIVE ITERATION */}
-      <section className="px-6 max-w-6xl mx-auto">
+      <section aria-labelledby="philosophy-title" className="px-6 max-w-6xl mx-auto">
         <div className="p-10 md:p-14 rounded-3xl bg-gradient-to-b from-zinc-900 to-zinc-950 border border-zinc-800 text-center relative overflow-hidden shadow-2xl space-y-8">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono">
             <RefreshCw className="w-3.5 h-3.5 animate-spin-slow" />
             <span>LaunchGremlin Operating Philosophy</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white max-w-3xl mx-auto">
+          <h2 id="philosophy-title" className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white max-w-3xl mx-auto">
             Aggressive Iteration. <br />
             <span className="text-emerald-400 font-mono">Build. Ship. Measure. Improve. Repeat.</span>
           </h2>
@@ -189,14 +197,15 @@ export default function HomePage({ onSelectTab, onOpenBooking }) {
       </section>
 
       {/* BOTTOM CTA BANNER */}
-      <section className="px-6 max-w-5xl mx-auto text-center space-y-6">
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-white">Ready to Build, Grow, or Scale?</h2>
+      <section aria-labelledby="home-cta-title" className="px-6 max-w-5xl mx-auto text-center space-y-6">
+        <h2 id="home-cta-title" className="text-3xl sm:text-4xl font-extrabold text-white">Ready to Build, Grow, or Scale?</h2>
         <p className="text-zinc-400 text-sm max-w-md mx-auto font-light">
           Book a 1-on-1 strategy call with our team to map out your technical architecture and growth engine.
         </p>
         <button
           onClick={onOpenBooking}
-          className="inline-flex items-center justify-center gap-3 px-10 py-4 rounded-2xl bg-emerald-400 text-zinc-950 font-bold text-base shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all"
+          aria-label="Book a 1-on-1 strategy call"
+          className="inline-flex items-center justify-center gap-3 px-10 py-4 rounded-2xl bg-emerald-400 text-zinc-950 font-bold text-base shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
         >
           <span>Book Strategy Call</span>
           <ArrowRight className="w-5 h-5" />
