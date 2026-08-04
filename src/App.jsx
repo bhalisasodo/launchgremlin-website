@@ -11,26 +11,30 @@ import ContactPage from './pages/ContactPage';
 import AdminDashboard from './components/AdminDashboard';
 import SEO from './components/common/SEO';
 import Breadcrumbs from './components/common/Breadcrumbs';
+import IndustryLandingPage from './pages/IndustryLandingPage';
+import { INDUSTRIES_DATA } from './utils/industryData';
 
-const VALID_TABS = ['home', 'websites', 'content-strategy', 'ai-consulting', 'about', 'contact', 'admin'];
+const CORE_TABS = ['home', 'websites', 'content-strategy', 'ai-consulting', 'about', 'contact', 'admin'];
+const INDUSTRY_KEYS = Object.keys(INDUSTRIES_DATA);
+const VALID_TABS = [...CORE_TABS, ...INDUSTRY_KEYS];
 
 const getTabFromUrl = () => {
   if (typeof window === 'undefined') return 'home';
   
-  // 1. Check pathname e.g. /websites or /content-strategy
+  // 1. Check pathname e.g. /websites or /websites-for-gyms
   const pathname = window.location.pathname.replace(/^\/+|\/+$/g, '');
   if (pathname && VALID_TABS.includes(pathname)) {
     return pathname;
   }
 
-  // 2. Check query parameter e.g. ?tab=about or ?tab=websites
+  // 2. Check query parameter e.g. ?tab=about or ?tab=websites-for-gyms
   const params = new URLSearchParams(window.location.search);
   const tabParam = params.get('tab');
   if (tabParam && VALID_TABS.includes(tabParam)) {
     return tabParam;
   }
 
-  // 3. Fallback check URL hash e.g. /#about or /#websites
+  // 3. Fallback check URL hash e.g. /#about or /#websites-for-gyms
   const hash = window.location.hash.replace(/^#\/?/, '');
   if (hash && VALID_TABS.includes(hash)) {
     return hash;
@@ -65,6 +69,8 @@ export default function App() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
+
+  const isIndustryPage = INDUSTRY_KEYS.includes(activeTab);
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex flex-col justify-between selection:bg-emerald-400 selection:text-black">
@@ -126,6 +132,14 @@ export default function App() {
           <div className="max-w-7xl mx-auto px-6 py-12">
             <AdminDashboard />
           </div>
+        )}
+
+        {isIndustryPage && (
+          <IndustryLandingPage
+            industryKey={activeTab}
+            onOpenBooking={() => setIsBookingModalOpen(true)}
+            onSelectTab={handleSelectTab}
+          />
         )}
       </main>
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Instagram } from 'lucide-react';
+import { INDUSTRIES_DATA } from '../utils/industryData';
 
 export default function Footer({ onSelectTab, onOpenBooking }) {
   const handleLinkClick = (e, tab) => {
@@ -7,11 +8,13 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
     if (onSelectTab) onSelectTab(tab);
   };
 
+  const industriesList = Object.keys(INDUSTRIES_DATA).map(key => INDUSTRIES_DATA[key]);
+
   return (
     <footer className="w-full bg-zinc-950 border-t border-zinc-900 py-16 px-6 text-zinc-400 relative z-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 mb-12">
         {/* Brand & Mantra Column */}
-        <div className="md:col-span-5 space-y-4">
+        <div className="md:col-span-4 space-y-4">
           <div className="flex items-center gap-4">
             <img
               src="/assets/logo-icon.png"
@@ -69,50 +72,55 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
               </a>
             </li>
           </ul>
+
+          <div className="pt-4 space-y-2">
+            <h2 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold">Company</h2>
+            <ul className="space-y-1.5 text-xs">
+              <li>
+                <a
+                  href="/about"
+                  onClick={(e) => handleLinkClick(e, 'about')}
+                  className="hover:text-white transition-colors py-0.5 inline-block"
+                >
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/contact"
+                  onClick={(e) => handleLinkClick(e, 'contact')}
+                  className="hover:text-white transition-colors py-0.5 inline-block"
+                >
+                  Contact & Scope Builder
+                </a>
+              </li>
+              <li>
+                <button
+                  onClick={onOpenBooking}
+                  className="text-emerald-400 hover:underline py-0.5 text-left cursor-pointer"
+                >
+                  Book Strategy Call
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        {/* Navigation & Company */}
-        <div className="md:col-span-2 space-y-3">
-          <h2 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold">Company</h2>
-          <ul className="space-y-2 text-xs">
-            <li>
+        {/* Industries We Serve Column (Structured Internal Linking) */}
+        <div className="md:col-span-5 space-y-3">
+          <h2 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold">Industries We Serve</h2>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
+            {industriesList.map((ind) => (
               <a
-                href="/about"
-                onClick={(e) => handleLinkClick(e, 'about')}
-                className="hover:text-white transition-colors inline-block py-1"
+                key={ind.slug}
+                href={ind.path}
+                onClick={(e) => handleLinkClick(e, ind.slug)}
+                className="hover:text-emerald-400 transition-colors truncate py-0.5 text-zinc-400"
+                title={`Websites for ${ind.name}`}
               >
-                About Us
+                ● Websites for {ind.shortTitle}
               </a>
-            </li>
-            <li>
-              <a
-                href="/contact"
-                onClick={(e) => handleLinkClick(e, 'contact')}
-                className="hover:text-white transition-colors inline-block py-1"
-              >
-                Contact & Scope Builder
-              </a>
-            </li>
-            <li>
-              <button
-                onClick={onOpenBooking}
-                className="text-emerald-400 hover:underline py-1 text-left cursor-pointer"
-              >
-                Book Strategy Call
-              </button>
-            </li>
-          </ul>
-        </div>
-
-        {/* Live System Status */}
-        <div className="md:col-span-2 space-y-3">
-          <h2 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold">System Status</h2>
-          <div className="p-3.5 rounded-2xl bg-zinc-900/80 border border-zinc-800 text-xs space-y-1">
-            <div className="flex items-center gap-2 text-emerald-400 font-mono font-semibold">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-              <span>All Systems Operational</span>
-            </div>
-            <p className="text-[10px] text-zinc-500 font-mono">100% Uptime · Vite React Engine</p>
+            ))}
           </div>
         </div>
       </div>

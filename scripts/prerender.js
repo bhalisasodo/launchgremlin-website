@@ -20,10 +20,12 @@ const cleanTemplate = rawTemplate
   .replace(/<script id="json-ld-schema".*?<\/script>\s*/gs, '')
   .replace(/<div id="root">.*?<\/div>/s, '<div id="root"></div>');
 
-const pageKeys = ['home', 'websites', 'content-strategy', 'ai-consulting', 'about', 'contact'];
+const pageKeys = Object.keys(SEO_DATA).filter(k => k !== 'admin');
 
 pageKeys.forEach((key) => {
   const page = SEO_DATA[key];
+  if (!page) return;
+
   let html = cleanTemplate;
 
   // Replace Title
@@ -115,4 +117,4 @@ pageKeys.forEach((key) => {
   }
 });
 
-console.log('🎉 Production SSG Static Prerendering Complete!');
+console.log(`🎉 Production SSG Static Prerendering Complete for ${pageKeys.length} routes!`);

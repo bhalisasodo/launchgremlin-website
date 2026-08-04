@@ -1,8 +1,9 @@
 // SEO Metadata and Schema.org Generator for LaunchGremlin.com
+import { INDUSTRIES_DATA } from './industryData.js';
 
 export const SITE_DOMAIN = 'https://launchgremlin.com';
 
-export const SEO_DATA = {
+export const BASE_SEO_DATA = {
   home: {
     path: '/',
     title: 'LaunchGremlin — Build, Grow, Scale | Websites, Content Strategy & AI Consulting',
@@ -160,6 +161,34 @@ export const SEO_DATA = {
     ]
   }
 };
+
+// Merge Industry Pages into SEO_DATA dynamically
+export const SEO_DATA = { ...BASE_SEO_DATA };
+
+Object.keys(INDUSTRIES_DATA).forEach((key) => {
+  const ind = INDUSTRIES_DATA[key];
+  SEO_DATA[key] = {
+    path: ind.path,
+    title: ind.title,
+    description: ind.description,
+    keywords: ind.keywords,
+    canonical: ind.canonical,
+    ogType: 'service',
+    ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    ogImageAlt: ind.title,
+    breadcrumbs: [
+      { name: 'Home', item: `${SITE_DOMAIN}/` },
+      { name: 'Websites', item: `${SITE_DOMAIN}/websites` },
+      { name: ind.name, item: ind.canonical }
+    ],
+    service: {
+      name: `High-Performance Website Design for ${ind.name}`,
+      serviceType: 'Web Development',
+      description: ind.heroSubheadline
+    },
+    faqs: ind.faqs
+  };
+});
 
 export function generateSchemasForPage(pageKey) {
   const page = SEO_DATA[pageKey] || SEO_DATA.home;

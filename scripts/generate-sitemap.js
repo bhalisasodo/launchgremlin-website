@@ -1,13 +1,14 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { INDUSTRIES_DATA } from '../src/utils/industryData.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const SITE_DOMAIN = 'https://launchgremlin.com';
 
-const routes = [
+const coreRoutes = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },
   { path: '/websites', priority: '0.9', changefreq: 'weekly' },
   { path: '/content-strategy', priority: '0.9', changefreq: 'weekly' },
@@ -16,13 +17,21 @@ const routes = [
   { path: '/contact', priority: '0.8', changefreq: 'monthly' },
 ];
 
+const industryRoutes = Object.keys(INDUSTRIES_DATA).map(key => ({
+  path: INDUSTRIES_DATA[key].path,
+  priority: '0.85',
+  changefreq: 'weekly'
+}));
+
+const allRoutes = [...coreRoutes, ...industryRoutes];
+
 const today = new Date().toISOString().split('T')[0];
 
 const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-${routes.map(r => `  <url>
+${allRoutes.map(r => `  <url>
     <loc>${SITE_DOMAIN}${r.path}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>${r.changefreq}</changefreq>
@@ -33,11 +42,11 @@ ${routes.map(r => `  <url>
 // Write to public/sitemap.xml
 const publicPath = path.join(__dirname, '../public/sitemap.xml');
 fs.writeFileSync(publicPath, sitemapXml, 'utf8');
-console.log('✅ Generated public/sitemap.xml');
+console.log(`✅ Generated public/sitemap.xml with ${allRoutes.length} routes`);
 
 // If dist exists, write to dist/sitemap.xml as well
 const distDir = path.join(__dirname, '../dist');
 if (fs.existsSync(distDir)) {
   fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapXml, 'utf8');
-  console.log('✅ Generated dist/sitemap.xml');
+  console.log(`✅ Generated dist/sitemap.xml with ${allRoutes.length} routes`);
 }
