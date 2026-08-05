@@ -101,8 +101,8 @@ export default function ContactPage({ onOpenBooking }) {
                 </div>
                 <div>
                   <span className="text-[11px] font-mono text-zinc-400 block">Direct Phone & WhatsApp</span>
-                  <a href="tel:+27821234567" className="text-sm font-bold text-white hover:text-emerald-400 transition-colors">
-                    +27 82 123 4567
+                  <a href="https://wa.me/2768965502" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-white hover:text-emerald-400 transition-colors">
+                    +27 689 65502
                   </a>
                 </div>
               </div>
@@ -203,7 +203,7 @@ export default function ContactPage({ onOpenBooking }) {
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        placeholder="+27 82 000 0000"
+                        placeholder="+27 689 65502"
                         className="w-full px-4 py-3.5 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-emerald-400 transition-colors"
                       />
                     </div>
