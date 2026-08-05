@@ -1,9 +1,9 @@
 import React from 'react';
 import { ChevronRight, Home } from 'lucide-react';
-import { SEO_DATA } from '../../utils/seoData';
+import { getSeoDataForPage } from '../../utils/seoData';
 
 export default function Breadcrumbs({ pageKey, onSelectTab }) {
-  const pageData = SEO_DATA[pageKey];
+  const pageData = getSeoDataForPage(pageKey);
   if (!pageData || !pageData.breadcrumbs || pageData.breadcrumbs.length <= 1) {
     return null;
   }

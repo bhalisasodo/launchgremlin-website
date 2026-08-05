@@ -10,8 +10,29 @@ const ICON_MAP = {
   Globe, Bot, Building2, Rocket, UserCheck, Instagram, Sparkles, Target, Search, TrendingUp
 };
 
-export default function BlogHubPage({ onSelectTab, onOpenBooking }) {
-  const [selectedCluster, setSelectedCluster] = useState('all');
+export default function BlogHubPage({ onSelectTab, onOpenBooking, initialCluster }) {
+  const getInitialCluster = () => {
+    if (initialCluster && BLOG_CLUSTERS.some(c => c.id === initialCluster)) return initialCluster;
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const catParam = params.get('category') || params.get('cluster') || params.get('tag');
+      if (catParam && BLOG_CLUSTERS.some(c => c.id.toLowerCase() === catParam.toLowerCase())) {
+        return catParam.toLowerCase();
+      }
+      const pathname = window.location.pathname.replace(/^\/+|\/+$/g, '');
+      const parts = pathname.split('/');
+      if (parts[0] === 'blog' && parts.length > 1) {
+        const catPart = (parts[1] === 'category' || parts[1] === 'tag') ? parts[2] : parts[1];
+        if (catPart) {
+          const match = BLOG_CLUSTERS.find(c => c.id.toLowerCase() === catPart.toLowerCase() || c.name.toLowerCase() === catPart.toLowerCase());
+          if (match) return match.id;
+        }
+      }
+    }
+    return 'all';
+  };
+
+  const [selectedCluster, setSelectedCluster] = useState(getInitialCluster);
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleLinkClick = (e, targetTab) => {
@@ -20,7 +41,10 @@ export default function BlogHubPage({ onSelectTab, onOpenBooking }) {
   };
 
   const filteredArticles = BLOG_ARTICLES.filter((article) => {
-    const matchesCluster = selectedCluster === 'all' || article.clusterId === selectedCluster;
+    const matchesCluster =
+      selectedCluster === 'all' ||
+      article.clusterId === selectedCluster ||
+      (article.category && article.category.toLowerCase() === selectedCluster.toLowerCase());
     const matchesSearch =
       searchQuery.trim() === '' ||
       article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||

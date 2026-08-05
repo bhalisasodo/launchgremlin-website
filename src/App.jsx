@@ -22,33 +22,70 @@ import StickyMobileCTA from './components/common/StickyMobileCTA';
 import ExitIntentModal from './components/common/ExitIntentModal';
 
 import { INDUSTRIES_DATA } from './utils/industryData';
-import { BLOG_ARTICLES } from './utils/blogData';
+import { BLOG_CLUSTERS, BLOG_ARTICLES } from './utils/blogData';
 import { LONG_TAIL_PAGES } from './utils/longTailData';
 
 const CORE_TABS = ['home', 'websites', 'content-strategy', 'ai-consulting', 'about', 'contact', 'admin', 'blog', 'privacy', 'terms', 'cookies'];
 const INDUSTRY_KEYS = Object.keys(INDUSTRIES_DATA);
-const BLOG_SLUGS = BLOG_ARTICLES.map(a => `blog/${a.slug}`);
 const LONG_TAIL_SLUGS = LONG_TAIL_PAGES.map(p => p.slug);
 
-const VALID_TABS = [...CORE_TABS, ...INDUSTRY_KEYS, ...BLOG_SLUGS, ...LONG_TAIL_SLUGS];
+const normalizeRoute = (rawPath) => {
+  if (!rawPath) return 'home';
+  const path = decodeURIComponent(rawPath).replace(/^\/+|\/+$/g, '');
+  if (!path || path === 'home') return 'home';
+
+  if (CORE_TABS.includes(path) || INDUSTRY_KEYS.includes(path) || LONG_TAIL_SLUGS.includes(path)) {
+    return path;
+  }
+
+  if (path.startsWith('blog')) {
+    const parts = path.split('/').filter(Boolean);
+    if (parts.length === 1) return 'blog';
+
+    const lastPart = parts[parts.length - 1].toLowerCase();
+
+    // Check if last part matches an article slug
+    const article = BLOG_ARTICLES.find(a => a.slug.toLowerCase() === lastPart);
+    if (article) {
+      return `blog/${article.slug}`;
+    }
+
+    // Check if category or tag path
+    const catPart = (parts[1] === 'category' || parts[1] === 'tag') ? parts[2] : parts[1];
+    if (catPart) {
+      const cluster = BLOG_CLUSTERS.find(c =>
+        c.id.toLowerCase() === catPart.toLowerCase() ||
+        c.name.toLowerCase() === catPart.toLowerCase()
+      );
+      if (cluster) {
+        return 'blog';
+      }
+    }
+
+    return `blog/${parts[parts.length - 1]}`;
+  }
+
+  return 'home';
+};
 
 const getTabFromUrl = () => {
   if (typeof window === 'undefined') return 'home';
-  
+
   const pathname = window.location.pathname.replace(/^\/+|\/+$/g, '');
-  if (pathname && VALID_TABS.includes(pathname)) {
-    return pathname;
+  if (pathname) {
+    const tab = normalizeRoute(pathname);
+    if (tab !== 'home' || pathname === '' || pathname === '/') return tab;
   }
 
   const params = new URLSearchParams(window.location.search);
   const tabParam = params.get('tab');
-  if (tabParam && VALID_TABS.includes(tabParam)) {
-    return tabParam;
+  if (tabParam) {
+    return normalizeRoute(tabParam);
   }
 
   const hash = window.location.hash.replace(/^#\/?/, '');
-  if (hash && VALID_TABS.includes(hash)) {
-    return hash;
+  if (hash) {
+    return normalizeRoute(hash);
   }
 
   return 'home';

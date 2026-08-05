@@ -257,8 +257,21 @@ LONG_TAIL_PAGES.forEach((page) => {
   };
 });
 
+export function getSeoDataForPage(pageKey) {
+  if (!pageKey) return SEO_DATA.home;
+  if (SEO_DATA[pageKey]) return SEO_DATA[pageKey];
+
+  if (typeof pageKey === 'string' && pageKey.startsWith('blog')) {
+    const slug = pageKey.split('/').pop().toLowerCase();
+    const articleKey = `blog/${slug}`;
+    if (SEO_DATA[articleKey]) return SEO_DATA[articleKey];
+  }
+
+  return SEO_DATA.home;
+}
+
 export function generateSchemasForPage(pageKey) {
-  const page = SEO_DATA[pageKey] || SEO_DATA.home;
+  const page = getSeoDataForPage(pageKey);
 
   const orgSchema = {
     '@context': 'https://schema.org',

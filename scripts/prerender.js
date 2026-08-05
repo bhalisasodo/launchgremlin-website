@@ -19,13 +19,15 @@ const cleanTemplate = rawTemplate
   .replace(/<script id="json-ld-schema".*?<\/script>\s*/gs, '')
   .replace(/<div id="root">.*?<\/div>/s, '<div id="root"></div>');
 
-// Pre-render core pages, legal pages, industry pages, and top featured blog/long-tail pages
+import { BLOG_ARTICLES } from '../src/utils/blogData.js';
+
+// Pre-render core pages, legal pages, industry pages, all 100 blog articles, and long-tail pages
 const coreKeys = ['home', 'websites', 'content-strategy', 'ai-consulting', 'about', 'contact', 'blog', 'privacy', 'terms', 'cookies'];
 const industryKeys = ['websites-for-gyms', 'websites-for-restaurants', 'websites-for-hair-salons', 'websites-for-barbers', 'websites-for-cafes', 'websites-for-coaches', 'websites-for-personal-trainers', 'websites-for-creators', 'websites-for-influencers', 'websites-for-photographers', 'websites-for-dentists', 'websites-for-lawyers', 'websites-for-realtors', 'websites-for-accountants', 'websites-for-construction-companies', 'websites-for-cleaning-companies'];
-const featuredBlogKeys = ['blog/sub-second-website-speed-guide', 'blog/high-converting-landing-page-anatomy', 'blog/core-web-vitals-optimization-2026', 'blog/how-to-build-custom-ai-agents-for-business', 'blog/local-seo-domination-for-small-businesses', 'blog/how-to-build-a-72-hour-mvp', 'blog/building-an-executive-personal-brand', 'blog/instagram-reels-algorithm-playbook-2026', 'blog/creator-economy-trends-and-monetization', 'blog/b2b-lead-generation-funnel-blueprint', 'blog/technical-seo-audit-checklist-2026', 'blog/data-driven-content-strategy-framework'];
+const blogKeys = BLOG_ARTICLES.map(a => `blog/${a.slug}`);
 const featuredLongTailKeys = ['best-website-for-a-gym', 'website-for-yoga-studio', 'website-for-coffee-shop', 'restaurant-website-examples', 'creator-website-examples', 'website-for-makeup-artist', 'website-for-podcast', 'website-for-dj', 'website-for-musician', 'website-for-startup', 'affordable-business-website'];
 
-const prerenderKeys = [...coreKeys, ...industryKeys, ...featuredBlogKeys, ...featuredLongTailKeys];
+const prerenderKeys = [...coreKeys, ...industryKeys, ...blogKeys, ...featuredLongTailKeys];
 
 console.log(`Starting SSG Pre-rendering for ${prerenderKeys.length} primary static routes...`);
 
@@ -78,6 +80,9 @@ prerenderKeys.forEach((key) => {
   html = html.replace('</head>', schemaScript);
 
   // Pre-render static HTML fallback content into <div id="root">
+  const blogLinksHtml = BLOG_ARTICLES.map(a => `<a href="/blog/${a.slug}">${a.title}</a>`).join('\n        ');
+  const industryLinksHtml = industryKeys.map(k => `<a href="/${k}">${k}</a>`).join('\n        ');
+  const longTailLinksHtml = featuredLongTailKeys.map(k => `<a href="/${k}">${k}</a>`).join('\n        ');
   const fallbackHtml = `
     <header class="sr-only">
       <h1>${page.title}</h1>
@@ -96,6 +101,9 @@ prerenderKeys.forEach((key) => {
         <a href="/privacy">Privacy Policy</a>
         <a href="/terms">Terms of Service</a>
         <a href="/cookies">Cookie Policy</a>
+        ${blogLinksHtml}
+        ${industryLinksHtml}
+        ${longTailLinksHtml}
       </nav>
     </main>
   `;

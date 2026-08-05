@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { SEO_DATA, generateSchemasForPage, SITE_DOMAIN } from '../../utils/seoData';
+import { getSeoDataForPage, generateSchemasForPage, SITE_DOMAIN } from '../../utils/seoData';
 
 export default function SEO({ pageKey = 'home' }) {
   useEffect(() => {
     if (typeof document === 'undefined') return;
 
-    const data = SEO_DATA[pageKey] || SEO_DATA.home;
+    const data = getSeoDataForPage(pageKey);
 
     // 1. Title
     document.title = data.title;
