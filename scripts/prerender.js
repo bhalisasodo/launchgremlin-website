@@ -2,6 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { SEO_DATA, generateSchemasForPage } from '../src/utils/seoData.js';
+import { INDUSTRIES_DATA } from '../src/utils/industryData.js';
+import { BLOG_ARTICLES } from '../src/utils/blogData.js';
+import { LONG_TAIL_PAGES } from '../src/utils/longTailData.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,7 +24,46 @@ const cleanTemplate = rawTemplate
 
 const pageKeys = Object.keys(SEO_DATA).filter(k => k !== 'admin');
 
-console.log(`Starting SSG Pre-rendering for ${pageKeys.length} total routes...`);
+console.log(`Starting SSG Pre-rendering & Topical Authority Hub for ${pageKeys.length} total routes...`);
+
+// Pre-build comprehensive HTML link index for crawler discovery
+const coreLinkList = [
+  '<a href="/">Home</a>',
+  '<a href="/websites">Websites & Products</a>',
+  '<a href="/content-strategy">Content Strategy</a>',
+  '<a href="/ai-consulting">AI Consulting</a>',
+  '<a href="/blog">Blog Content Hub</a>',
+  '<a href="/about">About</a>',
+  '<a href="/contact">Contact</a>'
+];
+
+const industryLinkList = Object.keys(INDUSTRIES_DATA).map(
+  k => `<a href="${INDUSTRIES_DATA[k].path}">${INDUSTRIES_DATA[k].name}</a>`
+);
+
+const blogLinkList = BLOG_ARTICLES.map(
+  a => `<a href="/blog/${a.slug}">${a.title}</a>`
+);
+
+const longTailLinkList = LONG_TAIL_PAGES.map(
+  p => `<a href="${p.path}">${p.label}</a>`
+);
+
+const masterSitemapNavHtml = `
+  <nav aria-label="Topical Authority Directory" class="sr-only">
+    <h2>Core Pillars</h2>
+    <ul>${coreLinkList.map(l => `<li>${l}</li>`).join('')}</ul>
+
+    <h2>Industry Solutions</h2>
+    <ul>${industryLinkList.map(l => `<li>${l}</li>`).join('')}</ul>
+
+    <h2>Knowledge Base Articles</h2>
+    <ul>${blogLinkList.map(l => `<li>${l}</li>`).join('')}</ul>
+
+    <h2>Specialized Buyer Solutions</h2>
+    <ul>${longTailLinkList.map(l => `<li>${l}</li>`).join('')}</ul>
+  </nav>
+`;
 
 pageKeys.forEach((key) => {
   const page = SEO_DATA[key];
@@ -73,20 +115,13 @@ pageKeys.forEach((key) => {
 
   // Pre-render static HTML fallback content into <div id="root">
   const fallbackHtml = `
-    <header class="sr-only">
-      <nav aria-label="Fallback Navigation">
-        <a href="/">Home</a>
-        <a href="/websites">Websites</a>
-        <a href="/content-strategy">Content Strategy</a>
-        <a href="/ai-consulting">AI Consulting</a>
-        <a href="/blog">Blog Content Hub</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-      </nav>
-    </header>
-    <main id="main-content">
+    <header className="sr-only">
       <h1>${page.title}</h1>
       <p>${page.description}</p>
+    </header>
+    <main id="main-content">
+      <h2>Topical Information & Services</h2>
+      ${masterSitemapNavHtml}
     </main>
   `;
   html = html.replace('<div id="root"></div>', `<div id="root">${fallbackHtml}</div>`);
@@ -103,4 +138,4 @@ pageKeys.forEach((key) => {
   }
 });
 
-console.log(`🎉 Production SSG Static Prerendering Complete for ${pageKeys.length} total routes!`);
+console.log(`🎉 Production SSG Static Prerendering & Internal Link Graph Complete for ${pageKeys.length} total routes!`);
