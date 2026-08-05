@@ -273,11 +273,10 @@ export function generateSchemasForPage(pageKey) {
     description: 'LaunchGremlin helps creators and ambitious businesses build high-performance websites, execute data-driven content strategies, and integrate enterprise AI automation.',
     founder: {
       '@type': 'Person',
-      name: 'LaunchGremlin Founder',
-      jobTitle: 'Senior Technical SEO & Web Architect',
+      name: 'Bhalisa Sodo',
+      jobTitle: 'Founder & Visionary Systems Architect',
       sameAs: [
-        'https://www.instagram.com/launchgremlin/',
-        'https://www.tiktok.com/@launchgremlin'
+        `${SITE_DOMAIN}/about`
       ]
     },
     sameAs: [

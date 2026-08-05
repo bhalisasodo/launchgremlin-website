@@ -66,42 +66,74 @@ export default function AboutPage({ onSelectTab, onOpenBooking }) {
         </div>
       </section>
 
-      {/* FOUNDER & ENGINEERING LEADERSHIP SECTION */}
-      <section aria-labelledby="leadership-heading" className="max-w-5xl mx-auto px-6">
-        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-b from-zinc-900 to-zinc-950 border border-zinc-800 shadow-2xl space-y-8">
-          <div className="flex flex-col md:flex-row items-center gap-8">
-            <img
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80"
-              alt="LaunchGremlin Founder & Lead Architect"
-              width="160"
-              height="160"
-              loading="lazy"
-              decoding="async"
-              className="w-36 h-36 rounded-full object-cover border-4 border-emerald-400/40 shadow-2xl shrink-0"
-            />
+      {/* ABOUT THE FOUNDER SECTION */}
+      <section aria-labelledby="founder-heading" className="max-w-5xl mx-auto px-6">
+        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-b from-zinc-900 via-zinc-900/90 to-zinc-950 border border-emerald-400/30 shadow-[0_0_40px_rgba(52,211,153,0.12)] space-y-8 relative overflow-hidden">
+          {/* Subtle Glow Line */}
+          <div className="absolute top-0 inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent opacity-80" />
 
-            <div className="space-y-3 text-center md:text-left">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono font-bold">
-                <Award className="w-3.5 h-3.5" />
-                <span>FOUNDER & LEAD ARCHITECT</span>
+          <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-zinc-800 pb-6">
+              <div className="space-y-2">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono font-bold">
+                  <Award className="w-3.5 h-3.5" />
+                  <span>FOUNDER & VISIONARY ARCHITECT</span>
+                </div>
+                <h2 id="founder-heading" className="text-3xl sm:text-4xl font-black text-white tracking-tight uppercase">
+                  About the Founder
+                </h2>
               </div>
 
-              <h2 id="leadership-heading" className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight uppercase">
-                Antigravity Engineering Leadership
-              </h2>
+              <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono">
+                <span className="px-3 py-1 rounded-xl bg-zinc-950 border border-zinc-800 text-emerald-400 font-semibold">
+                  Data Science & Systems
+                </span>
+                <span className="px-3 py-1 rounded-xl bg-zinc-950 border border-zinc-800 text-emerald-400 font-semibold">
+                  AI & Automation
+                </span>
+              </div>
+            </div>
 
-              <p className="text-xs sm:text-sm text-zinc-300 font-light leading-relaxed">
-                "We don't build generic brochure sites that take months to load. Every product we deploy is built with raw React 18, Vite, and custom AI automation pipelines engineered to perform at 100/100 Core Web Vitals standards and convert visitors into high-ticket clients."
+            {/* Profile Bio Details */}
+            <div className="space-y-4 text-xs sm:text-sm text-zinc-300 font-light leading-relaxed">
+              <p className="text-sm sm:text-base font-normal text-white">
+                <strong className="text-emerald-400 font-semibold">Bhalisa Sodo</strong> is the Founder of LaunchGremlin, an AI-native company helping entrepreneurs, creators, and businesses launch and grow through intelligent technology.
               </p>
 
-              <div className="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-4 text-xs font-mono text-emerald-400">
-                <span className="flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> React 18 & Next.js Certified
-                </span>
-                <span className="flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> AI LLM & RAG Systems Lead
-                </span>
+              <p>
+                With a background in Data Science and Systems Development, Bhalisa combines technical expertise with a deep passion for entrepreneurship and emerging technologies. Before founding LaunchGremlin, he worked across customer operations and technology-focused roles while independently building products, exploring blockchain technologies, and developing AI-driven solutions.
+              </p>
+
+              <p>
+                His experience spans artificial intelligence, automation, data analytics, software development, and digital strategy, with a strong belief that modern AI has fundamentally changed how businesses can be built and scaled. Rather than viewing AI as a replacement for human creativity, he sees it as a force multiplier that enables small teams to deliver enterprise-level outcomes.
+              </p>
+
+              {/* Core Philosophy Highlight Card */}
+              <div className="p-6 rounded-2xl bg-zinc-950/80 border-l-4 border-emerald-400 border-zinc-800/80 text-zinc-200 font-normal italic space-y-2">
+                <p className="not-italic font-mono text-xs uppercase tracking-wider text-emerald-400 font-bold">
+                  The LaunchGremlin Philosophy
+                </p>
+                <p className="text-xs sm:text-sm leading-relaxed">
+                  &quot;LaunchGremlin was founded on that philosophy: combining human strategy with AI-powered execution to help businesses move faster, make better decisions, and build a stronger digital presence.&quot;
+                </p>
               </div>
+
+              <p>
+                Today, Bhalisa leads the company&apos;s vision, product strategy, and AI innovation, continually refining the systems and workflows that power LaunchGremlin&apos;s services while building toward a future where intelligent automation becomes a competitive advantage for every business.
+              </p>
+            </div>
+
+            {/* Credential Indicators */}
+            <div className="pt-4 border-t border-zinc-800/80 flex flex-wrap items-center gap-4 text-xs font-mono text-zinc-400">
+              <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
+                <CheckCircle2 className="w-4 h-4" /> Data Science & Systems Architecture
+              </span>
+              <span className="flex items-center gap-1.5 text-zinc-300">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Autonomous AI & Workflow Pipelines
+              </span>
+              <span className="flex items-center gap-1.5 text-zinc-300">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Digital Strategy & Product Engineering
+              </span>
             </div>
           </div>
         </div>
