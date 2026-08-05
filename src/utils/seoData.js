@@ -159,17 +159,6 @@ export const BASE_SEO_DATA = {
       { name: 'Home', item: `${SITE_DOMAIN}/` },
       { name: 'Cookie Policy', item: `${SITE_DOMAIN}/cookies` }
     ]
-  },
-  admin: {
-    path: '/admin',
-    title: 'Admin Dashboard | LaunchGremlin',
-    description: 'LaunchGremlin Administrative Management Portal.',
-    canonical: `${SITE_DOMAIN}/admin`,
-    noindex: true,
-    breadcrumbs: [
-      { name: 'Home', item: `${SITE_DOMAIN}/` },
-      { name: 'Admin', item: `${SITE_DOMAIN}/admin` }
-    ]
   }
 };
 

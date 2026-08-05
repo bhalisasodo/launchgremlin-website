@@ -11,7 +11,6 @@ import ContactPage from './pages/ContactPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsPage from './pages/TermsPage';
 import CookiePolicyPage from './pages/CookiePolicyPage';
-import AdminDashboard from './components/AdminDashboard';
 import SEO from './components/common/SEO';
 import Breadcrumbs from './components/common/Breadcrumbs';
 import IndustryLandingPage from './pages/IndustryLandingPage';
@@ -25,7 +24,7 @@ import { INDUSTRIES_DATA } from './utils/industryData';
 import { BLOG_CLUSTERS, BLOG_ARTICLES } from './utils/blogData';
 import { LONG_TAIL_PAGES } from './utils/longTailData';
 
-const CORE_TABS = ['home', 'websites', 'content-strategy', 'ai-consulting', 'about', 'contact', 'admin', 'blog', 'privacy', 'terms', 'cookies'];
+const CORE_TABS = ['home', 'websites', 'content-strategy', 'ai-consulting', 'about', 'contact', 'blog', 'privacy', 'terms', 'cookies'];
 const INDUSTRY_KEYS = Object.keys(INDUSTRIES_DATA);
 const LONG_TAIL_SLUGS = LONG_TAIL_PAGES.map(p => p.slug);
 
@@ -220,12 +219,6 @@ export default function App() {
             onOpenBooking={() => setIsBookingModalOpen(true)}
             onSelectTab={handleSelectTab}
           />
-        )}
-
-        {activeTab === 'admin' && (
-          <div className="max-w-7xl mx-auto px-6 py-12">
-            <AdminDashboard />
-          </div>
         )}
 
         {isIndustryPage && (
