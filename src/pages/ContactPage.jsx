@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import ServiceHeroBackground from '../components/common/ServiceHeroBackground';
 import TrustBadges from '../components/common/TrustBadges';
-import { Mail, Phone, MapPin, Send, CheckCircle2, ArrowRight, ShieldCheck, Lock, Sparkles, Building2 } from 'lucide-react';
+import { Phone, MapPin, Send, CheckCircle2, ArrowRight, ShieldCheck, Lock, Sparkles, Building2 } from 'lucide-react';
+import { submitLead } from '../services/leadService';
 
 export default function ContactPage({ onOpenBooking }) {
   const [selectedService, setSelectedService] = useState('Web Engineering');
   const [selectedBudget, setSelectedBudget] = useState('R15k - R30k');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -15,9 +17,25 @@ export default function ContactPage({ onOpenBooking }) {
     message: ''
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitted(true);
+    setIsSubmitting(true);
+    try {
+      await submitLead({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        website: formData.website,
+        service: selectedService,
+        budget: selectedBudget,
+        details: formData.message
+      });
+    } catch (err) {
+      console.error('[ContactPage] Submit lead failed:', err);
+    } finally {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+    }
   };
 
   return (
@@ -83,18 +101,6 @@ export default function ContactPage({ onOpenBooking }) {
             </div>
 
             <div className="space-y-3">
-              <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-emerald-400/10 border border-emerald-400/30 flex items-center justify-center text-emerald-400 shrink-0">
-                  <Mail className="w-5 h-5" />
-                </div>
-                <div>
-                  <span className="text-[11px] font-mono text-zinc-400 block">Direct Email Inquiry</span>
-                  <a href="mailto:dev@launchgremlin.com" className="text-sm font-bold text-white hover:text-emerald-400 transition-colors">
-                    dev@launchgremlin.com
-                  </a>
-                </div>
-              </div>
-
               <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex items-center gap-4">
                 <div className="w-10 h-10 rounded-xl bg-emerald-400/10 border border-emerald-400/30 flex items-center justify-center text-emerald-400 shrink-0">
                   <Phone className="w-5 h-5" />
@@ -240,9 +246,10 @@ export default function ContactPage({ onOpenBooking }) {
                   {/* Submit Button */}
                   <button
                     type="submit"
-                    className="w-full inline-flex items-center justify-center gap-2 py-4 px-6 rounded-2xl bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                    disabled={isSubmitting}
+                    className="w-full inline-flex items-center justify-center gap-2 py-4 px-6 rounded-2xl bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <span>Submit Scope Proposal Request</span>
+                    <span>{isSubmitting ? 'Submitting Scope Proposal...' : 'Submit Scope Proposal Request'}</span>
                     <Send className="w-4 h-4" />
                   </button>
                 </form>

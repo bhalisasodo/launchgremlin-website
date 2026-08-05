@@ -1,19 +1,29 @@
 import React, { useState } from 'react';
 import { Sparkles, Calendar, Mail, ArrowRight, Check, Send, Globe, Instagram } from 'lucide-react';
+import { submitLead } from '../services/leadService';
 
 export default function MaintenancePage({ onOpenBookingModal }) {
   const [emailInput, setEmailInput] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleSubscribe = (e) => {
+  const handleSubscribe = async (e) => {
     e.preventDefault();
     if (!emailInput.trim()) return;
     setLoading(true);
-    setTimeout(() => {
+    try {
+      await submitLead({
+        name: 'Early VIP Subscriber',
+        email: emailInput,
+        service: 'Maintenance VIP Early Access',
+        details: 'User subscribed via Maintenance Page VIP Early Access form.'
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
       setLoading(false);
       setSubscribed(true);
-    }, 600);
+    }
   };
 
   return (

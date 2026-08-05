@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Calendar, Clock, CheckCircle, ArrowRight, ShieldCheck, Sparkles, Lock, Star } from 'lucide-react';
+import { submitLead } from '../services/leadService';
 
 export default function StrategyCallModal({ isOpen, onClose }) {
   const [step, setStep] = useState(1);
@@ -12,12 +13,28 @@ export default function StrategyCallModal({ isOpen, onClose }) {
     message: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitted(true);
+    setIsSubmitting(true);
+    try {
+      await submitLead({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        website: formData.website,
+        service: selectedService,
+        details: formData.message
+      });
+    } catch (err) {
+      console.error('[StrategyCallModal] Submit lead failed:', err);
+    } finally {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+    }
   };
 
   const resetModal = () => {
@@ -184,9 +201,10 @@ export default function StrategyCallModal({ isOpen, onClose }) {
               {/* Submit CTA */}
               <button
                 type="submit"
-                className="w-full inline-flex items-center justify-center gap-2 py-4 px-6 rounded-2xl bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                disabled={isSubmitting}
+                className="w-full inline-flex items-center justify-center gap-2 py-4 px-6 rounded-2xl bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <span>Confirm Strategy Session Booking</span>
+                <span>{isSubmitting ? 'Booking Strategy Session...' : 'Confirm Strategy Session Booking'}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </form>
