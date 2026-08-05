@@ -1,7 +1,9 @@
 import React from 'react';
 import HeroSection from '../components/HeroSection';
+import TrustBadges from '../components/common/TrustBadges';
+import TestimonialsSection from '../components/common/TestimonialsSection';
 import PricingSection from '../components/common/PricingSection';
-import { ArrowRight, Globe, TrendingUp, Bot, Zap, Layers, RefreshCw, CheckCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle, Globe, TrendingUp, Bot, RefreshCw, Zap, Layers, Sparkles } from 'lucide-react';
 
 export default function HomePage({ onSelectTab, onOpenBooking }) {
   const handleLinkClick = (e, tab) => {
@@ -10,22 +12,30 @@ export default function HomePage({ onSelectTab, onOpenBooking }) {
   };
 
   return (
-    <div className="space-y-24 pb-20 select-none">
-      {/* REDESIGNED CREATOR HERO SECTION */}
+    <div className="space-y-20 pb-20 select-none">
+      {/* Primary Hero Section */}
       <HeroSection onSelectTab={onSelectTab} onOpenBooking={onOpenBooking} />
 
-      {/* THREE STRATEGIC PILLARS GRID */}
-      <section aria-labelledby="core-pillars-title" className="px-6 max-w-7xl mx-auto">
-        <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
-          <span className="text-xs font-mono uppercase tracking-widest text-emerald-400">Core Services</span>
-          <h2 id="core-pillars-title" className="text-3xl sm:text-5xl font-bold tracking-tight text-white">Three Engine Pillars</h2>
-          <p className="text-zinc-400 text-sm sm:text-base font-light">
-            Technology is the engine. Growth is the outcome. Designed to scale with your ambition.
+      {/* Trust & Guarantee Badges Strip */}
+      <TrustBadges />
+
+      {/* CORE STRATEGIC PILLARS */}
+      <section aria-labelledby="pillars-heading" className="px-6 max-w-7xl mx-auto space-y-12">
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono font-bold tracking-wider">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>CORE SERVICES & SOLUTIONS</span>
+          </div>
+          <h2 id="pillars-heading" className="text-3xl sm:text-5xl font-black tracking-tight text-white uppercase">
+            Build. Grow. Scale.
+          </h2>
+          <p className="text-zinc-300 text-sm sm:text-base font-light leading-relaxed">
+            Three core capability pillars engineered to take ambitious brands and creators from concept to dominant market presence.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Pillar 1: WEBSITES */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+          {/* Pillar 1: WEBSITES & DIGITAL PRODUCTS */}
           <a
             href="/websites"
             onClick={(e) => handleLinkClick(e, 'websites')}
@@ -44,33 +54,33 @@ export default function HomePage({ onSelectTab, onOpenBooking }) {
                   Websites & Digital Products
                 </h3>
                 <p className="text-xs text-zinc-400 leading-relaxed font-light">
-                  Custom-engineered, high-performance web applications built for extreme speed, flawless responsiveness, and conversion architecture.
+                  Sub-second loading, high-converting custom websites and web applications built with React 18, Vite, and Next.js.
                 </p>
               </div>
 
               <ul className="space-y-2 text-xs text-zinc-300 font-mono">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Vite / React / Next.js Architecture</span>
+                  <span>Sub-0.3s FCP Load Speeds</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Sub-second Page Load Latency</span>
+                  <span>100/100 Core Web Vitals Guaranteed</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Conversion-Engineered UX</span>
+                  <span>Mobile-First Conversion UX</span>
                 </li>
               </ul>
             </div>
 
             <div className="pt-8 flex items-center justify-between text-xs font-bold text-emerald-400 group-hover:text-emerald-300">
-              <span>View Websites Scope</span>
+              <span>Explore Web Solutions</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
           </a>
 
-          {/* Pillar 2: CONTENT STRATEGY */}
+          {/* Pillar 2: CONTENT STRATEGY & AUDIENCE */}
           <a
             href="/content-strategy"
             onClick={(e) => handleLinkClick(e, 'content-strategy')}
@@ -110,7 +120,7 @@ export default function HomePage({ onSelectTab, onOpenBooking }) {
             </div>
 
             <div className="pt-8 flex items-center justify-between text-xs font-bold text-emerald-400 group-hover:text-emerald-300">
-              <span>View Content Engine</span>
+              <span>Explore Content Engine</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
           </a>
@@ -155,12 +165,15 @@ export default function HomePage({ onSelectTab, onOpenBooking }) {
             </div>
 
             <div className="pt-8 flex items-center justify-between text-xs font-bold text-emerald-400 group-hover:text-emerald-300">
-              <span>View AI Solutions</span>
+              <span>Explore AI Solutions</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
           </a>
         </div>
       </section>
+
+      {/* Client Social Proof & Testimonials Section */}
+      <TestimonialsSection />
 
       {/* AI-NATIVE PRICING SECTION */}
       <PricingSection onOpenBooking={onOpenBooking} onSelectTab={onSelectTab} />
@@ -168,12 +181,12 @@ export default function HomePage({ onSelectTab, onOpenBooking }) {
       {/* COMPANY PHILOSOPHY: AGGRESSIVE ITERATION */}
       <section aria-labelledby="philosophy-title" className="px-6 max-w-6xl mx-auto">
         <div className="p-10 md:p-14 rounded-3xl bg-gradient-to-b from-zinc-900 to-zinc-950 border border-zinc-800 text-center relative overflow-hidden shadow-2xl space-y-8">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono font-bold">
             <RefreshCw className="w-3.5 h-3.5 animate-spin-slow" />
             <span>LaunchGremlin Operating Philosophy</span>
           </div>
 
-          <h2 id="philosophy-title" className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white max-w-3xl mx-auto">
+          <h2 id="philosophy-title" className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white max-w-3xl mx-auto uppercase">
             Aggressive Iteration. <br />
             <span className="text-emerald-400 font-mono">Build. Ship. Measure. Improve. Repeat.</span>
           </h2>
@@ -198,18 +211,29 @@ export default function HomePage({ onSelectTab, onOpenBooking }) {
 
       {/* BOTTOM CTA BANNER */}
       <section aria-labelledby="home-cta-title" className="px-6 max-w-5xl mx-auto text-center space-y-6">
-        <h2 id="home-cta-title" className="text-3xl sm:text-4xl font-extrabold text-white">Ready to Build, Grow, or Scale?</h2>
-        <p className="text-zinc-400 text-sm max-w-md mx-auto font-light">
-          Book a 1-on-1 strategy call with our team to map out your technical architecture and growth engine.
-        </p>
-        <button
-          onClick={onOpenBooking}
-          aria-label="Book a 1-on-1 strategy call"
-          className="inline-flex items-center justify-center gap-3 px-10 py-4 rounded-2xl bg-emerald-400 text-zinc-950 font-bold text-base shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
-        >
-          <span>Book Strategy Call</span>
-          <ArrowRight className="w-5 h-5" />
-        </button>
+        <div className="p-10 sm:p-14 rounded-3xl bg-zinc-900/90 border border-emerald-400/40 text-center space-y-6 shadow-[0_0_50px_rgba(52,211,153,0.15)]">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono font-bold">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Ready to Build, Grow, or Scale?</span>
+          </div>
+
+          <h2 id="home-cta-title" className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight uppercase">
+            Transform Your Digital Footprint Today.
+          </h2>
+
+          <p className="text-zinc-300 text-sm sm:text-base max-w-md mx-auto font-light leading-relaxed">
+            Book a 1-on-1 strategy call with our team to map out your technical architecture and growth engine.
+          </p>
+
+          <button
+            onClick={onOpenBooking}
+            aria-label="Book a 1-on-1 strategy call"
+            className="inline-flex items-center justify-center gap-3 px-10 py-4 rounded-2xl bg-emerald-400 text-zinc-950 font-bold text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+          >
+            <span>Book Strategy Call</span>
+            <ArrowRight className="w-5 h-5" />
+          </button>
+        </div>
       </section>
     </div>
   );

@@ -15,6 +15,8 @@ import IndustryLandingPage from './pages/IndustryLandingPage';
 import BlogHubPage from './pages/BlogHubPage';
 import BlogPostPage from './pages/BlogPostPage';
 import LongTailPage from './pages/LongTailPage';
+import StickyMobileCTA from './components/common/StickyMobileCTA';
+import ExitIntentModal from './components/common/ExitIntentModal';
 
 import { INDUSTRIES_DATA } from './utils/industryData';
 import { BLOG_ARTICLES } from './utils/blogData';
@@ -81,7 +83,7 @@ export default function App() {
   const blogSlug = isBlogPostPage ? activeTab.replace(/^blog\//, '') : null;
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white flex flex-col justify-between selection:bg-emerald-400 selection:text-black">
+    <div className="min-h-screen bg-zinc-950 text-white flex flex-col justify-between selection:bg-emerald-400 selection:text-black relative">
       {/* Dynamic SEO Metadata Tag Injector */}
       <SEO pageKey={activeTab} />
 
@@ -178,6 +180,10 @@ export default function App() {
         onSelectTab={handleSelectTab}
         onOpenBooking={() => setIsBookingModalOpen(true)}
       />
+
+      {/* Global CRO Conversion Components */}
+      <StickyMobileCTA onOpenBooking={() => setIsBookingModalOpen(true)} />
+      <ExitIntentModal onOpenBooking={() => setIsBookingModalOpen(true)} />
 
       <StrategyCallModal
         isOpen={isBookingModalOpen}

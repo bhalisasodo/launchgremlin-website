@@ -2,9 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { SEO_DATA, generateSchemasForPage } from '../src/utils/seoData.js';
-import { INDUSTRIES_DATA } from '../src/utils/industryData.js';
-import { BLOG_ARTICLES } from '../src/utils/blogData.js';
-import { LONG_TAIL_PAGES } from '../src/utils/longTailData.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,50 +19,17 @@ const cleanTemplate = rawTemplate
   .replace(/<script id="json-ld-schema".*?<\/script>\s*/gs, '')
   .replace(/<div id="root">.*?<\/div>/s, '<div id="root"></div>');
 
-const pageKeys = Object.keys(SEO_DATA).filter(k => k !== 'admin');
+// Pre-render core pages, industry pages, and top featured blog/long-tail pages
+const coreKeys = ['home', 'websites', 'content-strategy', 'ai-consulting', 'about', 'contact', 'blog'];
+const industryKeys = ['websites-for-gyms', 'websites-for-restaurants', 'websites-for-hair-salons', 'websites-for-barbers', 'websites-for-cafes', 'websites-for-coaches', 'websites-for-personal-trainers', 'websites-for-creators', 'websites-for-influencers', 'websites-for-photographers', 'websites-for-dentists', 'websites-for-lawyers', 'websites-for-realtors', 'websites-for-accountants', 'websites-for-construction-companies', 'websites-for-cleaning-companies'];
+const featuredBlogKeys = ['blog/sub-second-website-speed-guide', 'blog/high-converting-landing-page-anatomy', 'blog/core-web-vitals-optimization-2026', 'blog/how-to-build-custom-ai-agents-for-business', 'blog/local-seo-domination-for-small-businesses', 'blog/how-to-build-a-72-hour-mvp', 'blog/building-an-executive-personal-brand', 'blog/instagram-reels-algorithm-playbook-2026', 'blog/creator-economy-trends-and-monetization', 'blog/b2b-lead-generation-funnel-blueprint', 'blog/technical-seo-audit-checklist-2026', 'blog/data-driven-content-strategy-framework'];
+const featuredLongTailKeys = ['best-website-for-a-gym', 'website-for-yoga-studio', 'website-for-coffee-shop', 'restaurant-website-examples', 'creator-website-examples', 'website-for-makeup-artist', 'website-for-podcast', 'website-for-dj', 'website-for-musician', 'website-for-startup', 'affordable-business-website'];
 
-console.log(`Starting SSG Pre-rendering & Topical Authority Hub for ${pageKeys.length} total routes...`);
+const prerenderKeys = [...coreKeys, ...industryKeys, ...featuredBlogKeys, ...featuredLongTailKeys];
 
-// Pre-build comprehensive HTML link index for crawler discovery
-const coreLinkList = [
-  '<a href="/">Home</a>',
-  '<a href="/websites">Websites & Products</a>',
-  '<a href="/content-strategy">Content Strategy</a>',
-  '<a href="/ai-consulting">AI Consulting</a>',
-  '<a href="/blog">Blog Content Hub</a>',
-  '<a href="/about">About</a>',
-  '<a href="/contact">Contact</a>'
-];
+console.log(`Starting SSG Pre-rendering for ${prerenderKeys.length} primary static routes...`);
 
-const industryLinkList = Object.keys(INDUSTRIES_DATA).map(
-  k => `<a href="${INDUSTRIES_DATA[k].path}">${INDUSTRIES_DATA[k].name}</a>`
-);
-
-const blogLinkList = BLOG_ARTICLES.map(
-  a => `<a href="/blog/${a.slug}">${a.title}</a>`
-);
-
-const longTailLinkList = LONG_TAIL_PAGES.map(
-  p => `<a href="${p.path}">${p.label}</a>`
-);
-
-const masterSitemapNavHtml = `
-  <nav aria-label="Topical Authority Directory" class="sr-only">
-    <h2>Core Pillars</h2>
-    <ul>${coreLinkList.map(l => `<li>${l}</li>`).join('')}</ul>
-
-    <h2>Industry Solutions</h2>
-    <ul>${industryLinkList.map(l => `<li>${l}</li>`).join('')}</ul>
-
-    <h2>Knowledge Base Articles</h2>
-    <ul>${blogLinkList.map(l => `<li>${l}</li>`).join('')}</ul>
-
-    <h2>Specialized Buyer Solutions</h2>
-    <ul>${longTailLinkList.map(l => `<li>${l}</li>`).join('')}</ul>
-  </nav>
-`;
-
-pageKeys.forEach((key) => {
+prerenderKeys.forEach((key) => {
   const page = SEO_DATA[key];
   if (!page) return;
 
@@ -115,13 +79,21 @@ pageKeys.forEach((key) => {
 
   // Pre-render static HTML fallback content into <div id="root">
   const fallbackHtml = `
-    <header className="sr-only">
+    <header class="sr-only">
       <h1>${page.title}</h1>
       <p>${page.description}</p>
     </header>
     <main id="main-content">
-      <h2>Topical Information & Services</h2>
-      ${masterSitemapNavHtml}
+      <h2>LaunchGremlin High-Performance Web Engineering</h2>
+      <nav aria-label="Core Navigation">
+        <a href="/">Home</a>
+        <a href="/websites">Websites</a>
+        <a href="/content-strategy">Content Strategy</a>
+        <a href="/ai-consulting">AI Consulting</a>
+        <a href="/blog">Blog Content Hub</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </nav>
     </main>
   `;
   html = html.replace('<div id="root"></div>', `<div id="root">${fallbackHtml}</div>`);
@@ -138,4 +110,4 @@ pageKeys.forEach((key) => {
   }
 });
 
-console.log(`🎉 Production SSG Static Prerendering & Internal Link Graph Complete for ${pageKeys.length} total routes!`);
+console.log(`🎉 Production SSG Static Prerendering Complete for ${prerenderKeys.length} primary static routes!`);
