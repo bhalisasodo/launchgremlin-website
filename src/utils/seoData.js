@@ -275,6 +275,7 @@ export function generateSchemasForPage(pageKey) {
       '@type': 'Person',
       name: 'Bhalisa Sodo',
       jobTitle: 'Founder & Visionary Systems Architect',
+      image: `${SITE_DOMAIN}/assets/founder.jpg`,
       sameAs: [
         `${SITE_DOMAIN}/about`
       ]

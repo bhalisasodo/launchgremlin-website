@@ -73,15 +73,29 @@ export default function AboutPage({ onSelectTab, onOpenBooking }) {
           <div className="absolute top-0 inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent opacity-80" />
 
           <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-zinc-800 pb-6">
-              <div className="space-y-2">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono font-bold">
-                  <Award className="w-3.5 h-3.5" />
-                  <span>FOUNDER & VISIONARY ARCHITECT</span>
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-zinc-800 pb-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+                <img
+                  src="/assets/founder.jpg"
+                  alt="Bhalisa Sodo — Founder of LaunchGremlin"
+                  width="160"
+                  height="160"
+                  loading="eager"
+                  decoding="async"
+                  className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl sm:rounded-3xl object-cover border-2 border-emerald-400/40 shadow-[0_0_25px_rgba(52,211,153,0.2)] shrink-0"
+                />
+                <div className="space-y-2">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono font-bold">
+                    <Award className="w-3.5 h-3.5" />
+                    <span>FOUNDER & VISIONARY ARCHITECT</span>
+                  </div>
+                  <h2 id="founder-heading" className="text-3xl sm:text-4xl font-black text-white tracking-tight uppercase">
+                    About the Founder
+                  </h2>
+                  <p className="text-xs font-mono text-emerald-400 font-bold">
+                    Bhalisa Sodo • Data Science & Systems Development
+                  </p>
                 </div>
-                <h2 id="founder-heading" className="text-3xl sm:text-4xl font-black text-white tracking-tight uppercase">
-                  About the Founder
-                </h2>
               </div>
 
               <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono">
