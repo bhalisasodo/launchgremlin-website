@@ -1,5 +1,6 @@
 // SEO Metadata and Schema.org Generator for LaunchGremlin.com
 import { INDUSTRIES_DATA } from './industryData.js';
+import { BLOG_ARTICLES } from './blogData.js';
 
 export const SITE_DOMAIN = 'https://launchgremlin.com';
 
@@ -24,11 +25,21 @@ export const BASE_SEO_DATA = {
       {
         question: 'How fast can LaunchGremlin build a website?',
         answer: 'Most standard business websites are delivered within 7 to 10 business days. For urgent projects, we offer a 72-Hour MVP launch guarantee.'
-      },
-      {
-        question: 'What technology stack does LaunchGremlin use?',
-        answer: 'We build with modern frameworks including React 18, Next.js, Vite, Tailwind CSS, and edge deployment infrastructure for 100/100 Core Web Vitals performance.'
       }
+    ]
+  },
+  blog: {
+    path: '/blog',
+    title: 'Content Hub & Knowledge Base | 100 Strategic Guides | LaunchGremlin',
+    description: 'Explore 100 strategic articles on Web Design, AI Automation, Small Business, Startup Growth, Personal Branding, SEO, and Content Strategy.',
+    keywords: 'SEO blog, content hub, web design guides, AI automation tutorials, startup growth articles, SEO strategy',
+    canonical: `${SITE_DOMAIN}/blog`,
+    ogType: 'website',
+    ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    ogImageAlt: 'LaunchGremlin Content Hub',
+    breadcrumbs: [
+      { name: 'Home', item: `${SITE_DOMAIN}/` },
+      { name: 'Content Hub', item: `${SITE_DOMAIN}/blog` }
     ]
   },
   websites: {
@@ -48,17 +59,7 @@ export const BASE_SEO_DATA = {
       name: 'High-Performance Web Design & Engineering',
       serviceType: 'Web Development',
       description: 'Custom-engineered, sub-second web applications built for extreme speed, flawless responsiveness, and maximum lead conversion.'
-    },
-    faqs: [
-      {
-        question: 'What is included in the Website build service?',
-        answer: 'Every website build includes custom responsive React/Next.js frontend development, sub-second page load latency, automated SEO markup, lead capture integration, and Lighthouse 100 score guarantee.'
-      },
-      {
-        question: 'Do you provide post-launch support?',
-        answer: 'Yes, all packages include post-launch support, performance monitoring, and content management training.'
-      }
-    ]
+    }
   },
   'content-strategy': {
     path: '/content-strategy',
@@ -77,17 +78,7 @@ export const BASE_SEO_DATA = {
       name: 'Content Strategy & Audience Growth Engine',
       serviceType: 'Content Marketing & Audience Growth',
       description: 'Data-driven content funnels, short-form video scripting, 30-day AI-optimized content calendars, and 5-platform repurposing.'
-    },
-    faqs: [
-      {
-        question: 'Which social platforms do you support for content distribution?',
-        answer: 'We support TikTok, Instagram Reels, YouTube Shorts, LinkedIn, and Beehiiv newsletter funnels.'
-      },
-      {
-        question: 'How does the content strategy pipeline work?',
-        answer: 'We craft high-converting hooks and retention scripts, build a 30-day content calendar, and deploy multi-channel automated publishing queues.'
-      }
-    ]
+    }
   },
   'ai-consulting': {
     path: '/ai-consulting',
@@ -106,27 +97,15 @@ export const BASE_SEO_DATA = {
       name: 'Enterprise AI Consulting & Custom Agents',
       serviceType: 'AI Engineering & Automation Consulting',
       description: 'Autonomous 24/7 AI agents, CRM and database workflow pipelines, and secure internal documentation vector search RAG systems.'
-    },
-    faqs: [
-      {
-        question: 'What kind of AI agents can LaunchGremlin build?',
-        answer: 'We build autonomous AI agents for 24/7 lead qualification, customer support, document research, automated email outreach, and custom LLM workflows.'
-      },
-      {
-        question: 'Is internal company data secure with RAG integration?',
-        answer: 'Yes, we implement enterprise vector databases with strict security controls, keeping your private business data fully isolated.'
-      }
-    ]
+    }
   },
   about: {
     path: '/about',
     title: 'About LaunchGremlin | Internet-Native Builders, Mission & Operating Code',
     description: 'Learn how LaunchGremlin helps startups and creators scale through engineering excellence, rapid iteration, and modern AI-assisted product development.',
-    keywords: 'about LaunchGremlin, internet native agency, software studio, rapid iteration, builder culture',
     canonical: `${SITE_DOMAIN}/about`,
     ogType: 'website',
     ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
-    ogImageAlt: 'About LaunchGremlin - Internet Native Builders',
     breadcrumbs: [
       { name: 'Home', item: `${SITE_DOMAIN}/` },
       { name: 'About LaunchGremlin', item: `${SITE_DOMAIN}/about` }
@@ -136,11 +115,9 @@ export const BASE_SEO_DATA = {
     path: '/contact',
     title: 'Contact LaunchGremlin | Book a Free Strategy Call & Scope Builder',
     description: 'Ready to build, grow, and scale? Get in touch with the LaunchGremlin engineering team today or schedule a free 30-minute strategic consultation.',
-    keywords: 'contact LaunchGremlin, book strategy call, web development inquiry, AI consulting quote',
     canonical: `${SITE_DOMAIN}/contact`,
     ogType: 'website',
     ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
-    ogImageAlt: 'Contact LaunchGremlin',
     breadcrumbs: [
       { name: 'Home', item: `${SITE_DOMAIN}/` },
       { name: 'Contact & Scope Builder', item: `${SITE_DOMAIN}/contact` }
@@ -151,9 +128,6 @@ export const BASE_SEO_DATA = {
     title: 'Admin Dashboard | LaunchGremlin',
     description: 'LaunchGremlin Administrative Management Portal.',
     canonical: `${SITE_DOMAIN}/admin`,
-    ogType: 'website',
-    ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
-    ogImageAlt: 'LaunchGremlin Admin Portal',
     noindex: true,
     breadcrumbs: [
       { name: 'Home', item: `${SITE_DOMAIN}/` },
@@ -162,9 +136,9 @@ export const BASE_SEO_DATA = {
   }
 };
 
-// Merge Industry Pages into SEO_DATA dynamically
 export const SEO_DATA = { ...BASE_SEO_DATA };
 
+// Merge Industry Pages into SEO_DATA
 Object.keys(INDUSTRIES_DATA).forEach((key) => {
   const ind = INDUSTRIES_DATA[key];
   SEO_DATA[key] = {
@@ -190,6 +164,36 @@ Object.keys(INDUSTRIES_DATA).forEach((key) => {
   };
 });
 
+// Merge 100 Blog Articles into SEO_DATA dynamically under key `blog/${article.slug}`
+BLOG_ARTICLES.forEach((article) => {
+  const articleKey = `blog/${article.slug}`;
+  SEO_DATA[articleKey] = {
+    path: `/blog/${article.slug}`,
+    title: `${article.title} | LaunchGremlin`,
+    description: article.description,
+    keywords: article.keywords,
+    canonical: `${SITE_DOMAIN}/blog/${article.slug}`,
+    ogType: 'article',
+    ogImage: article.heroImage || `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    ogImageAlt: article.heroImageAlt || article.title,
+    publishDate: article.publishDate,
+    author: article.author,
+    breadcrumbs: [
+      { name: 'Home', item: `${SITE_DOMAIN}/` },
+      { name: 'Content Hub', item: `${SITE_DOMAIN}/blog` },
+      { name: article.title, item: `${SITE_DOMAIN}/blog/${article.slug}` }
+    ],
+    blogPosting: {
+      headline: article.title,
+      description: article.description,
+      datePublished: article.publishDate,
+      authorName: article.author,
+      image: article.heroImage
+    },
+    faqs: article.faqs
+  };
+});
+
 export function generateSchemasForPage(pageKey) {
   const page = SEO_DATA[pageKey] || SEO_DATA.home;
 
@@ -201,34 +205,7 @@ export function generateSchemasForPage(pageKey) {
     url: SITE_DOMAIN,
     logo: `${SITE_DOMAIN}/assets/logo-transparent.png`,
     image: `${SITE_DOMAIN}/assets/logo-transparent.png`,
-    description: 'LaunchGremlin helps creators and ambitious businesses build high-performance websites, execute data-driven content strategies, and integrate enterprise AI automation.',
-    sameAs: [
-      'https://www.tiktok.com/@launchgremlin',
-      'https://www.instagram.com/launchgremlin/'
-    ]
-  };
-
-  const localBusinessSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'ProfessionalService',
-    '@id': `${SITE_DOMAIN}/#localbusiness`,
-    name: 'LaunchGremlin',
-    url: SITE_DOMAIN,
-    logo: `${SITE_DOMAIN}/assets/logo-transparent.png`,
-    image: `${SITE_DOMAIN}/assets/logo-transparent.png`,
-    priceRange: '$$$',
-    telephone: '+27 82 123 4567',
-    email: 'dev@launchgremlin.com',
-    address: {
-      '@type': 'PostalAddress',
-      addressCountry: 'ZA'
-    },
-    openingHoursSpecification: {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-      opens: '08:00',
-      closes: '18:00'
-    }
+    description: 'LaunchGremlin helps creators and ambitious businesses build high-performance websites, execute data-driven content strategies, and integrate enterprise AI automation.'
   };
 
   const websiteSchema = {
@@ -251,7 +228,7 @@ export function generateSchemasForPage(pageKey) {
     isPartOf: { '@id': `${SITE_DOMAIN}/#website` }
   };
 
-  const schemas = [orgSchema, localBusinessSchema, websiteSchema, webPageSchema];
+  const schemas = [orgSchema, websiteSchema, webPageSchema];
 
   // Breadcrumbs Schema
   if (page.breadcrumbs && page.breadcrumbs.length > 0) {
@@ -268,19 +245,23 @@ export function generateSchemasForPage(pageKey) {
     schemas.push(breadcrumbSchema);
   }
 
-  // Service Schema
-  if (page.service) {
-    const serviceSchema = {
+  // BlogPosting Schema
+  if (page.blogPosting) {
+    const blogPostingSchema = {
       '@context': 'https://schema.org',
-      '@type': 'Service',
-      name: page.service.name,
-      serviceType: page.service.serviceType,
-      description: page.service.description,
-      provider: { '@id': `${SITE_DOMAIN}/#organization` },
-      areaServed: 'Worldwide',
-      termsOfService: `${SITE_DOMAIN}/terms`
+      '@type': 'BlogPosting',
+      headline: page.blogPosting.headline,
+      description: page.blogPosting.description,
+      datePublished: page.blogPosting.datePublished,
+      author: {
+        '@type': 'Person',
+        name: page.blogPosting.authorName
+      },
+      publisher: { '@id': `${SITE_DOMAIN}/#organization` },
+      image: page.blogPosting.image,
+      mainEntityOfPage: page.canonical
     };
-    schemas.push(serviceSchema);
+    schemas.push(blogPostingSchema);
   }
 
   // FAQ Schema

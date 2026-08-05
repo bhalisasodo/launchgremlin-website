@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { INDUSTRIES_DATA } from '../src/utils/industryData.js';
+import { BLOG_ARTICLES } from '../src/utils/blogData.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,6 +16,7 @@ const coreRoutes = [
   { path: '/ai-consulting', priority: '0.9', changefreq: 'weekly' },
   { path: '/about', priority: '0.8', changefreq: 'monthly' },
   { path: '/contact', priority: '0.8', changefreq: 'monthly' },
+  { path: '/blog', priority: '0.9', changefreq: 'daily' },
 ];
 
 const industryRoutes = Object.keys(INDUSTRIES_DATA).map(key => ({
@@ -23,7 +25,13 @@ const industryRoutes = Object.keys(INDUSTRIES_DATA).map(key => ({
   changefreq: 'weekly'
 }));
 
-const allRoutes = [...coreRoutes, ...industryRoutes];
+const blogArticleRoutes = BLOG_ARTICLES.map(a => ({
+  path: `/blog/${a.slug}`,
+  priority: '0.80',
+  changefreq: 'weekly'
+}));
+
+const allRoutes = [...coreRoutes, ...industryRoutes, ...blogArticleRoutes];
 
 const today = new Date().toISOString().split('T')[0];
 

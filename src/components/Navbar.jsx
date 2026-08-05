@@ -1,68 +1,61 @@
-import React from 'react';
-import { Calendar, Menu, X } from 'lucide-react';
+import React, { useState } from 'react';
+import { Menu, X, ArrowRight, Sparkles } from 'lucide-react';
 
-export default function Navbar({
-  activeTab,
-  onSelectTab,
-  onOpenBooking,
-}) {
-  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+export default function Navbar({ activeTab, onSelectTab, onOpenBooking }) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const navLinks = [
-    { id: 'websites', label: 'Websites', path: '/websites' },
-    { id: 'content-strategy', label: 'Content Strategy', path: '/content-strategy' },
-    { id: 'ai-consulting', label: 'AI Consulting', path: '/ai-consulting' },
-    { id: 'about', label: 'About', path: '/about' },
-    { id: 'contact', label: 'Contact', path: '/contact' },
-  ];
-
-  const handleLinkClick = (e, id) => {
+  const handleNavClick = (e, tab) => {
     e.preventDefault();
-    onSelectTab(id);
+    if (onSelectTab) onSelectTab(tab);
+    setIsMobileMenuOpen(false);
   };
 
+  const navLinks = [
+    { key: 'websites', label: 'Websites & Products', href: '/websites' },
+    { key: 'content-strategy', label: 'Content Strategy', href: '/content-strategy' },
+    { key: 'ai-consulting', label: 'AI Consulting', href: '/ai-consulting' },
+    { key: 'blog', label: 'Content Hub', href: '/blog' },
+    { key: 'about', label: 'About', href: '/about' },
+  ];
+
   return (
-    <header className="sticky top-0 z-40 w-full bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-800/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 sm:py-3 min-h-[72px] sm:min-h-[88px] flex items-center justify-between gap-2">
+    <header className="sticky top-0 z-50 w-full bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/80">
+      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* Brand Logo & Name */}
         <a
           href="/"
-          onClick={(e) => handleLinkClick(e, 'home')}
-          aria-label="LaunchGremlin Homepage"
-          className="flex items-center gap-2.5 sm:gap-4 group text-left focus:outline-none shrink-0"
+          onClick={(e) => handleNavClick(e, 'home')}
+          className="flex items-center gap-3 cursor-pointer group"
+          title="LaunchGremlin Home"
         >
           <img
             src="/assets/logo-icon.png"
             alt="LaunchGremlin Logo Icon"
-            width="88"
-            height="88"
+            width="48"
+            height="48"
             loading="eager"
             fetchPriority="high"
-            className="h-12 sm:h-18 md:h-22 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            decoding="async"
+            className="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105"
           />
-          <div className="flex flex-col">
-            <span className="font-black text-xl sm:text-2xl md:text-3xl text-white tracking-tight leading-none">
-              Launch<span className="text-emerald-400">Gremlin</span>
-            </span>
-            <span className="text-[9px] sm:text-xs font-mono text-zinc-400 tracking-widest uppercase mt-0.5 sm:mt-1">
-              Build. Grow. Scale.
-            </span>
-          </div>
+          <span className="font-black text-xl sm:text-2xl text-white tracking-tight">
+            Launch<span className="text-emerald-400">Gremlin</span>
+          </span>
         </a>
 
-        {/* Desktop Navigation Links */}
-        <nav aria-label="Main navigation" className="hidden md:flex items-center gap-1 bg-zinc-900/60 p-1.5 rounded-2xl border border-zinc-800/80">
+        {/* Desktop Nav Links */}
+        <nav aria-label="Main Navigation" className="hidden lg:flex items-center gap-8">
           {navLinks.map((link) => {
-            const isActive = activeTab === link.id;
+            const isActive = activeTab === link.key || (link.key === 'blog' && activeTab.startsWith('blog/'));
             return (
               <a
-                key={link.id}
-                href={link.path}
-                onClick={(e) => handleLinkClick(e, link.id)}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer ${
+                key={link.key}
+                href={link.href}
+                onClick={(e) => handleNavClick(e, link.key)}
+                className={`text-xs font-semibold uppercase tracking-wider transition-colors py-2 border-b-2 ${
                   isActive
-                    ? 'bg-emerald-400 text-zinc-950 font-bold shadow-[0_0_15px_rgba(52,211,153,0.3)]'
-                    : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60'
+                    ? 'border-emerald-400 text-white font-bold'
+                    : 'border-transparent text-zinc-400 hover:text-white hover:border-zinc-700'
                 }`}
               >
                 {link.label}
@@ -71,50 +64,55 @@ export default function Navbar({
           })}
         </nav>
 
-        {/* Right Header Actions */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        {/* Desktop CTA Action Button */}
+        <div className="hidden lg:flex items-center gap-4">
           <button
             onClick={onOpenBooking}
-            aria-label="Book a Strategy Call"
-            className="inline-flex items-center gap-2 px-3.5 sm:px-5 py-2.5 min-h-[44px] sm:min-h-[48px] rounded-xl bg-emerald-400 text-zinc-950 font-bold text-xs shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-400 text-zinc-950 font-bold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
           >
-            <Calendar className="w-3.5 h-3.5 shrink-0" />
-            <span className="hidden sm:inline">Book Strategy Call</span>
-            <span className="sm:hidden text-[11px] font-bold">Book Call</span>
-          </button>
-
-          {/* Mobile Menu Button (48px Touch Target) */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle Mobile Navigation Menu"
-            className="md:hidden p-3 min-h-[44px] min-w-[44px] rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white flex items-center justify-center cursor-pointer"
-          >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            <span>Book Strategy Call</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
+
+        {/* Mobile Menu Trigger */}
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label={isMobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
+          className="lg:hidden p-2 text-zinc-400 hover:text-white transition-colors"
+        >
+          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
       </div>
 
-      {/* Mobile Drawer Navigation */}
-      {mobileMenuOpen && (
-        <nav aria-label="Mobile menu navigation" className="md:hidden bg-zinc-950 border-b border-zinc-800 px-4 sm:px-6 py-4 space-y-2 animate-fade-up">
-          {navLinks.map((link) => (
-            <a
-              key={link.id}
-              href={link.path}
-              onClick={(e) => {
-                handleLinkClick(e, link.id);
-                setMobileMenuOpen(false);
+      {/* Mobile Drawer */}
+      {isMobileMenuOpen && (
+        <div className="lg:hidden bg-zinc-950/95 border-b border-zinc-800 px-6 py-6 space-y-4">
+          <nav aria-label="Mobile Drawer Navigation" className="flex flex-col gap-3">
+            {navLinks.map((link) => (
+              <a
+                key={link.key}
+                href={link.href}
+                onClick={(e) => handleNavClick(e, link.key)}
+                className="text-sm font-semibold text-zinc-300 hover:text-emerald-400 py-2 border-b border-zinc-900"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+          <div className="pt-2">
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                onOpenBooking();
               }}
-              className={`w-full text-left px-4 py-3 min-h-[48px] rounded-xl text-sm font-semibold transition-all flex items-center cursor-pointer ${
-                activeTab === link.id
-                  ? 'bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 font-bold'
-                  : 'text-zinc-400 hover:text-white'
-              }`}
+              className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-400 text-zinc-950 font-bold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(52,211,153,0.3)]"
             >
-              {link.label}
-            </a>
-          ))}
-        </nav>
+              <span>Book Strategy Call</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
       )}
     </header>
   );

@@ -15,12 +15,13 @@ if (!fs.existsSync(templatePath)) {
 }
 
 const rawTemplate = fs.readFileSync(templatePath, 'utf8');
-// Ensure template is completely clean of any prior injected script tags or pre-rendered content
 const cleanTemplate = rawTemplate
   .replace(/<script id="json-ld-schema".*?<\/script>\s*/gs, '')
   .replace(/<div id="root">.*?<\/div>/s, '<div id="root"></div>');
 
 const pageKeys = Object.keys(SEO_DATA).filter(k => k !== 'admin');
+
+console.log(`Starting SSG Pre-rendering for ${pageKeys.length} total routes...`);
 
 pageKeys.forEach((key) => {
   const page = SEO_DATA[key];
@@ -65,20 +66,6 @@ pageKeys.forEach((key) => {
     `<meta property="og:url" content="${page.canonical}" />`
   );
 
-  // Replace Twitter Title, Description, URL
-  html = html.replace(
-    /<meta name="twitter:title"\s+content=".*?"\s*\/?>/s,
-    `<meta name="twitter:title" content="${page.title}" />`
-  );
-  html = html.replace(
-    /<meta name="twitter:description"\s+content=".*?"\s*\/?>/s,
-    `<meta name="twitter:description" content="${page.description}" />`
-  );
-  html = html.replace(
-    /<meta name="twitter:url"\s+content=".*?"\s*\/?>/s,
-    `<meta name="twitter:url" content="${page.canonical}" />`
-  );
-
   // Inject JSON-LD Schema
   const schemas = generateSchemasForPage(key);
   const schemaScript = `\n  <script id="json-ld-schema" type="application/ld+json">\n${JSON.stringify(schemas, null, 2)}\n  </script>\n</head>`;
@@ -92,6 +79,7 @@ pageKeys.forEach((key) => {
         <a href="/websites">Websites</a>
         <a href="/content-strategy">Content Strategy</a>
         <a href="/ai-consulting">AI Consulting</a>
+        <a href="/blog">Blog Content Hub</a>
         <a href="/about">About</a>
         <a href="/contact">Contact</a>
       </nav>
@@ -106,15 +94,13 @@ pageKeys.forEach((key) => {
   // Target directory
   if (key === 'home') {
     fs.writeFileSync(path.join(distDir, 'index.html'), html, 'utf8');
-    console.log(`✅ Prerendered dist/index.html`);
   } else {
     const pageFolder = path.join(distDir, key);
     if (!fs.existsSync(pageFolder)) {
       fs.mkdirSync(pageFolder, { recursive: true });
     }
     fs.writeFileSync(path.join(pageFolder, 'index.html'), html, 'utf8');
-    console.log(`✅ Prerendered dist/${key}/index.html`);
   }
 });
 
-console.log(`🎉 Production SSG Static Prerendering Complete for ${pageKeys.length} routes!`);
+console.log(`🎉 Production SSG Static Prerendering Complete for ${pageKeys.length} total routes!`);

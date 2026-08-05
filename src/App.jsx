@@ -12,29 +12,30 @@ import AdminDashboard from './components/AdminDashboard';
 import SEO from './components/common/SEO';
 import Breadcrumbs from './components/common/Breadcrumbs';
 import IndustryLandingPage from './pages/IndustryLandingPage';
+import BlogHubPage from './pages/BlogHubPage';
+import BlogPostPage from './pages/BlogPostPage';
 import { INDUSTRIES_DATA } from './utils/industryData';
+import { BLOG_ARTICLES } from './utils/blogData';
 
-const CORE_TABS = ['home', 'websites', 'content-strategy', 'ai-consulting', 'about', 'contact', 'admin'];
+const CORE_TABS = ['home', 'websites', 'content-strategy', 'ai-consulting', 'about', 'contact', 'admin', 'blog'];
 const INDUSTRY_KEYS = Object.keys(INDUSTRIES_DATA);
-const VALID_TABS = [...CORE_TABS, ...INDUSTRY_KEYS];
+const BLOG_SLUGS = BLOG_ARTICLES.map(a => `blog/${a.slug}`);
+const VALID_TABS = [...CORE_TABS, ...INDUSTRY_KEYS, ...BLOG_SLUGS];
 
 const getTabFromUrl = () => {
   if (typeof window === 'undefined') return 'home';
   
-  // 1. Check pathname e.g. /websites or /websites-for-gyms
   const pathname = window.location.pathname.replace(/^\/+|\/+$/g, '');
   if (pathname && VALID_TABS.includes(pathname)) {
     return pathname;
   }
 
-  // 2. Check query parameter e.g. ?tab=about or ?tab=websites-for-gyms
   const params = new URLSearchParams(window.location.search);
   const tabParam = params.get('tab');
   if (tabParam && VALID_TABS.includes(tabParam)) {
     return tabParam;
   }
 
-  // 3. Fallback check URL hash e.g. /#about or /#websites-for-gyms
   const hash = window.location.hash.replace(/^#\/?/, '');
   if (hash && VALID_TABS.includes(hash)) {
     return hash;
@@ -47,7 +48,6 @@ export default function App() {
   const [activeTab, setActiveTab] = useState(getTabFromUrl);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
-  // Synchronize state with browser history (back/forward & refresh)
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
@@ -71,6 +71,8 @@ export default function App() {
   };
 
   const isIndustryPage = INDUSTRY_KEYS.includes(activeTab);
+  const isBlogPostPage = activeTab.startsWith('blog/');
+  const blogSlug = isBlogPostPage ? activeTab.replace(/^blog\//, '') : null;
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex flex-col justify-between selection:bg-emerald-400 selection:text-black">
@@ -124,6 +126,21 @@ export default function App() {
 
         {activeTab === 'contact' && (
           <ContactPage
+            onOpenBooking={() => setIsBookingModalOpen(true)}
+          />
+        )}
+
+        {activeTab === 'blog' && (
+          <BlogHubPage
+            onSelectTab={handleSelectTab}
+            onOpenBooking={() => setIsBookingModalOpen(true)}
+          />
+        )}
+
+        {isBlogPostPage && (
+          <BlogPostPage
+            slug={blogSlug}
+            onSelectTab={handleSelectTab}
             onOpenBooking={() => setIsBookingModalOpen(true)}
           />
         )}
