@@ -18,6 +18,9 @@ const coreRoutes = [
   { path: '/about', priority: '0.8', changefreq: 'monthly' },
   { path: '/contact', priority: '0.8', changefreq: 'monthly' },
   { path: '/blog', priority: '0.9', changefreq: 'daily' },
+  { path: '/privacy', priority: '0.5', changefreq: 'yearly' },
+  { path: '/terms', priority: '0.5', changefreq: 'yearly' },
+  { path: '/cookies', priority: '0.5', changefreq: 'yearly' }
 ];
 
 const industryRoutes = Object.keys(INDUSTRIES_DATA).map(key => ({

@@ -124,6 +124,42 @@ export const BASE_SEO_DATA = {
       { name: 'Contact & Scope Builder', item: `${SITE_DOMAIN}/contact` }
     ]
   },
+  privacy: {
+    path: '/privacy',
+    title: 'Privacy Policy | Data Protection & NDA Security | LaunchGremlin',
+    description: 'Read the LaunchGremlin Privacy Policy detailing data confidentiality, security standards, and non-disclosure commitments for clients.',
+    canonical: `${SITE_DOMAIN}/privacy`,
+    ogType: 'website',
+    ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    breadcrumbs: [
+      { name: 'Home', item: `${SITE_DOMAIN}/` },
+      { name: 'Privacy Policy', item: `${SITE_DOMAIN}/privacy` }
+    ]
+  },
+  terms: {
+    path: '/terms',
+    title: 'Terms of Service | Client Service Agreements & Guarantees | LaunchGremlin',
+    description: 'LaunchGremlin Terms of Service covering service level agreements, intellectual property rights, 72-Hour MVP sprints, and core guarantees.',
+    canonical: `${SITE_DOMAIN}/terms`,
+    ogType: 'website',
+    ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    breadcrumbs: [
+      { name: 'Home', item: `${SITE_DOMAIN}/` },
+      { name: 'Terms of Service', item: `${SITE_DOMAIN}/terms` }
+    ]
+  },
+  cookies: {
+    path: '/cookies',
+    title: 'Cookie & Tracking Policy | Privacy Compliance | LaunchGremlin',
+    description: 'Learn about LaunchGremlin cookie policies, privacy-first analytics, and session management.',
+    canonical: `${SITE_DOMAIN}/cookies`,
+    ogType: 'website',
+    ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    breadcrumbs: [
+      { name: 'Home', item: `${SITE_DOMAIN}/` },
+      { name: 'Cookie Policy', item: `${SITE_DOMAIN}/cookies` }
+    ]
+  },
   admin: {
     path: '/admin',
     title: 'Admin Dashboard | LaunchGremlin',
@@ -188,6 +224,7 @@ BLOG_ARTICLES.forEach((article) => {
       headline: article.title,
       description: article.description,
       datePublished: article.publishDate,
+      dateModified: '2026-08-05',
       authorName: article.author,
       image: article.heroImage
     },
@@ -231,7 +268,21 @@ export function generateSchemasForPage(pageKey) {
     url: SITE_DOMAIN,
     logo: `${SITE_DOMAIN}/assets/logo-transparent.png`,
     image: `${SITE_DOMAIN}/assets/logo-transparent.png`,
-    description: 'LaunchGremlin helps creators and ambitious businesses build high-performance websites, execute data-driven content strategies, and integrate enterprise AI automation.'
+    description: 'LaunchGremlin helps creators and ambitious businesses build high-performance websites, execute data-driven content strategies, and integrate enterprise AI automation.',
+    founder: {
+      '@type': 'Person',
+      name: 'LaunchGremlin Founder',
+      jobTitle: 'Senior Technical SEO & Web Architect',
+      sameAs: [
+        'https://www.instagram.com/launchgremlin/',
+        'https://www.tiktok.com/@launchgremlin'
+      ]
+    },
+    sameAs: [
+      'https://www.instagram.com/launchgremlin/',
+      'https://www.tiktok.com/@launchgremlin'
+    ],
+    publishingPrinciples: `${SITE_DOMAIN}/privacy`
   };
 
   const websiteSchema = {
@@ -292,9 +343,11 @@ export function generateSchemasForPage(pageKey) {
       headline: page.blogPosting.headline,
       description: page.blogPosting.description,
       datePublished: page.blogPosting.datePublished,
+      dateModified: page.blogPosting.dateModified || '2026-08-05',
       author: {
         '@type': 'Person',
-        name: page.blogPosting.authorName
+        name: page.blogPosting.authorName,
+        jobTitle: 'Senior Technical SEO Architect'
       },
       publisher: { '@id': `${SITE_DOMAIN}/#organization` },
       image: page.blogPosting.image,

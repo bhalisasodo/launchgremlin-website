@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram } from 'lucide-react';
+import { Instagram, ShieldCheck, Lock, FileText, Cookie } from 'lucide-react';
 import { INDUSTRIES_DATA } from '../utils/industryData';
 import { LONG_TAIL_PAGES } from '../utils/longTailData';
 
@@ -10,9 +10,7 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
   };
 
   const industriesList = Object.keys(INDUSTRIES_DATA).map(key => INDUSTRIES_DATA[key]);
-
-  // Featured 12 long-tail buyer intent links for crawler discovery
-  const featuredLongTail = LONG_TAIL_PAGES.slice(0, 12);
+  const featuredLongTail = LONG_TAIL_PAGES.slice(0, 10);
 
   return (
     <footer className="w-full bg-zinc-950 border-t border-zinc-900 py-16 px-6 text-zinc-400 relative z-10">
@@ -44,15 +42,15 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
           </div>
         </div>
 
-        {/* Pillars Column */}
-        <div className="md:col-span-3 space-y-3">
+        {/* Strategic Pillars & Legal Column */}
+        <div className="md:col-span-3 space-y-4">
           <h2 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold">Strategic Pillars</h2>
           <ul className="space-y-2 text-xs">
             <li>
               <a
                 href="/websites"
                 onClick={(e) => handleLinkClick(e, 'websites')}
-                className="hover:text-emerald-400 transition-colors inline-block py-1"
+                className="hover:text-emerald-400 transition-colors inline-block py-0.5"
               >
                 🌐 High-Performance Websites
               </a>
@@ -61,7 +59,7 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
               <a
                 href="/content-strategy"
                 onClick={(e) => handleLinkClick(e, 'content-strategy')}
-                className="hover:text-emerald-400 transition-colors inline-block py-1"
+                className="hover:text-emerald-400 transition-colors inline-block py-0.5"
               >
                 📈 Content Strategy & Growth
               </a>
@@ -70,7 +68,7 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
               <a
                 href="/ai-consulting"
                 onClick={(e) => handleLinkClick(e, 'ai-consulting')}
-                className="hover:text-emerald-400 transition-colors inline-block py-1"
+                className="hover:text-emerald-400 transition-colors inline-block py-0.5"
               >
                 🤖 AI Consulting & Workflows
               </a>
@@ -79,49 +77,60 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
               <a
                 href="/blog"
                 onClick={(e) => handleLinkClick(e, 'blog')}
-                className="hover:text-emerald-400 transition-colors inline-block py-1 font-bold text-emerald-400"
+                className="hover:text-emerald-400 transition-colors inline-block py-0.5 font-bold text-emerald-400"
               >
                 📚 100 Article Content Hub
               </a>
             </li>
           </ul>
 
-          <div className="pt-4 space-y-2">
-            <h2 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold">Company</h2>
-            <ul className="space-y-1.5 text-xs">
+          <div className="pt-2 space-y-2">
+            <h2 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold">Legal & E-E-A-T Trust</h2>
+            <ul className="space-y-1.5 text-xs font-mono">
               <li>
                 <a
-                  href="/about"
-                  onClick={(e) => handleLinkClick(e, 'about')}
-                  className="hover:text-white transition-colors py-0.5 inline-block"
+                  href="/privacy"
+                  onClick={(e) => handleLinkClick(e, 'privacy')}
+                  className="hover:text-emerald-400 transition-colors py-0.5 inline-block text-zinc-400"
                 >
-                  About Us
+                  🔒 Privacy Policy
                 </a>
               </li>
               <li>
                 <a
-                  href="/contact"
-                  onClick={(e) => handleLinkClick(e, 'contact')}
-                  className="hover:text-white transition-colors py-0.5 inline-block"
+                  href="/terms"
+                  onClick={(e) => handleLinkClick(e, 'terms')}
+                  className="hover:text-emerald-400 transition-colors py-0.5 inline-block text-zinc-400"
                 >
-                  Contact & Scope Builder
+                  📄 Terms of Service
                 </a>
               </li>
               <li>
-                <button
-                  onClick={onOpenBooking}
-                  className="text-emerald-400 hover:underline py-0.5 text-left cursor-pointer"
+                <a
+                  href="/cookies"
+                  onClick={(e) => handleLinkClick(e, 'cookies')}
+                  className="hover:text-emerald-400 transition-colors py-0.5 inline-block text-zinc-400"
                 >
-                  Book Strategy Call
-                </button>
+                  🍪 Cookie Policy
+                </a>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Industries & Buyer Intent Solutions Column */}
-        <div className="md:col-span-5 space-y-3">
-          <h2 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold">Buyer Intent Solutions</h2>
+        {/* Company & Solutions Column */}
+        <div className="md:col-span-5 space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold">Company & Solutions</h2>
+            <a
+              href="/about"
+              onClick={(e) => handleLinkClick(e, 'about')}
+              className="text-[11px] font-mono text-emerald-400 hover:underline"
+            >
+              About Founders →
+            </a>
+          </div>
+
           <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
             {industriesList.slice(0, 6).map((ind) => (
               <a
@@ -151,7 +160,7 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
       </div>
 
       <div className="max-w-7xl mx-auto pt-8 border-t border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-zinc-500">
-        <span>© {new Date().getFullYear()} LaunchGremlin. All rights reserved. 600+ Indexable Pages.</span>
+        <span>© {new Date().getFullYear()} LaunchGremlin. Verified E-E-A-T Enterprise Authority.</span>
 
         <div className="flex items-center gap-6 text-zinc-400">
           <a

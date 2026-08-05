@@ -8,6 +8,9 @@ import ContentStrategyPage from './pages/ContentStrategyPage';
 import AIConsultingPage from './pages/AIConsultingPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsPage from './pages/TermsPage';
+import CookiePolicyPage from './pages/CookiePolicyPage';
 import AdminDashboard from './components/AdminDashboard';
 import SEO from './components/common/SEO';
 import Breadcrumbs from './components/common/Breadcrumbs';
@@ -22,7 +25,7 @@ import { INDUSTRIES_DATA } from './utils/industryData';
 import { BLOG_ARTICLES } from './utils/blogData';
 import { LONG_TAIL_PAGES } from './utils/longTailData';
 
-const CORE_TABS = ['home', 'websites', 'content-strategy', 'ai-consulting', 'about', 'contact', 'admin', 'blog'];
+const CORE_TABS = ['home', 'websites', 'content-strategy', 'ai-consulting', 'about', 'contact', 'admin', 'blog', 'privacy', 'terms', 'cookies'];
 const INDUSTRY_KEYS = Object.keys(INDUSTRIES_DATA);
 const BLOG_SLUGS = BLOG_ARTICLES.map(a => `blog/${a.slug}`);
 const LONG_TAIL_SLUGS = LONG_TAIL_PAGES.map(p => p.slug);
@@ -134,6 +137,27 @@ export default function App() {
 
         {activeTab === 'contact' && (
           <ContactPage
+            onOpenBooking={() => setIsBookingModalOpen(true)}
+          />
+        )}
+
+        {activeTab === 'privacy' && (
+          <PrivacyPolicyPage
+            onSelectTab={handleSelectTab}
+            onOpenBooking={() => setIsBookingModalOpen(true)}
+          />
+        )}
+
+        {activeTab === 'terms' && (
+          <TermsPage
+            onSelectTab={handleSelectTab}
+            onOpenBooking={() => setIsBookingModalOpen(true)}
+          />
+        )}
+
+        {activeTab === 'cookies' && (
+          <CookiePolicyPage
+            onSelectTab={handleSelectTab}
             onOpenBooking={() => setIsBookingModalOpen(true)}
           />
         )}
