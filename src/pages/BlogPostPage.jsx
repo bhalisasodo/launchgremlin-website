@@ -212,6 +212,18 @@ export default function BlogPostPage({ slug, onSelectTab, onOpenBooking }) {
               <User className="w-3.5 h-3.5 text-emerald-400" />
               <span>By {article.author}</span>
             </span>
+
+            {/* AI Curated Badge with Hover Tooltip */}
+            <div className="relative group/tooltip inline-block">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-[10px] font-mono font-bold cursor-help">
+                <Sparkles className="w-3 h-3" />
+                <span>AI Curated</span>
+              </span>
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/tooltip:block z-30 px-3 py-1.5 rounded-lg bg-zinc-950 border border-zinc-800 text-white text-[10px] font-mono whitespace-nowrap shadow-2xl pointer-events-none">
+                Produced by LaunchGremlin&apos;s AI Editorial Team.
+              </div>
+            </div>
+
             <span className="flex items-center gap-1.5">
               <Calendar className="w-3.5 h-3.5 text-emerald-400" />
               <span>Published: {article.publishDate}</span>

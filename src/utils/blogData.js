@@ -1739,7 +1739,7 @@ export function enrichArticle(article) {
     ...article,
     category,
     content,
-    author: article.author || 'LaunchGremlin Engineering Team',
+    author: 'LaunchGremlin AI Editorial Team',
     publishDate: article.publishDate || '2026-08-01',
     updatedDate: '2026-08-05',
     readTime: article.readTime || '10 min read',

@@ -347,11 +347,19 @@ export function generateSchemasForPage(pageKey) {
       datePublished: page.blogPosting.datePublished,
       dateModified: page.blogPosting.dateModified || '2026-08-05',
       author: {
-        '@type': 'Person',
-        name: page.blogPosting.authorName,
-        jobTitle: 'Senior Technical SEO Architect'
+        '@type': 'Organization',
+        name: 'LaunchGremlin AI Editorial Team',
+        url: SITE_DOMAIN
       },
-      publisher: { '@id': `${SITE_DOMAIN}/#organization` },
+      publisher: {
+        '@type': 'Organization',
+        '@id': `${SITE_DOMAIN}/#organization`,
+        name: 'LaunchGremlin',
+        logo: {
+          '@type': 'ImageObject',
+          url: `${SITE_DOMAIN}/assets/logo-transparent.png`
+        }
+      },
       image: page.blogPosting.image,
       mainEntityOfPage: page.canonical
     };

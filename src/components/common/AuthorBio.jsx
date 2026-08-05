@@ -3,11 +3,11 @@ import { Calendar, ShieldCheck, CheckCircle2, Award, Clock } from 'lucide-react'
 
 export default function AuthorBio({ author, publishDate, updatedDate, readTime }) {
   const authorProfile = {
-    name: author || 'Antigravity Engineering Team',
-    role: 'Senior Technical SEO & Web Architect',
-    credentials: '10+ Years Full-Stack Engineering • 100/100 Core Web Vitals Specialist',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-    bio: 'Lead Engineer and Technical SEO Architect at LaunchGremlin. Specialist in React 18 sub-second application design, enterprise AI workflow automation, and data-driven audience growth.'
+    name: 'LaunchGremlin AI Editorial Team',
+    role: 'Specialized Multi-Agent AI Editorial Suite',
+    credentials: 'Research • Strategy • Drafting • SEO • Quality Assurance',
+    avatar: '/assets/logo-icon.png',
+    bio: 'Every article published in the LaunchGremlin Content Hub is researched, written, reviewed, and optimized by our specialized team of autonomous AI agents working alongside senior technical editors to deliver maximum accuracy, speed, and real commercial value.'
   };
 
   return (
