@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { INDUSTRIES_DATA } from '../src/utils/industryData.js';
 import { BLOG_ARTICLES } from '../src/utils/blogData.js';
+import { LONG_TAIL_PAGES } from '../src/utils/longTailData.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,7 +32,13 @@ const blogArticleRoutes = BLOG_ARTICLES.map(a => ({
   changefreq: 'weekly'
 }));
 
-const allRoutes = [...coreRoutes, ...industryRoutes, ...blogArticleRoutes];
+const longTailRoutes = LONG_TAIL_PAGES.map(p => ({
+  path: p.path,
+  priority: '0.80',
+  changefreq: 'weekly'
+}));
+
+const allRoutes = [...coreRoutes, ...industryRoutes, ...blogArticleRoutes, ...longTailRoutes];
 
 const today = new Date().toISOString().split('T')[0];
 

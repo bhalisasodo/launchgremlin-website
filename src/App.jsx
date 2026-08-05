@@ -14,13 +14,18 @@ import Breadcrumbs from './components/common/Breadcrumbs';
 import IndustryLandingPage from './pages/IndustryLandingPage';
 import BlogHubPage from './pages/BlogHubPage';
 import BlogPostPage from './pages/BlogPostPage';
+import LongTailPage from './pages/LongTailPage';
+
 import { INDUSTRIES_DATA } from './utils/industryData';
 import { BLOG_ARTICLES } from './utils/blogData';
+import { LONG_TAIL_PAGES } from './utils/longTailData';
 
 const CORE_TABS = ['home', 'websites', 'content-strategy', 'ai-consulting', 'about', 'contact', 'admin', 'blog'];
 const INDUSTRY_KEYS = Object.keys(INDUSTRIES_DATA);
 const BLOG_SLUGS = BLOG_ARTICLES.map(a => `blog/${a.slug}`);
-const VALID_TABS = [...CORE_TABS, ...INDUSTRY_KEYS, ...BLOG_SLUGS];
+const LONG_TAIL_SLUGS = LONG_TAIL_PAGES.map(p => p.slug);
+
+const VALID_TABS = [...CORE_TABS, ...INDUSTRY_KEYS, ...BLOG_SLUGS, ...LONG_TAIL_SLUGS];
 
 const getTabFromUrl = () => {
   if (typeof window === 'undefined') return 'home';
@@ -72,6 +77,7 @@ export default function App() {
 
   const isIndustryPage = INDUSTRY_KEYS.includes(activeTab);
   const isBlogPostPage = activeTab.startsWith('blog/');
+  const isLongTailPage = LONG_TAIL_SLUGS.includes(activeTab);
   const blogSlug = isBlogPostPage ? activeTab.replace(/^blog\//, '') : null;
 
   return (
@@ -142,6 +148,14 @@ export default function App() {
             slug={blogSlug}
             onSelectTab={handleSelectTab}
             onOpenBooking={() => setIsBookingModalOpen(true)}
+          />
+        )}
+
+        {isLongTailPage && (
+          <LongTailPage
+            slug={activeTab}
+            onOpenBooking={() => setIsBookingModalOpen(true)}
+            onSelectTab={handleSelectTab}
           />
         )}
 

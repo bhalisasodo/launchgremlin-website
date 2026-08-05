@@ -1,6 +1,7 @@
 // SEO Metadata and Schema.org Generator for LaunchGremlin.com
 import { INDUSTRIES_DATA } from './industryData.js';
 import { BLOG_ARTICLES } from './blogData.js';
+import { LONG_TAIL_PAGES } from './longTailData.js';
 
 export const SITE_DOMAIN = 'https://launchgremlin.com';
 
@@ -138,7 +139,7 @@ export const BASE_SEO_DATA = {
 
 export const SEO_DATA = { ...BASE_SEO_DATA };
 
-// Merge Industry Pages into SEO_DATA
+// Merge 16 Primary Industry Pages into SEO_DATA
 Object.keys(INDUSTRIES_DATA).forEach((key) => {
   const ind = INDUSTRIES_DATA[key];
   SEO_DATA[key] = {
@@ -164,7 +165,7 @@ Object.keys(INDUSTRIES_DATA).forEach((key) => {
   };
 });
 
-// Merge 100 Blog Articles into SEO_DATA dynamically under key `blog/${article.slug}`
+// Merge 100 Blog Articles into SEO_DATA
 BLOG_ARTICLES.forEach((article) => {
   const articleKey = `blog/${article.slug}`;
   SEO_DATA[articleKey] = {
@@ -191,6 +192,31 @@ BLOG_ARTICLES.forEach((article) => {
       image: article.heroImage
     },
     faqs: article.faqs
+  };
+});
+
+// Merge 500 Long-Tail Buyer-Intent Pages into SEO_DATA
+LONG_TAIL_PAGES.forEach((page) => {
+  SEO_DATA[page.slug] = {
+    path: page.path,
+    title: page.title,
+    description: page.description,
+    keywords: page.keywords,
+    canonical: page.canonical,
+    ogType: 'service',
+    ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    ogImageAlt: page.title,
+    breadcrumbs: [
+      { name: 'Home', item: `${SITE_DOMAIN}/` },
+      { name: 'Websites', item: `${SITE_DOMAIN}/websites` },
+      { name: page.label, item: page.canonical }
+    ],
+    service: {
+      name: `High-Performance Web Design for ${page.label}`,
+      serviceType: 'Web Development',
+      description: page.heroSubheadline
+    },
+    faqs: page.faqs
   };
 });
 
@@ -243,6 +269,19 @@ export function generateSchemasForPage(pageKey) {
       }))
     };
     schemas.push(breadcrumbSchema);
+  }
+
+  // Service Schema
+  if (page.service) {
+    const serviceSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: page.service.name,
+      serviceType: page.service.serviceType,
+      description: page.service.description,
+      provider: { '@id': `${SITE_DOMAIN}/#organization` }
+    };
+    schemas.push(serviceSchema);
   }
 
   // BlogPosting Schema

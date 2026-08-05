@@ -1,6 +1,7 @@
 import React from 'react';
 import { Instagram } from 'lucide-react';
 import { INDUSTRIES_DATA } from '../utils/industryData';
+import { LONG_TAIL_PAGES } from '../utils/longTailData';
 
 export default function Footer({ onSelectTab, onOpenBooking }) {
   const handleLinkClick = (e, tab) => {
@@ -9,6 +10,9 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
   };
 
   const industriesList = Object.keys(INDUSTRIES_DATA).map(key => INDUSTRIES_DATA[key]);
+
+  // Featured 12 long-tail buyer intent links for crawler discovery
+  const featuredLongTail = LONG_TAIL_PAGES.slice(0, 12);
 
   return (
     <footer className="w-full bg-zinc-950 border-t border-zinc-900 py-16 px-6 text-zinc-400 relative z-10">
@@ -71,6 +75,15 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
                 🤖 AI Consulting & Workflows
               </a>
             </li>
+            <li>
+              <a
+                href="/blog"
+                onClick={(e) => handleLinkClick(e, 'blog')}
+                className="hover:text-emerald-400 transition-colors inline-block py-1 font-bold text-emerald-400"
+              >
+                📚 100 Article Content Hub
+              </a>
+            </li>
           </ul>
 
           <div className="pt-4 space-y-2">
@@ -106,11 +119,11 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
           </div>
         </div>
 
-        {/* Industries We Serve Column (Structured Internal Linking) */}
+        {/* Industries & Buyer Intent Solutions Column */}
         <div className="md:col-span-5 space-y-3">
-          <h2 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold">Industries We Serve</h2>
+          <h2 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold">Buyer Intent Solutions</h2>
           <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
-            {industriesList.map((ind) => (
+            {industriesList.slice(0, 6).map((ind) => (
               <a
                 key={ind.slug}
                 href={ind.path}
@@ -121,12 +134,24 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
                 ● Websites for {ind.shortTitle}
               </a>
             ))}
+
+            {featuredLongTail.map((lt) => (
+              <a
+                key={lt.slug}
+                href={lt.path}
+                onClick={(e) => handleLinkClick(e, lt.slug)}
+                className="hover:text-emerald-400 transition-colors truncate py-0.5 text-zinc-400"
+                title={lt.title}
+              >
+                ● {lt.label}
+              </a>
+            ))}
           </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto pt-8 border-t border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-zinc-500">
-        <span>© {new Date().getFullYear()} LaunchGremlin. All rights reserved.</span>
+        <span>© {new Date().getFullYear()} LaunchGremlin. All rights reserved. 600+ Indexable Pages.</span>
 
         <div className="flex items-center gap-6 text-zinc-400">
           <a
