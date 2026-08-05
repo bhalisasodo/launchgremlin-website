@@ -8,6 +8,7 @@
     "build": "vite build && node scripts/generate-sitemap.js && node scripts/prerender.js",
     "generate-sitemap": "node scripts/generate-sitemap.js",
     "prerender": "node scripts/prerender.js",
+    "auto:generate-article": "node scripts/seo-automation/index.js",
     "lint": "eslint .",
     "test": "echo \"No tests defined\"",
     "preview": "vite preview"
