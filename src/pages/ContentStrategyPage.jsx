@@ -39,7 +39,7 @@ export default function ContentStrategyPage({ onSelectTab, onOpenBooking }) {
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               onClick={onOpenBooking}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
             >
               <span>Book Strategy Call</span>
               <ArrowRight className="w-4 h-4" />
@@ -47,7 +47,7 @@ export default function ContentStrategyPage({ onSelectTab, onOpenBooking }) {
             <a
               href="/websites"
               onClick={(e) => handleLinkClick(e, 'websites')}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-zinc-900 border border-zinc-800 text-zinc-200 text-xs font-semibold hover:border-emerald-400 hover:text-white transition-all cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-zinc-900 border border-zinc-800 text-zinc-200 text-xs font-semibold hover:border-emerald-400 hover:text-white transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
             >
               <span>Explore High-Speed Websites</span>
             </a>
@@ -157,7 +157,7 @@ export default function ContentStrategyPage({ onSelectTab, onOpenBooking }) {
           <a
             href="/blog"
             onClick={(e) => handleLinkClick(e, 'blog')}
-            className="text-xs font-mono text-emerald-400 hover:underline flex items-center gap-1 cursor-pointer"
+            className="text-xs font-mono text-emerald-400 hover:underline flex items-center gap-1 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
           >
             <span>Explore All 100 Articles</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -170,7 +170,7 @@ export default function ContentStrategyPage({ onSelectTab, onOpenBooking }) {
               key={art.slug}
               href={`/blog/${art.slug}`}
               onClick={(e) => handleLinkClick(e, `blog/${art.slug}`)}
-              className="p-5 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-emerald-400/50 transition-all space-y-3 flex flex-col justify-between group cursor-pointer"
+              className="p-5 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-emerald-400/50 transition-all space-y-3 flex flex-col justify-between group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
             >
               <div className="space-y-2">
                 <span className="text-[10px] font-mono text-emerald-400 font-bold uppercase">
@@ -192,7 +192,7 @@ export default function ContentStrategyPage({ onSelectTab, onOpenBooking }) {
       {/* Call to Action Banner */}
       <section aria-labelledby="cs-cta-title" className="max-w-4xl mx-auto px-6">
         <div className="p-10 sm:p-14 rounded-3xl bg-zinc-900/90 border border-emerald-400/40 text-center space-y-6 shadow-[0_0_50px_rgba(52,211,153,0.15)]">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono font-bold">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Outgrow Social Algorithms</span>
           </div>
@@ -208,7 +208,7 @@ export default function ContentStrategyPage({ onSelectTab, onOpenBooking }) {
           <button
             onClick={onOpenBooking}
             aria-label="Book Content Strategy Call"
-            className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
           >
             <span>Book Strategy Call</span>
             <ArrowRight className="w-4 h-4" />

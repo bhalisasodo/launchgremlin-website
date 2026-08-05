@@ -1,5 +1,4 @@
 import React from 'react';
-import WebsitesHeroScene from '../components/services/WebsitesHeroScene';
 import ServiceHeroBackground from '../components/common/ServiceHeroBackground';
 import PricingSection from '../components/common/PricingSection';
 import TrustBadges from '../components/common/TrustBadges';
@@ -24,43 +23,37 @@ export default function WebsitesPage({ onSelectTab, onOpenBooking }) {
 
   return (
     <div className="space-y-20 pb-20 select-none">
-      {/* Hero Section (Unchanged Desktop Canvas) */}
+      {/* Hero Section (Consistent with ContentStrategy & AIConsulting Service Pages) */}
       <ServiceHeroBackground glowPosition="top-right">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center pt-8 pb-12">
-          <div className="lg:col-span-6 space-y-6 text-left">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono font-bold tracking-wider">
-              <Globe className="w-3.5 h-3.5" />
-              <span>HIGH-PERFORMANCE WEB ENGINEERING</span>
-            </div>
-
-            <h1 className="text-4xl sm:text-6xl font-black text-white tracking-tight uppercase leading-[1.05]">
-              Sub-Second Digital Products & Websites.
-            </h1>
-
-            <p className="text-sm sm:text-base text-zinc-300 font-light max-w-xl leading-relaxed">
-              We build custom, lightning-fast web applications using React 18, Vite, and Next.js. Engineered for 100/100 Core Web Vitals, maximum search engine indexing, and seamless lead conversion.
-            </p>
-
-            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-              <button
-                onClick={onOpenBooking}
-                className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
-              >
-                <span>Book Web Strategy Call</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-              <a
-                href="/contact"
-                onClick={(e) => handleLinkClick(e, 'contact')}
-                className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-zinc-900 border border-zinc-800 text-zinc-200 text-xs font-semibold hover:border-emerald-400 hover:text-white transition-all cursor-pointer"
-              >
-                <span>Scope Custom Project</span>
-              </a>
-            </div>
+        <div className="max-w-5xl mx-auto text-center space-y-6 pt-8 pb-12 px-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono font-bold tracking-wider">
+            <Globe className="w-3.5 h-3.5" />
+            <span>HIGH-PERFORMANCE WEB ENGINEERING</span>
           </div>
 
-          <div className="lg:col-span-6">
-            <WebsitesHeroScene />
+          <h1 className="text-4xl sm:text-6xl font-black text-white tracking-tight uppercase leading-[1.05]">
+            SUB-SECOND DIGITAL PRODUCTS & WEBSITES.
+          </h1>
+
+          <p className="text-sm sm:text-base text-zinc-300 font-light max-w-2xl mx-auto leading-relaxed">
+            We build custom, lightning-fast web applications using React 18, Vite, and Next.js. Engineered for 100/100 Core Web Vitals, maximum search engine indexing, and seamless lead conversion.
+          </p>
+
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button
+              onClick={onOpenBooking}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+            >
+              <span>Book Web Strategy Call</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+            <a
+              href="/contact"
+              onClick={(e) => handleLinkClick(e, 'contact')}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-zinc-900 border border-zinc-800 text-zinc-200 text-xs font-semibold hover:border-emerald-400 hover:text-white transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+            >
+              <span>Scope Custom Project</span>
+            </a>
           </div>
         </div>
       </ServiceHeroBackground>
@@ -179,7 +172,7 @@ export default function WebsitesPage({ onSelectTab, onOpenBooking }) {
                 key={ind.slug}
                 href={ind.path}
                 onClick={(e) => handleLinkClick(e, ind.slug)}
-                className="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-emerald-400/50 hover:text-emerald-300 transition-all text-center space-y-1 block group cursor-pointer"
+                className="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-emerald-400/50 hover:text-emerald-300 transition-all text-center space-y-1 block group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
               >
                 <span className="text-xs font-bold text-white group-hover:text-emerald-300 block truncate">
                   {ind.name}
@@ -207,7 +200,7 @@ export default function WebsitesPage({ onSelectTab, onOpenBooking }) {
           <a
             href="/blog"
             onClick={(e) => handleLinkClick(e, 'blog')}
-            className="text-xs font-mono text-emerald-400 hover:underline flex items-center gap-1 cursor-pointer"
+            className="text-xs font-mono text-emerald-400 hover:underline flex items-center gap-1 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
           >
             <span>Explore All 100 Articles</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -220,7 +213,7 @@ export default function WebsitesPage({ onSelectTab, onOpenBooking }) {
               key={art.slug}
               href={`/blog/${art.slug}`}
               onClick={(e) => handleLinkClick(e, `blog/${art.slug}`)}
-              className="p-5 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-emerald-400/50 transition-all space-y-3 flex flex-col justify-between group cursor-pointer"
+              className="p-5 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-emerald-400/50 transition-all space-y-3 flex flex-col justify-between group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
             >
               <div className="space-y-2">
                 <span className="text-[10px] font-mono text-emerald-400 font-bold uppercase">
@@ -258,7 +251,7 @@ export default function WebsitesPage({ onSelectTab, onOpenBooking }) {
           <button
             onClick={onOpenBooking}
             aria-label="Book Web Strategy Call"
-            className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
           >
             <span>Book Strategy Call</span>
             <ArrowRight className="w-4 h-4" />
