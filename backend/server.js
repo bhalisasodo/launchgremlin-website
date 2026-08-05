@@ -40,27 +40,66 @@ const sendLeadEmailNotification = async (lead) => {
       });
 
       const htmlContent = `
-        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #09090b; color: #ffffff; padding: 32px; border-radius: 16px; border: 1px solid #27272a;">
-          <h2 style="color: #34d399; margin-top: 0; font-size: 22px;">🚀 New LaunchGremlin Lead Alert</h2>
-          <p style="color: #a1a1aa; font-size: 14px;">A new lead has submitted a strategy inquiry for recipient: <strong>${recipient}</strong>.</p>
-          
-          <table style="width: 100%; border-collapse: collapse; margin-top: 24px; color: #ffffff; font-size: 14px;">
-            <tr style="border-bottom: 1px solid #27272a;"><td style="padding: 12px; font-weight: bold; color: #34d399; width: 140px;">Name</td><td style="padding: 12px;">${lead.name}</td></tr>
-            <tr style="border-bottom: 1px solid #27272a;"><td style="padding: 12px; font-weight: bold; color: #34d399;">Email</td><td style="padding: 12px;"><a href="mailto:${lead.email}" style="color: #60a5fa; text-decoration: none;">${lead.email}</a></td></tr>
-            <tr style="border-bottom: 1px solid #27272a;"><td style="padding: 12px; font-weight: bold; color: #34d399;">Contact Phone</td><td style="padding: 12px; font-weight: bold; color: #34d399;"><a href="tel:${lead.phone || ''}" style="color: #34d399; text-decoration: none;">${lead.phone || 'N/A'}</a></td></tr>
-            <tr style="border-bottom: 1px solid #27272a;"><td style="padding: 12px; font-weight: bold; color: #34d399;">Company</td><td style="padding: 12px;">${lead.company || 'N/A'}</td></tr>
-            <tr style="border-bottom: 1px solid #27272a;"><td style="padding: 12px; font-weight: bold; color: #34d399;">Service Pillar</td><td style="padding: 12px; font-weight: bold; color: #facc15;">${lead.service}</td></tr>
-            <tr style="border-bottom: 1px solid #27272a;"><td style="padding: 12px; font-weight: bold; color: #34d399;">Budget</td><td style="padding: 12px;">${lead.budget || 'N/A'}</td></tr>
-            <tr style="border-bottom: 1px solid #27272a;"><td style="padding: 12px; font-weight: bold; color: #34d399;">Summary / Details</td><td style="padding: 12px;">${lead.summary || lead.details || lead.challenge || 'N/A'}</td></tr>
-            <tr><td style="padding: 12px; font-weight: bold; color: #34d399;">Submitted At</td><td style="padding: 12px; font-family: monospace;">${new Date().toLocaleString()}</td></tr>
-          </table>
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #09090b; color: #ffffff; padding: 36px 24px; border-radius: 20px; border: 1px solid #27272a; max-width: 600px; margin: 0 auto;">
+          <!-- Header Branding -->
+          <div style="border-bottom: 1px solid #27272a; padding-bottom: 20px; margin-bottom: 24px;">
+            <h1 style="font-size: 24px; font-weight: 900; margin: 0; color: #ffffff; letter-spacing: -0.5px;">
+              Launch<span style="color: #34d399;">Gremlin</span>
+            </h1>
+            <p style="font-size: 11px; color: #a1a1aa; margin: 4px 0 0 0; font-family: monospace; text-transform: uppercase; letter-spacing: 1px;">
+              Inbound Client Scope Inquiry
+            </p>
+          </div>
+
+          <!-- Client Summary Card -->
+          <div style="background-color: #18181b; border: 1px solid #27272a; border-radius: 14px; padding: 20px; margin-bottom: 24px;">
+            <h2 style="font-size: 18px; font-weight: 800; color: #34d399; margin: 0 0 16px 0;">
+              ${lead.name}
+            </h2>
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+              <tr style="border-bottom: 1px solid #27272a;">
+                <td style="padding: 10px 0; color: #a1a1aa; font-family: monospace; width: 140px;">Client Email</td>
+                <td style="padding: 10px 0; font-weight: 700; color: #60a5fa;"><a href="mailto:${lead.email}" style="color: #60a5fa; text-decoration: none;">${lead.email}</a></td>
+              </tr>
+              <tr style="border-bottom: 1px solid #27272a;">
+                <td style="padding: 10px 0; color: #a1a1aa; font-family: monospace;">Phone / WhatsApp</td>
+                <td style="padding: 10px 0; font-weight: 700; color: #34d399;"><a href="tel:${lead.phone || ''}" style="color: #34d399; text-decoration: none;">${lead.phone || 'N/A'}</a></td>
+              </tr>
+              <tr style="border-bottom: 1px solid #27272a;">
+                <td style="padding: 10px 0; color: #a1a1aa; font-family: monospace;">Service Pillar</td>
+                <td style="padding: 10px 0; font-weight: 700; color: #facc15;">${lead.service}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #27272a;">
+                <td style="padding: 10px 0; color: #a1a1aa; font-family: monospace;">Budget Tier</td>
+                <td style="padding: 10px 0; font-weight: 700; color: #ffffff;">${lead.budget || 'N/A'}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #27272a;">
+                <td style="padding: 10px 0; color: #a1a1aa; font-family: monospace;">Current Website</td>
+                <td style="padding: 10px 0; color: #e4e4e7;">${lead.website ? `<a href="${lead.website}" style="color: #60a5fa; text-decoration: underline;">${lead.website}</a>` : 'N/A'}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 0; color: #a1a1aa; font-family: monospace;">Submitted At</td>
+                <td style="padding: 10px 0; color: #71717a; font-family: monospace;">${new Date().toLocaleString('en-ZA')}</td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- Detailed Requirements Box -->
+          <div style="background-color: #18181b; border: 1px solid #27272a; border-radius: 14px; padding: 20px; margin-bottom: 24px;">
+            <h3 style="font-size: 11px; font-family: monospace; text-transform: uppercase; color: #a1a1aa; margin: 0 0 10px 0; letter-spacing: 1px;">
+              Project Requirements & Scope Notes
+            </h3>
+            <p style="font-size: 14px; line-height: 1.6; color: #e4e4e7; margin: 0; white-space: pre-wrap;">
+              ${lead.summary || lead.details || lead.challenge || 'No additional project details specified.'}
+            </p>
+          </div>
         </div>
       `;
 
       await transporter.sendMail({
-        from: `"LaunchGremlin Engine" <${smtpUser}>`,
+        from: `"LaunchGremlin Dispatcher" <${smtpUser}>`,
         to: recipient,
-        subject: `🚨 New Lead: ${lead.name} — ${lead.service} (${lead.company || 'Direct Client'})`,
+        subject: `🔥 [LaunchGremlin Lead] ${lead.name} — ${lead.service} (${lead.budget || 'Inquiry'})`,
         html: htmlContent,
       });
       console.log(`[Email] Lead notification email dispatched to ${recipient}`);

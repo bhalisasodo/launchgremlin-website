@@ -1,8 +1,8 @@
 /**
  * Central Lead Dispatcher Service
  * Supports dual-mode submission:
- * 1. Attempts local / custom Node backend API (/api/leads)
- * 2. Falls back to FormSubmit API (https://formsubmit.co/ajax/bhalisasodo10@gmail.com) for static deployments like GitHub Pages
+ * 1. Primary Node Express backend endpoint (/api/leads) if running
+ * 2. FormSubmit API endpoint (https://formsubmit.co/ajax/bhalisasodo10@gmail.com) for static deployments
  */
 
 const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/bhalisasodo10@gmail.com';
@@ -25,24 +25,25 @@ export async function submitLead(payload) {
         return { success: true, mode: 'backend' };
       }
     } catch (e) {
-      console.warn('[LeadService] Express backend unavailable, falling back to serverless provider.', e);
+      console.warn('[LeadService] Express backend unavailable, falling back to FormSubmit provider.', e);
     }
   }
 
-  // 2. Fallback to FormSubmit for static hosting (e.g. launchgremlin.com on GitHub Pages)
+  // 2. Dispatch to FormSubmit with LaunchGremlin Branded Email Layout
   try {
-    const formSubmitPayload = {
-      name: payload.name || 'Anonymous',
-      email: payload.email,
-      phone: payload.phone || 'N/A',
-      company: payload.company || 'N/A',
-      service: payload.service || 'General Inquiry',
-      budget: payload.budget || 'N/A',
-      details: payload.details || payload.summary || 'N/A',
-      submitted_at: payload.created_at || new Date().toISOString(),
-      _subject: `🚨 New Lead: ${payload.name} — ${payload.service || 'Strategy Inquiry'}`,
+    const formattedPayload = {
+      _subject: `🔥 [LaunchGremlin Lead] ${payload.name || 'New Client'} — ${payload.service || 'Scope Request'} (${payload.budget || 'Inquiry'})`,
       _template: 'table',
       _captcha: 'false',
+      Brand: 'LaunchGremlin (https://launchgremlin.com)',
+      Client_Name: payload.name || 'N/A',
+      Client_Email: payload.email || 'N/A',
+      Phone_WhatsApp: payload.phone || 'N/A',
+      Service_Pillar: payload.service || 'General Web & AI Inquiry',
+      Budget_Tier: payload.budget || 'N/A',
+      Existing_Website: payload.website || 'N/A',
+      Project_Requirements: payload.details || payload.summary || payload.message || 'N/A',
+      Submitted_At: payload.created_at || new Date().toLocaleString('en-ZA', { timeZone: 'Africa/Johannesburg' }),
     };
 
     const response = await fetch(FORMSUBMIT_ENDPOINT, {
@@ -51,13 +52,14 @@ export async function submitLead(payload) {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
-      body: JSON.stringify(formSubmitPayload),
+      body: JSON.stringify(formattedPayload),
     });
 
     const data = await response.json();
     return { success: response.ok || data.success === 'true', mode: 'formsubmit' };
   } catch (err) {
     console.error('[LeadService] FormSubmit error:', err);
-    return { success: true, mode: 'optimistic' }; // Gracefully display success to user
+    return { success: true, mode: 'optimistic' };
   }
 }
+
