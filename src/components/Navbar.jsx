@@ -19,13 +19,13 @@ export default function Navbar({ activeTab, onSelectTab, onOpenBooking }) {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/80">
+    <header className="sticky top-0 z-50 w-full bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-800/80 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* Brand Logo & Name */}
         <a
           href="/"
           onClick={(e) => handleNavClick(e, 'home')}
-          className="flex items-center gap-3 cursor-pointer group"
+          className="flex items-center gap-3 cursor-pointer group rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
           title="LaunchGremlin Home"
         >
           <img
@@ -52,7 +52,7 @@ export default function Navbar({ activeTab, onSelectTab, onOpenBooking }) {
                 key={link.key}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.key)}
-                className={`text-xs font-semibold uppercase tracking-wider transition-colors py-2 border-b-2 ${
+                className={`text-xs font-semibold uppercase tracking-wider transition-all duration-200 py-2 border-b-2 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
                   isActive
                     ? 'border-emerald-400 text-white font-bold'
                     : 'border-transparent text-zinc-400 hover:text-white hover:border-zinc-700'
@@ -68,7 +68,7 @@ export default function Navbar({ activeTab, onSelectTab, onOpenBooking }) {
         <div className="hidden lg:flex items-center gap-4">
           <button
             onClick={onOpenBooking}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-400 text-zinc-950 font-bold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-400 text-zinc-950 font-bold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
           >
             <span>Book Strategy Call</span>
             <ArrowRight className="w-3.5 h-3.5" />

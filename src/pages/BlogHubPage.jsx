@@ -76,7 +76,7 @@ export default function BlogHubPage({ onSelectTab, onOpenBooking }) {
         <div className="flex flex-wrap items-center justify-center gap-2">
           <button
             onClick={() => setSelectedCluster('all')}
-            className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
+            className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
               selectedCluster === 'all'
                 ? 'bg-emerald-400 text-zinc-950 shadow-[0_0_15px_rgba(52,211,153,0.3)]'
                 : 'bg-zinc-900 border border-zinc-800 text-zinc-300 hover:border-zinc-700'
@@ -93,13 +93,13 @@ export default function BlogHubPage({ onSelectTab, onOpenBooking }) {
               <button
                 key={c.id}
                 onClick={() => setSelectedCluster(c.id)}
-                className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono font-semibold transition-all cursor-pointer ${
+                className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono font-semibold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
                   isSelected
                     ? 'bg-emerald-400 text-zinc-950 font-bold shadow-[0_0_15px_rgba(52,211,153,0.3)]'
                     : 'bg-zinc-900/80 border border-zinc-800 text-zinc-300 hover:border-emerald-400/50 hover:text-white'
                 }`}
               >
-                <ClusterIcon className="w-3.5 h-3.5" />
+                <ClusterIcon className="w-3.5 h-3.5 shrink-0" />
                 <span>{c.name} ({count})</span>
               </button>
             );
@@ -107,80 +107,117 @@ export default function BlogHubPage({ onSelectTab, onOpenBooking }) {
         </div>
       </section>
 
-      {/* ---------------- ARTICLES GRID ---------------- */}
-      <section aria-labelledby="articles-title" className="max-w-7xl mx-auto px-6 space-y-6">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-zinc-800 pb-4">
-          <h2 id="articles-title" className="text-xl font-extrabold text-white uppercase tracking-tight font-mono">
-            Showing {filteredArticles.length} Articles
+      {/* ---------------- FEATURED HERO ARTICLE (IF ALL IS SELECTED) ---------------- */}
+      {selectedCluster === 'all' && searchQuery.trim() === '' && featuredArticle && (
+        <section aria-labelledby="featured-article-title" className="max-w-7xl mx-auto px-6">
+          <div className="p-8 sm:p-10 rounded-3xl bg-zinc-900/90 border border-emerald-400/40 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center group">
+            <div className="lg:col-span-7 space-y-4 text-left">
+              <div className="flex items-center gap-3">
+                <span className="px-3 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-[10px] font-mono font-bold">
+                  FEATURED GUIDE
+                </span>
+                <span className="text-xs font-mono text-zinc-400">
+                  {featuredArticle.readTime}
+                </span>
+              </div>
+
+              <h2 id="featured-article-title" className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight uppercase group-hover:text-emerald-300 transition-colors">
+                {featuredArticle.title}
+              </h2>
+
+              <p className="text-xs sm:text-sm text-zinc-300 font-light leading-relaxed">
+                {featuredArticle.description}
+              </p>
+
+              <div className="pt-2 flex items-center justify-between">
+                <span className="text-xs font-mono text-zinc-400">By {featuredArticle.author} • {featuredArticle.publishDate}</span>
+                <a
+                  href={`/blog/${featuredArticle.slug}`}
+                  onClick={(e) => handleLinkClick(e, `blog/${featuredArticle.slug}`)}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider hover:bg-emerald-300 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+                >
+                  <span>Read Blueprint</span>
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5">
+              <div className="rounded-2xl overflow-hidden border border-zinc-800 aspect-[16/10]">
+                <img
+                  src={featuredArticle.heroImage}
+                  alt={featuredArticle.heroImageAlt || featuredArticle.title}
+                  width="800"
+                  height="500"
+                  loading="eager"
+                  decoding="async"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ---------------- ARTICLE GRID DISPLAY ---------------- */}
+      <section aria-labelledby="articles-grid-title" className="max-w-7xl mx-auto px-6 space-y-6">
+        <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
+          <h2 id="articles-grid-title" className="text-xl font-extrabold text-white uppercase tracking-tight">
+            Showing {filteredArticles.length} Strategic Guides
           </h2>
-          <span className="text-xs font-mono text-zinc-500">
-            Updated Daily for Search Indexing
+          <span className="text-xs font-mono text-zinc-400">
+            Page 1 of 1 • 100% Pre-rendered
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredArticles.map((article) => {
-            const articleCluster = BLOG_CLUSTERS.find((c) => c.id === article.clusterId);
-            return (
-              <a
-                key={article.slug}
-                href={`/blog/${article.slug}`}
-                onClick={(e) => handleLinkClick(e, `blog/${article.slug}`)}
-                className="p-6 rounded-3xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/50 hover:shadow-[0_0_25px_rgba(52,211,153,0.15)] transition-all duration-300 flex flex-col justify-between space-y-4 group cursor-pointer"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="px-2.5 py-1 rounded-full bg-zinc-950 border border-zinc-800 text-[10px] font-mono text-emerald-400 font-bold uppercase">
-                      {articleCluster ? articleCluster.name : 'Guide'}
-                    </span>
-                    <span className="text-[10px] font-mono text-zinc-400 flex items-center gap-1">
-                      <Clock className="w-3 h-3 text-zinc-500" /> {article.readTime}
-                    </span>
-                  </div>
-
-                  <h3 className="text-base font-bold text-white group-hover:text-emerald-300 transition-colors line-clamp-2 leading-snug">
-                    {article.title}
-                  </h3>
-
-                  <p className="text-xs text-zinc-400 leading-relaxed font-light line-clamp-3">
-                    {article.description}
-                  </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+          {filteredArticles.map((article) => (
+            <div
+              key={article.slug}
+              className="p-6 rounded-3xl bg-zinc-900/80 border border-zinc-800 hover:border-emerald-400/50 hover:shadow-[0_0_25px_rgba(52,211,153,0.12)] transition-all duration-300 flex flex-col justify-between space-y-4 group h-full"
+            >
+              <div className="space-y-3">
+                <div className="rounded-2xl overflow-hidden border border-zinc-800/80 aspect-[16/9]">
+                  <img
+                    src={article.heroImage}
+                    alt={article.heroImageAlt || article.title}
+                    width="600"
+                    height="337"
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
                 </div>
 
-                <div className="pt-3 border-t border-zinc-800/80 flex items-center justify-between text-xs font-mono text-emerald-400 font-bold">
-                  <span>Read Article Blueprint</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400">
+                  <span className="px-2.5 py-0.5 rounded-full bg-zinc-950 border border-zinc-800 text-emerald-400 font-bold">
+                    {article.category}
+                  </span>
+                  <span>{article.readTime}</span>
                 </div>
-              </a>
-            );
-          })}
-        </div>
-      </section>
 
-      {/* ---------------- CALL TO ACTION BANNER ---------------- */}
-      <section aria-labelledby="blog-cta-title" className="max-w-4xl mx-auto px-6">
-        <div className="p-10 sm:p-14 rounded-3xl bg-zinc-900/90 border border-emerald-400/40 text-center space-y-6 shadow-[0_0_50px_rgba(52,211,153,0.15)]">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono font-bold">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Turn Knowledge into Execution</span>
-          </div>
+                <h3 className="text-base font-bold text-white group-hover:text-emerald-300 transition-colors line-clamp-2 leading-snug">
+                  {article.title}
+                </h3>
 
-          <h2 id="blog-cta-title" className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight uppercase">
-            Let LaunchGremlin Build Your Growth Engine.
-          </h2>
+                <p className="text-xs text-zinc-400 leading-relaxed font-light line-clamp-3">
+                  {article.description}
+                </p>
+              </div>
 
-          <p className="text-sm sm:text-base text-zinc-300 font-light max-w-xl mx-auto leading-relaxed">
-            Need sub-second website speed, automated AI agents, or data-driven content strategy? Book a free strategy call today.
-          </p>
-
-          <button
-            onClick={onOpenBooking}
-            aria-label="Book Strategy Call"
-            className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
-          >
-            <span>Book Strategy Call</span>
-            <ArrowRight className="w-4 h-4" />
-          </button>
+              <div className="pt-3 border-t border-zinc-800/80 flex items-center justify-between">
+                <span className="text-[11px] font-mono text-zinc-500">{article.publishDate}</span>
+                <a
+                  href={`/blog/${article.slug}`}
+                  onClick={(e) => handleLinkClick(e, `blog/${article.slug}`)}
+                  className="text-xs font-bold text-emerald-400 hover:text-emerald-300 inline-flex items-center gap-1 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+                >
+                  <span>Read Guide</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </div>
