@@ -84,28 +84,30 @@ prerenderKeys.forEach((key) => {
   const industryLinksHtml = industryKeys.map(k => `<a href="/${k}">${k}</a>`).join('\n        ');
   const longTailLinksHtml = featuredLongTailKeys.map(k => `<a href="/${k}">${k}</a>`).join('\n        ');
   const fallbackHtml = `
-    <header class="sr-only">
-      <h1>${page.title}</h1>
-      <p>${page.description}</p>
-    </header>
-    <main id="main-content">
-      <h2>LaunchGremlin High-Performance Web Engineering</h2>
-      <nav aria-label="Core Navigation">
-        <a href="/">Home</a>
-        <a href="/websites">Websites</a>
-        <a href="/content-strategy">Content Strategy</a>
-        <a href="/ai-consulting">AI Consulting</a>
-        <a href="/blog">Blog Content Hub</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms of Service</a>
-        <a href="/cookies">Cookie Policy</a>
-        ${blogLinksHtml}
-        ${industryLinksHtml}
-        ${longTailLinksHtml}
-      </nav>
-    </main>
+    <div class="sr-only">
+      <header>
+        <h1>${page.title}</h1>
+        <p>${page.description}</p>
+      </header>
+      <main id="main-content">
+        <h2>LaunchGremlin High-Performance Web Engineering</h2>
+        <nav aria-label="Core Navigation">
+          <a href="/">Home</a>
+          <a href="/websites">Websites</a>
+          <a href="/content-strategy">Content Strategy</a>
+          <a href="/ai-consulting">AI Consulting</a>
+          <a href="/blog">Blog Content Hub</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/terms">Terms of Service</a>
+          <a href="/cookies">Cookie Policy</a>
+          ${blogLinksHtml}
+          ${industryLinksHtml}
+          ${longTailLinksHtml}
+        </nav>
+      </main>
+    </div>
   `;
   html = html.replace('<div id="root"></div>', `<div id="root">${fallbackHtml}</div>`);
 

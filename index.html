@@ -39,6 +39,21 @@
   <!-- Preconnect & Asset Performance -->
   <link rel="preconnect" href="https://images.unsplash.com" />
   <link rel="preload" as="image" href="/assets/logo-icon.png" type="image/png" />
+
+  <!-- Critical FOUC Protection Styles -->
+  <style>
+    .sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border-width: 0 !important;
+    }
+  </style>
 </head>
 
 <body class="bg-zinc-950 text-white antialiased">
