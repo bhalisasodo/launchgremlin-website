@@ -1,6 +1,8 @@
 import React from 'react';
 import ServiceHeroBackground from '../components/common/ServiceHeroBackground';
 import PricingSection from '../components/common/PricingSection';
+import TrustBadges from '../components/common/TrustBadges';
+import TestimonialsSection from '../components/common/TestimonialsSection';
 import { ArrowRight, Bot, Cpu, Database, ShieldCheck, Sparkles, CheckCircle2 } from 'lucide-react';
 
 export default function AIConsultingPage({ onSelectTab, onOpenBooking }) {
@@ -53,6 +55,8 @@ export default function AIConsultingPage({ onSelectTab, onOpenBooking }) {
         </div>
       </ServiceHeroBackground>
 
+      <TrustBadges />
+
       {/* Feature Pillars */}
       <section aria-labelledby="ai-features-title" className="max-w-7xl mx-auto px-6 space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-2">
@@ -91,8 +95,53 @@ export default function AIConsultingPage({ onSelectTab, onOpenBooking }) {
         </div>
       </section>
 
+      {/* HUMAN AI INTEGRATION VISUAL STORYTELLING SHOWCASE */}
+      <section aria-labelledby="ai-human-heading" className="max-w-6xl mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center p-8 sm:p-12 rounded-3xl bg-zinc-900/90 border border-zinc-800 shadow-2xl">
+          <div className="lg:col-span-6 space-y-6 text-left">
+            <span className="text-xs font-mono uppercase tracking-widest text-emerald-400 font-bold block">
+              Human-Centric AI Automation
+            </span>
+            <h2 id="ai-human-heading" className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight uppercase leading-tight">
+              AI Built To Empower Teams, Not Replace Them.
+            </h2>
+            <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-light">
+              We deploy intelligent AI agents that handle repetitive administrative workflows, qualifying leads, routing client data, and pulling documentation so your team can focus on high-value strategy and creative execution.
+            </p>
+
+            <div className="space-y-3 pt-2">
+              <div className="flex items-center gap-3 text-xs text-zinc-200 font-mono">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>Save 100+ Hours Per Month Per Team Member</span>
+              </div>
+              <div className="flex items-center gap-3 text-xs text-zinc-200 font-mono">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>Enterprise Data Privacy & Local Vector Vector Security</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="lg:col-span-6">
+            <div className="rounded-3xl overflow-hidden border border-emerald-400/30 shadow-[0_0_40px_rgba(52,211,153,0.15)]">
+              <img
+                src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1000&auto=format&fit=crop&q=80"
+                alt="Professionals reviewing AI workflow dashboards in modern office"
+                width="1000"
+                height="700"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-[380px] sm:h-[440px] object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Section */}
       <PricingSection onOpenBooking={onOpenBooking} onSelectTab={onSelectTab} />
+
+      {/* Testimonials */}
+      <TestimonialsSection />
 
       {/* Supporting Blog Guides */}
       <section aria-labelledby="ai-blogs-title" className="max-w-7xl mx-auto px-6 space-y-6">

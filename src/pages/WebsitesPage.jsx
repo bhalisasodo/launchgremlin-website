@@ -2,6 +2,8 @@ import React from 'react';
 import WebsitesHeroScene from '../components/services/WebsitesHeroScene';
 import ServiceHeroBackground from '../components/common/ServiceHeroBackground';
 import PricingSection from '../components/common/PricingSection';
+import TrustBadges from '../components/common/TrustBadges';
+import TestimonialsSection from '../components/common/TestimonialsSection';
 import { ArrowRight, CheckCircle2, Globe, Zap, Code, ShieldCheck, Sparkles, BookOpen } from 'lucide-react';
 import { INDUSTRIES_DATA } from '../utils/industryData';
 
@@ -22,7 +24,7 @@ export default function WebsitesPage({ onSelectTab, onOpenBooking }) {
 
   return (
     <div className="space-y-20 pb-20 select-none">
-      {/* Hero Section */}
+      {/* Hero Section (Unchanged Desktop Canvas) */}
       <ServiceHeroBackground glowPosition="top-right">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center pt-8 pb-12">
           <div className="lg:col-span-6 space-y-6 text-left">
@@ -62,6 +64,8 @@ export default function WebsitesPage({ onSelectTab, onOpenBooking }) {
           </div>
         </div>
       </ServiceHeroBackground>
+
+      <TrustBadges />
 
       {/* Feature Grid Section */}
       <section aria-labelledby="web-features-heading" className="max-w-7xl mx-auto px-6 space-y-8">
@@ -104,8 +108,57 @@ export default function WebsitesPage({ onSelectTab, onOpenBooking }) {
         </div>
       </section>
 
+      {/* HUMAN VISUAL STORYTELLING SHOWCASE SECTION */}
+      <section aria-labelledby="human-engineering-heading" className="max-w-6xl mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center p-8 sm:p-12 rounded-3xl bg-zinc-900/90 border border-zinc-800 shadow-2xl">
+          <div className="lg:col-span-6 space-y-6 text-left">
+            <span className="text-xs font-mono uppercase tracking-widest text-emerald-400 font-bold block">
+              Craftsmanship & Collaboration
+            </span>
+            <h2 id="human-engineering-heading" className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight uppercase leading-tight">
+              Human-Engineered Full-Stack Web Development.
+            </h2>
+            <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-light">
+              Our team of senior software engineers works directly with your product leads. We eliminate clunky page builders and bloated WordPress plugins, crafting clean React 18 codebases that load in milliseconds and scale effortlessly.
+            </p>
+
+            <div className="space-y-3 pt-2">
+              <div className="flex items-center gap-3 text-xs text-zinc-200 font-mono">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>Senior React 18 & Next.js Core Engineers</span>
+              </div>
+              <div className="flex items-center gap-3 text-xs text-zinc-200 font-mono">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>Lighthouse 100/100 Speed Optimization</span>
+              </div>
+              <div className="flex items-center gap-3 text-xs text-zinc-200 font-mono">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>Zero Plugin Vulnerabilities or Security Flaws</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="lg:col-span-6">
+            <div className="rounded-3xl overflow-hidden border border-emerald-400/30 shadow-[0_0_40px_rgba(52,211,153,0.15)]">
+              <img
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1000&auto=format&fit=crop&q=80"
+                alt="Engineering team collaborating on web architecture"
+                width="1000"
+                height="700"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-[380px] sm:h-[440px] object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Section */}
       <PricingSection onOpenBooking={onOpenBooking} onSelectTab={onSelectTab} />
+
+      {/* Testimonials */}
+      <TestimonialsSection />
 
       {/* Industry Verticals Link Grid */}
       <section aria-labelledby="web-verticals-title" className="max-w-7xl mx-auto px-6 space-y-6">

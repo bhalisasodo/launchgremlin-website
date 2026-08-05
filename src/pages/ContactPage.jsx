@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ServiceHeroBackground from '../components/common/ServiceHeroBackground';
 import TrustBadges from '../components/common/TrustBadges';
-import { Mail, Phone, MapPin, Send, CheckCircle2, ArrowRight, ShieldCheck, Lock, Sparkles } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle2, ArrowRight, ShieldCheck, Lock, Sparkles, Building2 } from 'lucide-react';
 
 export default function ContactPage({ onOpenBooking }) {
   const [selectedService, setSelectedService] = useState('Web Engineering');
@@ -56,7 +56,7 @@ export default function ContactPage({ onOpenBooking }) {
       <section aria-labelledby="contact-form-heading" className="max-w-6xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Left Column: Direct Info & Micro-Trust */}
-          <div className="lg:col-span-5 space-y-8 text-left">
+          <div className="lg:col-span-5 space-y-6 text-left">
             <div className="space-y-3">
               <span className="text-xs font-mono uppercase tracking-widest text-emerald-400 font-bold block">
                 Direct Engineering Access
@@ -69,7 +69,20 @@ export default function ContactPage({ onOpenBooking }) {
               </p>
             </div>
 
-            <div className="space-y-4">
+            {/* Welcoming Office Photography */}
+            <div className="rounded-3xl overflow-hidden border border-zinc-800 shadow-xl">
+              <img
+                src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&auto=format&fit=crop&q=80"
+                alt="Modern LaunchGremlin creative workspace"
+                width="800"
+                height="500"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-48 object-cover"
+              />
+            </div>
+
+            <div className="space-y-3">
               <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex items-center gap-4">
                 <div className="w-10 h-10 rounded-xl bg-emerald-400/10 border border-emerald-400/30 flex items-center justify-center text-emerald-400 shrink-0">
                   <Mail className="w-5 h-5" />
@@ -93,15 +106,6 @@ export default function ContactPage({ onOpenBooking }) {
                   </a>
                 </div>
               </div>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-zinc-950 border border-zinc-800 space-y-3">
-              <span className="text-xs font-mono text-emerald-400 font-bold uppercase block">
-                🔒 Client Confidentiality Guarantee
-              </span>
-              <p className="text-xs text-zinc-400 leading-relaxed font-light">
-                All inquiries and project details remain 100% strictly confidential under NDA standards. We never sell or share your contact data.
-              </p>
             </div>
           </div>
 
