@@ -73,6 +73,16 @@ prerenderKeys.forEach((key) => {
     /<meta property="og:url"\s+content=".*?"\s*\/?>/s,
     `<meta property="og:url" content="${page.canonical}" />`
   );
+  if (page.ogImage) {
+    html = html.replace(
+      /<meta property="og:image"\s+content=".*?"\s*\/?>/s,
+      `<meta property="og:image" content="${page.ogImage}" />`
+    );
+    html = html.replace(
+      /<meta name="twitter:image"\s+content=".*?"\s*\/?>/s,
+      `<meta name="twitter:image" content="${page.ogImage}" />`
+    );
+  }
 
   // Inject JSON-LD Schema
   const schemas = generateSchemasForPage(key);

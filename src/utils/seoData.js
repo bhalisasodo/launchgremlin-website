@@ -13,7 +13,7 @@ export const BASE_SEO_DATA = {
     keywords: 'website design, content strategy, AI consulting, web development, growth marketing, AI workflows, LLM integration, Lighthouse 100',
     canonical: `${SITE_DOMAIN}/`,
     ogType: 'website',
-    ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
     ogImageAlt: 'LaunchGremlin - Build, Grow, Scale',
     breadcrumbs: [
       { name: 'Home', item: `${SITE_DOMAIN}/` }
@@ -36,7 +36,7 @@ export const BASE_SEO_DATA = {
     keywords: 'SEO blog, content hub, web design guides, AI automation tutorials, startup growth articles, SEO strategy',
     canonical: `${SITE_DOMAIN}/blog`,
     ogType: 'website',
-    ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
     ogImageAlt: 'LaunchGremlin Content Hub',
     breadcrumbs: [
       { name: 'Home', item: `${SITE_DOMAIN}/` },
@@ -50,7 +50,7 @@ export const BASE_SEO_DATA = {
     keywords: 'custom website design, React web development, Next.js agency, sub-second page loads, conversion optimization, responsive web apps',
     canonical: `${SITE_DOMAIN}/websites`,
     ogType: 'service',
-    ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
     ogImageAlt: 'LaunchGremlin Website Design & Digital Products',
     breadcrumbs: [
       { name: 'Home', item: `${SITE_DOMAIN}/` },
@@ -69,7 +69,7 @@ export const BASE_SEO_DATA = {
     keywords: 'content strategy, audience growth, creator marketing, multi-channel content distribution, SEO content, viral funnels',
     canonical: `${SITE_DOMAIN}/content-strategy`,
     ogType: 'service',
-    ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
     ogImageAlt: 'LaunchGremlin Content Strategy & Audience Engine',
     breadcrumbs: [
       { name: 'Home', item: `${SITE_DOMAIN}/` },
@@ -88,7 +88,7 @@ export const BASE_SEO_DATA = {
     keywords: 'AI consulting, custom AI agents, LLM integration, workflow automation, vector search RAG, business process automation',
     canonical: `${SITE_DOMAIN}/ai-consulting`,
     ogType: 'service',
-    ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
     ogImageAlt: 'LaunchGremlin AI Consulting & Automation',
     breadcrumbs: [
       { name: 'Home', item: `${SITE_DOMAIN}/` },
@@ -106,7 +106,7 @@ export const BASE_SEO_DATA = {
     description: 'Learn how LaunchGremlin helps startups and creators scale through engineering excellence, rapid iteration, and modern AI-assisted product development.',
     canonical: `${SITE_DOMAIN}/about`,
     ogType: 'website',
-    ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
     breadcrumbs: [
       { name: 'Home', item: `${SITE_DOMAIN}/` },
       { name: 'About LaunchGremlin', item: `${SITE_DOMAIN}/about` }
@@ -118,7 +118,7 @@ export const BASE_SEO_DATA = {
     description: 'Ready to build, grow, and scale? Get in touch with the LaunchGremlin engineering team today or schedule a free 30-minute strategic consultation.',
     canonical: `${SITE_DOMAIN}/contact`,
     ogType: 'website',
-    ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
     breadcrumbs: [
       { name: 'Home', item: `${SITE_DOMAIN}/` },
       { name: 'Contact & Scope Builder', item: `${SITE_DOMAIN}/contact` }
@@ -130,7 +130,7 @@ export const BASE_SEO_DATA = {
     description: 'Read the LaunchGremlin Privacy Policy detailing data confidentiality, security standards, and non-disclosure commitments for clients.',
     canonical: `${SITE_DOMAIN}/privacy`,
     ogType: 'website',
-    ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
     breadcrumbs: [
       { name: 'Home', item: `${SITE_DOMAIN}/` },
       { name: 'Privacy Policy', item: `${SITE_DOMAIN}/privacy` }
@@ -142,7 +142,7 @@ export const BASE_SEO_DATA = {
     description: 'LaunchGremlin Terms of Service covering service level agreements, intellectual property rights, 72-Hour MVP sprints, and core guarantees.',
     canonical: `${SITE_DOMAIN}/terms`,
     ogType: 'website',
-    ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
     breadcrumbs: [
       { name: 'Home', item: `${SITE_DOMAIN}/` },
       { name: 'Terms of Service', item: `${SITE_DOMAIN}/terms` }
@@ -154,7 +154,7 @@ export const BASE_SEO_DATA = {
     description: 'Learn about LaunchGremlin cookie policies, privacy-first analytics, and session management.',
     canonical: `${SITE_DOMAIN}/cookies`,
     ogType: 'website',
-    ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
     breadcrumbs: [
       { name: 'Home', item: `${SITE_DOMAIN}/` },
       { name: 'Cookie Policy', item: `${SITE_DOMAIN}/cookies` }
@@ -174,7 +174,7 @@ Object.keys(INDUSTRIES_DATA).forEach((key) => {
     keywords: ind.keywords,
     canonical: ind.canonical,
     ogType: 'service',
-    ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
     ogImageAlt: ind.title,
     breadcrumbs: [
       { name: 'Home', item: `${SITE_DOMAIN}/` },
@@ -200,7 +200,7 @@ BLOG_ARTICLES.forEach((article) => {
     keywords: article.keywords,
     canonical: `${SITE_DOMAIN}/blog/${article.slug}`,
     ogType: 'article',
-    ogImage: article.heroImage || `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    ogImage: article.heroImage || `${SITE_DOMAIN}/og-image.png`,
     ogImageAlt: article.heroImageAlt || article.title,
     publishDate: article.publishDate,
     author: article.author,
@@ -230,7 +230,7 @@ LONG_TAIL_PAGES.forEach((page) => {
     keywords: page.keywords,
     canonical: page.canonical,
     ogType: 'service',
-    ogImage: `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
     ogImageAlt: page.title,
     breadcrumbs: [
       { name: 'Home', item: `${SITE_DOMAIN}/` },
@@ -269,7 +269,7 @@ export function generateSchemasForPage(pageKey) {
     name: 'LaunchGremlin',
     url: SITE_DOMAIN,
     logo: `${SITE_DOMAIN}/assets/logo-transparent.png`,
-    image: `${SITE_DOMAIN}/assets/logo-transparent.png`,
+    image: `${SITE_DOMAIN}/og-image.png`,
     description: 'LaunchGremlin helps creators and ambitious businesses build high-performance websites, execute data-driven content strategies, and integrate enterprise AI automation.',
     founder: {
       '@type': 'Person',
