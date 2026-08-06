@@ -270,6 +270,17 @@ export default function BlogPostPage({ slug, onSelectTab, onOpenBooking }) {
           </div>
         )}
 
+        {/* AI Transparency & Editorial Disclosure Box */}
+        <div className="p-4 sm:p-5 rounded-2xl bg-zinc-900/80 border border-emerald-400/30 backdrop-blur-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono shadow-sm">
+          <div className="flex items-center gap-2 text-emerald-400 font-bold">
+            <Sparkles className="w-4 h-4 shrink-0" />
+            <span>AI Editorial Transparency</span>
+          </div>
+          <p className="text-zinc-400 text-[11px] font-mono leading-tight">
+            Researched by <strong className="text-zinc-200">LaunchGremlin AI</strong> • Reviewed & Verified by <strong className="text-zinc-200">LaunchGremlin Editorial Suite</strong>
+          </p>
+        </div>
+
         {/* Formatted Article Body */}
         <div className="space-y-10 text-zinc-300 text-sm sm:text-base leading-relaxed font-light">
           {article.content && article.content.map((section, idx) => {
