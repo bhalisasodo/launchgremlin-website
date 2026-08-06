@@ -5,9 +5,9 @@ import numpy as np
 def create_og_image():
     # 1. Canvas Dimensions and Background
     width, height = 1200, 630
-    bg_color = (11, 11, 11)  # Matte black #0B0B0B
+    bg_color = (0, 0, 0)  # Pure solid black #000000
     
-    # Solid matte black canvas (RGBA)
+    # Solid black canvas (RGBA)
     base = Image.new("RGBA", (width, height), bg_color + (255,))
     
     # Load mascot logo
@@ -39,45 +39,44 @@ def create_og_image():
     pos_y = (height - target_h) // 2
     
     # 3. Create Ambient Glow Layers
-    # Radial glow center
     cx, cy = width // 2, height // 2
     
     ambient_glow = Image.new("RGBA", (width, height), (0, 0, 0, 0))
     glow_draw = ImageDraw.Draw(ambient_glow)
     
-    # LaunchGremlin neon green glow (#34D399 / #10B981)
+    # LaunchGremlin vivid neon green glow (#34D399 / #10B981)
     glow_color = (52, 211, 153)
     
-    # Smooth radial glow behind logo
-    max_rx = 420
-    max_ry = 300
-    steps = 120
+    # Vibrant radial background glow centered behind logo
+    max_rx = 450
+    max_ry = 320
+    steps = 150
     for i in range(steps, 0, -1):
         ratio = i / steps
         rx = max_rx * ratio
         ry = max_ry * ratio
-        # Smooth alpha falloff curve
-        alpha = int(70 * (1 - (ratio ** 1.8)))
+        # Alpha curve for smooth neon glow on pure black
+        alpha = int(95 * (1 - (ratio ** 1.6)))
         glow_draw.ellipse(
             [cx - rx, cy - ry, cx + rx, cy + ry],
             fill=(glow_color[0], glow_color[1], glow_color[2], alpha)
         )
     
     # Apply Gaussian blur for soft aura
-    ambient_glow = ambient_glow.filter(ImageFilter.GaussianBlur(radius=50))
+    ambient_glow = ambient_glow.filter(ImageFilter.GaussianBlur(radius=55))
     
-    # Contour glow behind logo shape
+    # Contour glow directly surrounding mascot silhouette
     logo_alpha = logo_resized.split()[3]
     green_mask = Image.new("RGBA", (target_w, target_h), glow_color + (255,))
     green_mask.putalpha(logo_alpha)
     
     logo_glow_canvas = Image.new("RGBA", (width, height), (0, 0, 0, 0))
     logo_glow_canvas.paste(green_mask, (pos_x, pos_y), green_mask)
-    logo_glow_canvas = logo_glow_canvas.filter(ImageFilter.GaussianBlur(radius=30))
+    logo_glow_canvas = logo_glow_canvas.filter(ImageFilter.GaussianBlur(radius=35))
     
     # Adjust contour glow opacity
     glow_arr = np.array(logo_glow_canvas)
-    glow_arr[:, :, 3] = (glow_arr[:, :, 3].astype(float) * 0.5).astype(np.uint8)
+    glow_arr[:, :, 3] = (glow_arr[:, :, 3].astype(float) * 0.65).astype(np.uint8)
     logo_glow_canvas = Image.fromarray(glow_arr)
     
     # Composite background + ambient glow + contour glow
@@ -87,7 +86,7 @@ def create_og_image():
     # 4. Composite Crisp Logo on top
     base.paste(logo_resized, (pos_x, pos_y), logo_resized)
     
-    # 5. Convert to RGB (solid matte black, no transparency)
+    # 5. Convert to solid RGB PNG (true solid black background #000000)
     final_rgb = Image.new("RGB", (width, height), bg_color)
     final_rgb.paste(base, (0, 0))
     
@@ -100,7 +99,7 @@ def create_og_image():
     
     final_rgb.save(output_path, "PNG", optimize=True)
     final_rgb.save(output_assets_path, "PNG", optimize=True)
-    print(f"Successfully generated {output_path} ({width}x{height}) with matte black #0B0B0B and neon-green glow.")
+    print(f"Successfully generated {output_path} ({width}x{height}) with solid black #000000 background and neon-green glow.")
     
     if os.path.exists("dist"):
         dist_path = os.path.join("dist", "og-image.png")
