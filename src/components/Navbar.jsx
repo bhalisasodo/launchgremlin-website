@@ -31,12 +31,12 @@ export default function Navbar({ activeTab, onSelectTab, onOpenBooking }) {
           <img
             src="/assets/logo-icon.png"
             alt="LaunchGremlin Logo Icon"
-            width="48"
-            height="48"
+            width="64"
+            height="64"
             loading="eager"
             fetchPriority="high"
             decoding="async"
-            className="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105"
+            className="h-14 sm:h-16 w-auto object-contain transition-transform group-hover:scale-105"
           />
           <span className="font-black text-xl sm:text-2xl text-white tracking-tight">
             Launch<span className="text-emerald-400">Gremlin</span>
