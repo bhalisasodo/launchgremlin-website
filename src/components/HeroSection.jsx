@@ -18,6 +18,7 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
       {/* Main 2-Column Hero Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         {/* LEFT COLUMN — Value Proposition & Pillar Cards */}
+        <div className="lg:col-span-6 space-y-6">
           <div className="space-y-1 relative">
             <h1
               className="font-black text-white tracking-tight leading-[1.05] uppercase"

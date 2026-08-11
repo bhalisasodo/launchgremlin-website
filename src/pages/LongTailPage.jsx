@@ -136,6 +136,7 @@ export default function LongTailPage({ slug, onOpenBooking, onSelectTab }) {
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <span>{point}</span>
               </div>
+            ))}
           </div>
         </div>
       </section>
