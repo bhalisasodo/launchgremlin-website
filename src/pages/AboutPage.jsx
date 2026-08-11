@@ -1,7 +1,6 @@
 import React from 'react';
 import ServiceHeroBackground from '../components/common/ServiceHeroBackground';
 import TrustBadges from '../components/common/TrustBadges';
-import TestimonialsSection from '../components/common/TestimonialsSection';
 import { ArrowRight, CheckCircle2, ShieldCheck, Award, Zap, Code, Bot, TrendingUp, Sparkles, Building2, RefreshCw, Layers } from 'lucide-react';
 
 export default function AboutPage({ onSelectTab, onOpenBooking }) {
@@ -183,9 +182,6 @@ export default function AboutPage({ onSelectTab, onOpenBooking }) {
           </div>
         </div>
       </section>
-
-      {/* Testimonials */}
-      <TestimonialsSection />
 
       {/* Call to Action */}
       <section aria-labelledby="about-cta-title" className="max-w-4xl mx-auto px-6 text-center">

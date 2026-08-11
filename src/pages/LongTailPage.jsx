@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import ServiceHeroBackground from '../components/common/ServiceHeroBackground';
 import PricingSection from '../components/common/PricingSection';
-import TestimonialsSection from '../components/common/TestimonialsSection';
 import TrustBadges from '../components/common/TrustBadges';
 import { getLongTailBySlug, getLongTailByCategory } from '../utils/longTailData';
 import {
@@ -137,12 +136,9 @@ export default function LongTailPage({ slug, onOpenBooking, onSelectTab }) {
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <span>{point}</span>
               </div>
-            ))}
           </div>
         </div>
       </section>
-
-      <TestimonialsSection />
 
       {/* ---------------- 4. PRICING SECTION ---------------- */}
       <PricingSection onOpenBooking={onOpenBooking} onSelectTab={onSelectTab} />

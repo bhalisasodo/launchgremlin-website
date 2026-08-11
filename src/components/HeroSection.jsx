@@ -5,16 +5,6 @@ import {
 } from 'lucide-react';
 
 export default function HeroSection({ onSelectTab, onOpenBooking }) {
-  // Creator Avatar stack images
-  const avatars = [
-    { url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80', name: 'Creator Client Sarah' },
-    { url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80', name: 'Founder Client Marcus' },
-    { url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80', name: 'Creator Client Elena' },
-    { url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80', name: 'Founder Client David' },
-    { url: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80', name: 'Creator Client Chloe' },
-    { url: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80', name: 'Founder Client James' },
-  ];
-
   const handleLinkClick = (e, tab) => {
     e.preventDefault();
     if (onSelectTab) onSelectTab(tab);
@@ -28,14 +18,6 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
       {/* Main 2-Column Hero Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         {/* LEFT COLUMN — Value Proposition & Pillar Cards */}
-        <div className="lg:col-span-6 space-y-5 sm:space-y-6 relative z-10">
-          {/* Top Badge */}
-          <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-zinc-900/90 border border-emerald-400/40 text-emerald-400 text-[11px] sm:text-xs font-mono font-bold tracking-wider shadow-[0_0_15px_rgba(52,211,153,0.2)]">
-            <Zap className="w-3.5 h-3.5 fill-current shrink-0" />
-            <span>FOR CREATORS. BY CREATORS.</span>
-          </div>
-
-          {/* Headline with Fluid clamp() Typography — Single Primary H1 */}
           <div className="space-y-1 relative">
             <h1
               className="font-black text-white tracking-tight leading-[1.05] uppercase"
@@ -178,25 +160,8 @@ export default function HeroSection({ onSelectTab, onOpenBooking }) {
           <div className="pt-3 sm:pt-4 space-y-4">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-emerald-400 font-bold italic">
-                TRUSTED BY CREATORS & BRANDS
+                BUILT FOR CREATORS & HIGH-GROWTH BRANDS
               </span>
-              <div className="flex -space-x-2">
-                {avatars.map((avatar, i) => (
-                  <img
-                    key={i}
-                    src={avatar.url}
-                    alt={avatar.name}
-                    width="28"
-                    height="28"
-                    loading="lazy"
-                    decoding="async"
-                    className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 border-zinc-950 object-cover"
-                  />
-                ))}
-                <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-zinc-900 border-2 border-zinc-950 text-emerald-400 text-[9px] sm:text-[10px] font-bold flex items-center justify-center">
-                  +
-                </span>
-              </div>
             </div>
 
             <div className="flex flex-col sm:flex-row items-center gap-3">

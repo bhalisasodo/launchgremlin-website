@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import ServiceHeroBackground from '../components/common/ServiceHeroBackground';
 import PricingSection from '../components/common/PricingSection';
-import TestimonialsSection from '../components/common/TestimonialsSection';
 import TrustBadges from '../components/common/TrustBadges';
 import { getIndustryDataBySlug, INDUSTRIES_DATA } from '../utils/industryData';
 import {
@@ -197,10 +196,7 @@ export default function IndustryLandingPage({ industryKey, onOpenBooking, onSele
         </div>
       </section>
 
-      {/* ---------------- 4. TESTIMONIALS ---------------- */}
-      <TestimonialsSection />
-
-      {/* ---------------- 5. PRICING SECTION ---------------- */}
+      {/* ---------------- 4. PRICING SECTION ---------------- */}
       <PricingSection onOpenBooking={onOpenBooking} onSelectTab={onSelectTab} />
 
       {/* ---------------- 6. FAQS SECTION ---------------- */}

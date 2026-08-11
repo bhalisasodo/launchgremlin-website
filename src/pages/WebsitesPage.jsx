@@ -2,7 +2,6 @@ import React from 'react';
 import ServiceHeroBackground from '../components/common/ServiceHeroBackground';
 import PricingSection from '../components/common/PricingSection';
 import TrustBadges from '../components/common/TrustBadges';
-import TestimonialsSection from '../components/common/TestimonialsSection';
 import { ArrowRight, CheckCircle2, Globe, Zap, Code, ShieldCheck, Sparkles, BookOpen } from 'lucide-react';
 import { INDUSTRIES_DATA } from '../utils/industryData';
 
@@ -149,9 +148,6 @@ export default function WebsitesPage({ onSelectTab, onOpenBooking }) {
 
       {/* Pricing Section */}
       <PricingSection onOpenBooking={onOpenBooking} onSelectTab={onSelectTab} />
-
-      {/* Testimonials */}
-      <TestimonialsSection />
 
       {/* Industry Verticals Link Grid */}
       <section aria-labelledby="web-verticals-title" className="max-w-7xl mx-auto px-6 space-y-6">

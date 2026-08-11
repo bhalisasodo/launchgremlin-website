@@ -2,7 +2,6 @@ import React from 'react';
 import ServiceHeroBackground from '../components/common/ServiceHeroBackground';
 import PricingSection from '../components/common/PricingSection';
 import TrustBadges from '../components/common/TrustBadges';
-import TestimonialsSection from '../components/common/TestimonialsSection';
 import { ArrowRight, Bot, Cpu, Database, ShieldCheck, Sparkles, CheckCircle2 } from 'lucide-react';
 
 export default function AIConsultingPage({ onSelectTab, onOpenBooking }) {
@@ -139,9 +138,6 @@ export default function AIConsultingPage({ onSelectTab, onOpenBooking }) {
 
       {/* Pricing Section */}
       <PricingSection onOpenBooking={onOpenBooking} onSelectTab={onSelectTab} />
-
-      {/* Testimonials */}
-      <TestimonialsSection />
 
       {/* Supporting Blog Guides */}
       <section aria-labelledby="ai-blogs-title" className="max-w-7xl mx-auto px-6 space-y-6">

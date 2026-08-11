@@ -1,7 +1,6 @@
 import React from 'react';
 import HeroSection from '../components/HeroSection';
 import TrustBadges from '../components/common/TrustBadges';
-import TestimonialsSection from '../components/common/TestimonialsSection';
 import PricingSection from '../components/common/PricingSection';
 import { ArrowRight, CheckCircle, Globe, TrendingUp, Bot, RefreshCw, Zap, Layers, Sparkles } from 'lucide-react';
 
@@ -171,9 +170,6 @@ export default function HomePage({ onSelectTab, onOpenBooking }) {
           </a>
         </div>
       </section>
-
-      {/* Client Social Proof & Testimonials Section */}
-      <TestimonialsSection />
 
       {/* AI-NATIVE PRICING SECTION */}
       <PricingSection onOpenBooking={onOpenBooking} onSelectTab={onSelectTab} />
