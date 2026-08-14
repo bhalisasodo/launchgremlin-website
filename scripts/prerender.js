@@ -22,7 +22,7 @@ const cleanTemplate = rawTemplate
 import { BLOG_ARTICLES } from '../src/utils/blogData.js';
 
 // Pre-render core pages, legal pages, industry pages, all 100 blog articles, and long-tail pages
-const coreKeys = ['home', 'websites', 'content-strategy', 'ai-consulting', 'about', 'contact', 'blog', 'privacy', 'terms', 'cookies'];
+const coreKeys = ['home', 'websites', 'business-cards', 'content-strategy', 'ai-consulting', 'about', 'contact', 'blog', 'privacy', 'terms', 'cookies'];
 const industryKeys = ['websites-for-gyms', 'websites-for-restaurants', 'websites-for-hair-salons', 'websites-for-barbers', 'websites-for-cafes', 'websites-for-coaches', 'websites-for-personal-trainers', 'websites-for-creators', 'websites-for-influencers', 'websites-for-photographers', 'websites-for-dentists', 'websites-for-lawyers', 'websites-for-realtors', 'websites-for-accountants', 'websites-for-construction-companies', 'websites-for-cleaning-companies'];
 const blogKeys = BLOG_ARTICLES.map(a => `blog/${a.slug}`);
 const featuredLongTailKeys = ['best-website-for-a-gym', 'website-for-yoga-studio', 'website-for-coffee-shop', 'restaurant-website-examples', 'creator-website-examples', 'website-for-makeup-artist', 'website-for-podcast', 'website-for-dj', 'website-for-musician', 'website-for-startup', 'affordable-business-website'];

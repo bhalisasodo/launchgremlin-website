@@ -17,6 +17,7 @@ import IndustryLandingPage from './pages/IndustryLandingPage';
 import BlogHubPage from './pages/BlogHubPage';
 import BlogPostPage from './pages/BlogPostPage';
 import LongTailPage from './pages/LongTailPage';
+import BusinessCardsPage from './pages/BusinessCardsPage';
 import StickyMobileCTA from './components/common/StickyMobileCTA';
 import ExitIntentModal from './components/common/ExitIntentModal';
 
@@ -24,7 +25,7 @@ import { INDUSTRIES_DATA } from './utils/industryData';
 import { BLOG_CLUSTERS, BLOG_ARTICLES } from './utils/blogData';
 import { LONG_TAIL_PAGES } from './utils/longTailData';
 
-const CORE_TABS = ['home', 'websites', 'content-strategy', 'ai-consulting', 'about', 'contact', 'blog', 'privacy', 'terms', 'cookies'];
+const CORE_TABS = ['home', 'websites', 'business-cards', 'content-strategy', 'ai-consulting', 'about', 'contact', 'blog', 'privacy', 'terms', 'cookies'];
 const INDUSTRY_KEYS = Object.keys(INDUSTRIES_DATA);
 const LONG_TAIL_SLUGS = LONG_TAIL_PAGES.map(p => p.slug);
 
@@ -145,6 +146,13 @@ export default function App() {
 
         {activeTab === 'websites' && (
           <WebsitesPage
+            onSelectTab={handleSelectTab}
+            onOpenBooking={() => setIsBookingModalOpen(true)}
+          />
+        )}
+
+        {activeTab === 'business-cards' && (
+          <BusinessCardsPage
             onSelectTab={handleSelectTab}
             onOpenBooking={() => setIsBookingModalOpen(true)}
           />

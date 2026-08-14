@@ -62,6 +62,30 @@ export const BASE_SEO_DATA = {
       description: 'Custom-engineered, sub-second web applications built for extreme speed, flawless responsiveness, and maximum lead conversion.'
     }
   },
+  'business-cards': {
+    path: '/business-cards',
+    title: 'Free Digital Business Card Generator with QR Code | LaunchGremlin',
+    description: 'Create and customize your free mobile-first digital business card with tap-to-call, instant QR code export, vCard contact saving, and work portfolio showcase in seconds.',
+    keywords: 'digital business card generator, free digital business card, QR code business card, vCard export, mobile business card, electronic business card, LaunchGremlin tool',
+    canonical: `${SITE_DOMAIN}/business-cards`,
+    ogType: 'website',
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
+    ogImageAlt: 'LaunchGremlin Digital Business Card Generator',
+    breadcrumbs: [
+      { name: 'Home', item: `${SITE_DOMAIN}/` },
+      { name: 'Digital Business Card Generator', item: `${SITE_DOMAIN}/business-cards` }
+    ],
+    faqs: [
+      {
+        question: 'Is the Digital Business Card Generator completely free?',
+        answer: 'Yes, 100% free with no login or account required. You can generate custom cards, export scannable QR codes, and download vCards anytime.'
+      },
+      {
+        question: 'Can I print physical business cards from this generator?',
+        answer: 'Yes! The generator includes a ready-to-print 3.5" x 2" physical card template featuring your brand colors, contact channels, and scannable QR code.'
+      }
+    ]
+  },
   'content-strategy': {
     path: '/content-strategy',
     title: 'Data-Driven Content Strategy & Audience Growth | LaunchGremlin',

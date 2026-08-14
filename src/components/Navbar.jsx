@@ -12,6 +12,7 @@ export default function Navbar({ activeTab, onSelectTab, onOpenBooking }) {
 
   const navLinks = [
     { key: 'websites', label: 'Websites & Products', href: '/websites' },
+    { key: 'business-cards', label: 'Card Generator', href: '/business-cards' },
     { key: 'content-strategy', label: 'Content Strategy', href: '/content-strategy' },
     { key: 'ai-consulting', label: 'AI Consulting', href: '/ai-consulting' },
     { key: 'blog', label: 'Content Hub', href: '/blog' },

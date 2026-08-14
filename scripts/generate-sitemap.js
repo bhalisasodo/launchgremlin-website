@@ -13,6 +13,7 @@ const SITE_DOMAIN = 'https://launchgremlin.com';
 const coreRoutes = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },
   { path: '/websites', priority: '0.9', changefreq: 'weekly' },
+  { path: '/business-cards', priority: '0.9', changefreq: 'weekly' },
   { path: '/content-strategy', priority: '0.9', changefreq: 'weekly' },
   { path: '/ai-consulting', priority: '0.9', changefreq: 'weekly' },
   { path: '/about', priority: '0.8', changefreq: 'monthly' },

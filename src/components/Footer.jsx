@@ -57,6 +57,15 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
             </li>
             <li>
               <a
+                href="/business-cards"
+                onClick={(e) => handleLinkClick(e, 'business-cards')}
+                className="hover:text-emerald-400 transition-colors inline-block py-0.5"
+              >
+                📇 Digital Business Cards (Free Tool)
+              </a>
+            </li>
+            <li>
+              <a
                 href="/content-strategy"
                 onClick={(e) => handleLinkClick(e, 'content-strategy')}
                 className="hover:text-emerald-400 transition-colors inline-block py-0.5"
