@@ -12,16 +12,16 @@ const SITE_DOMAIN = 'https://launchgremlin.com';
 
 const coreRoutes = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },
-  { path: '/websites', priority: '0.9', changefreq: 'weekly' },
-  { path: '/business-cards', priority: '0.9', changefreq: 'weekly' },
-  { path: '/content-strategy', priority: '0.9', changefreq: 'weekly' },
-  { path: '/ai-consulting', priority: '0.9', changefreq: 'weekly' },
-  { path: '/about', priority: '0.8', changefreq: 'monthly' },
-  { path: '/contact', priority: '0.8', changefreq: 'monthly' },
-  { path: '/blog', priority: '0.9', changefreq: 'daily' },
-  { path: '/privacy', priority: '0.5', changefreq: 'yearly' },
-  { path: '/terms', priority: '0.5', changefreq: 'yearly' },
-  { path: '/cookies', priority: '0.5', changefreq: 'yearly' }
+  { path: '/websites', priority: '0.95', changefreq: 'weekly' },
+  { path: '/business-cards', priority: '0.95', changefreq: 'weekly' },
+  { path: '/content-strategy', priority: '0.90', changefreq: 'weekly' },
+  { path: '/ai-consulting', priority: '0.90', changefreq: 'weekly' },
+  { path: '/about', priority: '0.85', changefreq: 'monthly' },
+  { path: '/contact', priority: '0.85', changefreq: 'monthly' },
+  { path: '/blog', priority: '0.90', changefreq: 'daily' },
+  { path: '/privacy', priority: '0.50', changefreq: 'yearly' },
+  { path: '/terms', priority: '0.50', changefreq: 'yearly' },
+  { path: '/cookies', priority: '0.50', changefreq: 'yearly' }
 ];
 
 const industryRoutes = Object.keys(INDUSTRIES_DATA).map(key => ({

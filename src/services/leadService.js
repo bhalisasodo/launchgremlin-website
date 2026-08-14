@@ -4,10 +4,17 @@
  * 1. Primary Node Express backend endpoint (/api/leads) if running
  * 2. FormSubmit API endpoint (https://formsubmit.co/ajax/bhalisasodo10@gmail.com) for static deployments
  */
+import { trackConversion, trackEvent } from '../utils/analytics';
 
 const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/bhalisasodo10@gmail.com';
 
 export async function submitLead(payload) {
+  // Telemetry: Track conversion intent
+  trackConversion('lead_submission_attempt', {
+    service: payload.service,
+    budget: payload.budget
+  });
+
   const isDevPort = typeof window !== 'undefined' && ['5173', '5174', '5175', '3000', '4173'].includes(window.location.port);
   const customApiUrl = import.meta.env.VITE_API_URL;
   const backendEndpoint = customApiUrl ? `${customApiUrl}/leads` : '/api/leads';
@@ -22,6 +29,7 @@ export async function submitLead(payload) {
       });
 
       if (response.ok) {
+        trackConversion('lead_captured', { mode: 'backend', service: payload.service });
         return { success: true, mode: 'backend' };
       }
     } catch (e) {
@@ -56,10 +64,11 @@ export async function submitLead(payload) {
     });
 
     const data = await response.json();
+    trackConversion('lead_captured', { mode: 'formsubmit', service: payload.service });
     return { success: response.ok || data.success === 'true', mode: 'formsubmit' };
   } catch (err) {
     console.error('[LeadService] FormSubmit error:', err);
+    trackConversion('lead_captured', { mode: 'optimistic', service: payload.service });
     return { success: true, mode: 'optimistic' };
   }
 }
-

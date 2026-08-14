@@ -10,7 +10,7 @@ export const BASE_SEO_DATA = {
     path: '/',
     title: 'LaunchGremlin — Build, Grow, Scale | Websites, Content Strategy & AI Consulting',
     description: 'LaunchGremlin helps creators and ambitious businesses build high-performance websites, execute data-driven content strategies, and integrate enterprise AI automation.',
-    keywords: 'website design, content strategy, AI consulting, web development, growth marketing, AI workflows, LLM integration, Lighthouse 100',
+    keywords: 'website design, content strategy, AI consulting, web development, growth marketing, AI workflows, LLM integration, Lighthouse 100, creator growth, digital agency',
     canonical: `${SITE_DOMAIN}/`,
     ogType: 'website',
     ogImage: `${SITE_DOMAIN}/og-image.png`,
@@ -25,7 +25,15 @@ export const BASE_SEO_DATA = {
       },
       {
         question: 'How fast can LaunchGremlin build a website?',
-        answer: 'Most standard business websites are delivered within 7 to 10 business days. For urgent projects, we offer a 72-Hour MVP launch guarantee.'
+        answer: 'Most standard business websites are delivered within 7 to 10 business days. For urgent projects, we offer a 72-Hour MVP launch sprint.'
+      },
+      {
+        question: 'Who is LaunchGremlin designed for?',
+        answer: 'LaunchGremlin is built specifically for creators, independent consultants, founders, and high-growth modern businesses looking to scale their online presence.'
+      },
+      {
+        question: 'What technologies does LaunchGremlin use?',
+        answer: 'We build with React, Next.js, Vite, Tailwind CSS, Python LLM pipelines, and vector database architectures optimized for 100/100 Core Web Vitals performance.'
       }
     ]
   },
@@ -33,7 +41,7 @@ export const BASE_SEO_DATA = {
     path: '/blog',
     title: 'Content Hub & Knowledge Base | 100 Strategic Guides | LaunchGremlin',
     description: 'Explore 100 strategic articles on Web Design, AI Automation, Small Business, Startup Growth, Personal Branding, SEO, and Content Strategy.',
-    keywords: 'SEO blog, content hub, web design guides, AI automation tutorials, startup growth articles, SEO strategy',
+    keywords: 'SEO blog, content hub, web design guides, AI automation tutorials, startup growth articles, SEO strategy, creator tools',
     canonical: `${SITE_DOMAIN}/blog`,
     ogType: 'website',
     ogImage: `${SITE_DOMAIN}/og-image.png`,
@@ -47,7 +55,7 @@ export const BASE_SEO_DATA = {
     path: '/websites',
     title: 'High-Performance Website Design & Engineering | LaunchGremlin',
     description: 'Custom, sub-second web applications built with Vite, React & Next.js for high conversion, search engine indexing, and 100/100 Core Web Vitals performance.',
-    keywords: 'custom website design, React web development, Next.js agency, sub-second page loads, conversion optimization, responsive web apps',
+    keywords: 'custom website design, React web development, Next.js agency, sub-second page loads, conversion optimization, responsive web apps, high converting landing page',
     canonical: `${SITE_DOMAIN}/websites`,
     ogType: 'service',
     ogImage: `${SITE_DOMAIN}/og-image.png`,
@@ -59,14 +67,20 @@ export const BASE_SEO_DATA = {
     service: {
       name: 'High-Performance Web Design & Engineering',
       serviceType: 'Web Development',
-      description: 'Custom-engineered, sub-second web applications built for extreme speed, flawless responsiveness, and maximum lead conversion.'
+      description: 'Custom-engineered, sub-second web applications built for extreme speed, flawless responsiveness, and maximum lead conversion.',
+      offers: {
+        '@type': 'Offer',
+        price: '499.00',
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock'
+      }
     }
   },
   'business-cards': {
     path: '/business-cards',
-    title: 'Free Digital Business Card Generator with QR Code | LaunchGremlin',
-    description: 'Create and customize your free mobile-first digital business card with tap-to-call, instant QR code export, vCard contact saving, and work portfolio showcase in seconds.',
-    keywords: 'digital business card generator, free digital business card, QR code business card, vCard export, mobile business card, electronic business card, LaunchGremlin tool',
+    title: 'Free Digital Business Card Generator with QR Code & NFC | LaunchGremlin',
+    description: 'Create and customize your free mobile-first digital business card with tap-to-call, instant QR code export, vCard contact saving, 3D card preview, and lead capture exchange in seconds.',
+    keywords: 'digital business card generator, free digital business card, QR code business card, vCard export, mobile business card, electronic business card, NFC card builder, LaunchGremlin tool',
     canonical: `${SITE_DOMAIN}/business-cards`,
     ogType: 'website',
     ogImage: `${SITE_DOMAIN}/og-image.png`,
@@ -75,14 +89,41 @@ export const BASE_SEO_DATA = {
       { name: 'Home', item: `${SITE_DOMAIN}/` },
       { name: 'Digital Business Card Generator', item: `${SITE_DOMAIN}/business-cards` }
     ],
+    softwareApplication: {
+      name: 'LaunchGremlin Digital Business Card Generator',
+      operatingSystem: 'All (Web, iOS, Android)',
+      applicationCategory: 'BusinessApplication',
+      offers: {
+        '@type': 'Offer',
+        price: '0.00',
+        priceCurrency: 'USD'
+      },
+      featureList: [
+        'Interactive Mobile Digital Card View',
+        '3D Flip Physical Card Preview',
+        'Instant vCard (.vcf) Contact Download',
+        'High-Resolution QR Code PNG Export',
+        'NFC Card Programming Support',
+        'Lead Exchange Contact Form',
+        '6 Creator & Executive Theme Presets'
+      ]
+    },
     faqs: [
       {
         question: 'Is the Digital Business Card Generator completely free?',
-        answer: 'Yes, 100% free with no login or account required. You can generate custom cards, export scannable QR codes, and download vCards anytime.'
+        answer: 'Yes, 100% free with no login, credit card, or account required. You can generate custom cards, export scannable QR codes, and download vCards anytime.'
       },
       {
         question: 'Can I print physical business cards from this generator?',
-        answer: 'Yes! The generator includes a ready-to-print 3.5" x 2" physical card template featuring your brand colors, contact channels, and scannable QR code.'
+        answer: 'Yes! The generator includes a ready-to-print 3.5" x 2" physical card template with front and back layouts, brand accent colors, and scannable QR code.'
+      },
+      {
+        question: 'How do I program an NFC card with my LaunchGremlin digital card?',
+        answer: 'Copy your generated share link and write it to any standard blank NTAG213/215/216 NFC card using the free NFC Tools app on iPhone or Android in 60 seconds.'
+      },
+      {
+        question: 'Does the recipient need an app to open my digital card?',
+        answer: 'No. The digital business card opens instantly in any mobile browser when scanned via QR code or tapped via NFC.'
       }
     ]
   },
@@ -90,7 +131,7 @@ export const BASE_SEO_DATA = {
     path: '/content-strategy',
     title: 'Data-Driven Content Strategy & Audience Growth | LaunchGremlin',
     description: 'Dominate search results and convert viewers into clients with data-backed content strategies, multi-channel distribution funnels, and retention scripts.',
-    keywords: 'content strategy, audience growth, creator marketing, multi-channel content distribution, SEO content, viral funnels',
+    keywords: 'content strategy, audience growth, creator marketing, multi-channel content distribution, SEO content, viral funnels, YouTube scripting, TikTok strategy',
     canonical: `${SITE_DOMAIN}/content-strategy`,
     ogType: 'service',
     ogImage: `${SITE_DOMAIN}/og-image.png`,
@@ -109,7 +150,7 @@ export const BASE_SEO_DATA = {
     path: '/ai-consulting',
     title: 'Enterprise AI Consulting & Workflow Automation | LaunchGremlin',
     description: 'Automate business workflows and deploy custom AI agents, LLM pipelines, and vector search RAG systems designed to save hundreds of hours monthly.',
-    keywords: 'AI consulting, custom AI agents, LLM integration, workflow automation, vector search RAG, business process automation',
+    keywords: 'AI consulting, custom AI agents, LLM integration, workflow automation, vector search RAG, business process automation, generative AI solutions',
     canonical: `${SITE_DOMAIN}/ai-consulting`,
     ogType: 'service',
     ogImage: `${SITE_DOMAIN}/og-image.png`,
@@ -280,6 +321,11 @@ export function getSeoDataForPage(pageKey) {
     if (SEO_DATA[articleKey]) return SEO_DATA[articleKey];
   }
 
+  // Alias for digital card viewer
+  if (typeof pageKey === 'string' && (pageKey.startsWith('c/') || pageKey === 'c')) {
+    return SEO_DATA['business-cards'];
+  }
+
   return SEO_DATA.home;
 }
 
@@ -304,9 +350,17 @@ export function generateSchemasForPage(pageKey) {
         `${SITE_DOMAIN}/about`
       ]
     },
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'Customer Support & Sales',
+      email: 'bhalisasodo10@gmail.com',
+      url: `${SITE_DOMAIN}/contact`,
+      availableLanguage: ['English']
+    },
     sameAs: [
       'https://www.instagram.com/launchgremlin/',
-      'https://www.tiktok.com/@launchgremlin'
+      'https://www.tiktok.com/@launchgremlin',
+      'https://github.com/bhalisasodo'
     ],
     publishingPrinciples: `${SITE_DOMAIN}/privacy`
   };
@@ -317,7 +371,12 @@ export function generateSchemasForPage(pageKey) {
     '@id': `${SITE_DOMAIN}/#website`,
     url: SITE_DOMAIN,
     name: 'LaunchGremlin',
-    publisher: { '@id': `${SITE_DOMAIN}/#organization` }
+    publisher: { '@id': `${SITE_DOMAIN}/#organization` },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: `${SITE_DOMAIN}/blog?q={search_term_string}`,
+      'query-input': 'required name=search_term_string'
+    }
   };
 
   const webPageSchema = {
@@ -332,6 +391,21 @@ export function generateSchemasForPage(pageKey) {
   };
 
   const schemas = [orgSchema, websiteSchema, webPageSchema];
+
+  // SoftwareApplication Schema (for Business Cards Generator)
+  if (page.softwareApplication) {
+    const appSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareApplication',
+      name: page.softwareApplication.name,
+      operatingSystem: page.softwareApplication.operatingSystem,
+      applicationCategory: page.softwareApplication.applicationCategory,
+      offers: page.softwareApplication.offers,
+      featureList: page.softwareApplication.featureList,
+      publisher: { '@id': `${SITE_DOMAIN}/#organization` }
+    };
+    schemas.push(appSchema);
+  }
 
   // Breadcrumbs Schema
   if (page.breadcrumbs && page.breadcrumbs.length > 0) {
@@ -356,8 +430,25 @@ export function generateSchemasForPage(pageKey) {
       name: page.service.name,
       serviceType: page.service.serviceType,
       description: page.service.description,
-      provider: { '@id': `${SITE_DOMAIN}/#organization` }
+      provider: { '@id': `${SITE_DOMAIN}/#organization` },
+      areaServed: 'Worldwide',
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: page.service.name,
+        itemListElement: [
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: page.service.name
+            }
+          }
+        ]
+      }
     };
+    if (page.service.offers) {
+      serviceSchema.offers = page.service.offers;
+    }
     schemas.push(serviceSchema);
   }
 
