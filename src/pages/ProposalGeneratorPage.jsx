@@ -486,6 +486,32 @@ export default function ProposalGeneratorPage({ onOpenBooking, onSelectTab }) {
 
       </div>
 
+      {/* Mobile Live Quote Floating Footer Bar */}
+      {activeTab === 'configurator' && (
+        <div
+          style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
+          className="lg:hidden fixed bottom-0 left-0 right-0 z-30 px-4 pt-3 pb-3 bg-zinc-950/95 border-t border-emerald-400/30 backdrop-blur-xl shadow-[0_-10px_30px_rgba(0,0,0,0.9)] flex items-center justify-between gap-3"
+        >
+          <div className="space-y-0.5">
+            <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider block">Estimated Scope</span>
+            <div className="text-base font-black text-white font-mono leading-none">
+              {quote.currencySymbol}{quote.finalPrice.toLocaleString()} <span className="text-[10px] font-normal text-zinc-400">({quote.itemCount} items)</span>
+            </div>
+          </div>
+          <button
+            onClick={() => {
+              setActiveTab('proposal');
+              trackEvent('generate_proposal_mobile_bar_clicked', { items: quote.itemCount, total: quote.finalPrice });
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="py-2.5 px-4 rounded-xl bg-emerald-400 text-zinc-950 font-black text-xs uppercase tracking-wider shadow-[0_0_15px_rgba(52,211,153,0.3)] flex items-center gap-1.5 cursor-pointer"
+          >
+            <span>View Proposal</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
+
       {/* Lock In Quote Modal Dialog */}
       {isLockInModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">

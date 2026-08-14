@@ -23,21 +23,21 @@ export default function Breadcrumbs({ pageKey, onSelectTab }) {
   return (
     <nav
       aria-label="Breadcrumb navigation"
-      className="max-w-7xl mx-auto px-4 sm:px-6 pt-4 pb-2"
+      className="max-w-7xl mx-auto px-4 sm:px-6 pt-3 sm:pt-4 pb-1 overflow-hidden"
     >
-      <ol className="flex flex-wrap items-center gap-1.5 text-xs font-mono text-zinc-400">
+      <ol className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono text-zinc-400 overflow-x-auto whitespace-nowrap scrollbar-none py-1">
         {pageData.breadcrumbs.map((crumb, index) => {
           const isLast = index === pageData.breadcrumbs.length - 1;
           const relativePath = crumb.item.replace('https://launchgremlin.com', '') || '/';
 
           return (
-            <li key={crumb.item} className="flex items-center gap-1.5">
-              {index > 0 && <ChevronRight className="w-3.5 h-3.5 text-zinc-600 shrink-0" />}
+            <li key={crumb.item} className="flex items-center gap-1.5 shrink-0">
+              {index > 0 && <ChevronRight className="w-3 h-3 text-zinc-600 shrink-0" />}
               
               {isLast ? (
                 <span
                   aria-current="page"
-                  className="text-emerald-400 font-semibold truncate max-w-[200px] sm:max-w-none"
+                  className="text-emerald-400 font-semibold truncate max-w-[220px] sm:max-w-none"
                 >
                   {crumb.name}
                 </span>

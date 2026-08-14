@@ -23,8 +23,11 @@ export default function StickyMobileCTA({ onOpenBooking }) {
   if (!isVisible) return null;
 
   return (
-    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 p-3 bg-zinc-950/95 border-t border-emerald-400/40 backdrop-blur-xl shadow-[0_-10px_30px_rgba(0,0,0,0.8)] transition-all transform translate-y-0">
-      <div className="flex items-center gap-2">
+    <div
+      style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
+      className="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-4 pt-3 bg-zinc-950/95 border-t border-emerald-400/30 backdrop-blur-xl shadow-[0_-10px_30px_rgba(0,0,0,0.9)] transition-all transform translate-y-0"
+    >
+      <div className="flex items-center gap-2.5 max-w-md mx-auto">
         <button
           onClick={onOpenBooking}
           aria-label="Book Free Strategy Call Mobile"
@@ -35,14 +38,16 @@ export default function StickyMobileCTA({ onOpenBooking }) {
         </button>
 
         <a
-          href="/contact"
-          aria-label="Contact LaunchGremlin"
-          className="p-3 rounded-xl bg-zinc-900 border border-zinc-800 text-emerald-400 hover:text-white transition-colors"
+          href="https://wa.me/2768965502"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Chat on WhatsApp"
+          className="p-3 rounded-xl bg-zinc-900 border border-zinc-800 text-emerald-400 hover:text-white transition-colors flex items-center justify-center"
         >
           <PhoneCall className="w-4 h-4" />
         </a>
       </div>
-      <div className="text-center pt-1.5">
+      <div className="text-center pt-1.5 pb-1">
         <span className="text-[10px] font-mono text-zinc-400">
           🔥 <strong className="text-emerald-400">2 Client Spots Left</strong> For This Month • 100% Free Audit
         </span>

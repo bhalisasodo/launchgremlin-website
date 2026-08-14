@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram, ShieldCheck, Lock, FileText, Cookie } from 'lucide-react';
+import { Instagram, ShieldCheck, Lock, FileText, Cookie, Calculator } from 'lucide-react';
 import { INDUSTRIES_DATA } from '../utils/industryData';
 import { LONG_TAIL_PAGES } from '../utils/longTailData';
 
@@ -13,19 +13,19 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
   const featuredLongTail = LONG_TAIL_PAGES.slice(0, 10);
 
   return (
-    <footer className="w-full bg-zinc-950 border-t border-zinc-900 py-16 px-6 text-zinc-400 relative z-10">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 mb-12">
+    <footer className="w-full bg-zinc-950 border-t border-zinc-900 pt-16 pb-28 lg:pb-16 px-6 text-zinc-400 relative z-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 mb-12">
         {/* Brand & Mantra Column */}
         <div className="md:col-span-4 space-y-4">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <img
               src="/assets/logo-icon.png"
               alt="LaunchGremlin Logo Icon"
-              width="80"
-              height="80"
+              width="64"
+              height="64"
               loading="lazy"
               decoding="async"
-              className="h-16 sm:h-20 w-auto object-contain"
+              className="h-14 sm:h-16 w-auto object-contain"
             />
             <span className="font-black text-2xl sm:text-3xl text-white tracking-tight">
               Launch<span className="text-emerald-400">Gremlin</span>
@@ -36,13 +36,13 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
             Technology is the engine. Growth is the outcome. We build, grow, and scale digital products, content engines, and custom AI systems for ambitious creators and internet-native businesses.
           </p>
 
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-[11px] font-mono text-emerald-400">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 text-[11px] font-mono text-emerald-400">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Aggressive Iteration — Build. Ship. Measure. Improve. Repeat.</span>
+            <span>Aggressive Iteration — Build. Ship. Measure. Repeat.</span>
           </div>
         </div>
 
-        {/* Strategic Pillars & Legal Column */}
+        {/* Strategic Pillars & Scope Column */}
         <div className="md:col-span-3 space-y-4">
           <h2 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold">Strategic Pillars</h2>
           <ul className="space-y-2 text-xs">
@@ -62,6 +62,15 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
                 className="hover:text-emerald-400 transition-colors inline-block py-0.5"
               >
                 📇 Digital Business Cards (Free Tool)
+              </a>
+            </li>
+            <li>
+              <a
+                href="/proposal"
+                onClick={(e) => handleLinkClick(e, 'proposal')}
+                className="hover:text-emerald-400 transition-colors inline-block py-0.5 text-emerald-400 font-semibold"
+              >
+                ⚡ Scope & AI Proposal Generator
               </a>
             </li>
             <li>
@@ -140,7 +149,7 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
             </a>
           </div>
 
-          <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-xs">
             {industriesList.slice(0, 6).map((ind) => (
               <a
                 key={ind.slug}
