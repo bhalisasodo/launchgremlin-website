@@ -127,6 +127,48 @@ export const BASE_SEO_DATA = {
       }
     ]
   },
+  proposal: {
+    path: '/proposal',
+    title: 'Interactive Project Scope & AI Proposal Generator | LaunchGremlin',
+    description: 'Configure your custom web engineering, content strategy, and AI automation project scope. Calculate real-time pricing and timeline estimates, and export an executive technical proposal instantly.',
+    keywords: 'project scope calculator, web development cost estimator, AI proposal generator, project pricing calculator, software quote generator, LaunchGremlin tool',
+    canonical: `${SITE_DOMAIN}/proposal`,
+    ogType: 'website',
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
+    ogImageAlt: 'LaunchGremlin Interactive Project Scope & AI Proposal Generator',
+    breadcrumbs: [
+      { name: 'Home', item: `${SITE_DOMAIN}/` },
+      { name: 'Scope & Quote Generator', item: `${SITE_DOMAIN}/proposal` }
+    ],
+    softwareApplication: {
+      name: 'LaunchGremlin Project Scope & AI Proposal Generator',
+      operatingSystem: 'All (Web, iOS, Android)',
+      applicationCategory: 'BusinessApplication',
+      offers: {
+        '@type': 'Offer',
+        price: '0.00',
+        priceCurrency: 'USD'
+      },
+      featureList: [
+        'Multi-Pillar Scope Matrix (Web, Content, AI)',
+        'Real-Time Currency Calculation (USD / ZAR)',
+        'Emergency 72-Hour vs. Standard Sprints',
+        'Executive Technical Strategy Brief Compilation',
+        'Printable PDF / Markdown Export',
+        '1-Click Quote Lock-In & Lead Dispatch'
+      ]
+    },
+    faqs: [
+      {
+        question: 'How accurate is the LaunchGremlin project cost calculator?',
+        answer: 'The calculator estimates are based on our fixed production sprint models (72-Hour MVP, 2-Week Launch, 4-Week Enterprise) and deliver exact baseline pricing for standard feature sets.'
+      },
+      {
+        question: 'Can I export the generated proposal for my team or stakeholders?',
+        answer: 'Yes. You can copy the full Markdown strategy brief or use the 1-click Print/PDF export tool with clean executive styling.'
+      }
+    ]
+  },
   'content-strategy': {
     path: '/content-strategy',
     title: 'Data-Driven Content Strategy & Audience Growth | LaunchGremlin',

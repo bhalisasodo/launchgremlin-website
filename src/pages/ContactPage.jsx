@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import ServiceHeroBackground from '../components/common/ServiceHeroBackground';
 import TrustBadges from '../components/common/TrustBadges';
-import { Phone, MapPin, Send, CheckCircle2, ArrowRight, ShieldCheck, Lock, Sparkles, Building2 } from 'lucide-react';
+import { Phone, MapPin, Send, CheckCircle2, ArrowRight, ShieldCheck, Lock, Sparkles, Calculator } from 'lucide-react';
 import { submitLead } from '../services/leadService';
 
-export default function ContactPage({ onOpenBooking }) {
+export default function ContactPage({ onOpenBooking, onSelectTab }) {
   const [selectedService, setSelectedService] = useState('Web Engineering');
   const [selectedBudget, setSelectedBudget] = useState('R15k - R30k');
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -53,13 +53,21 @@ export default function ContactPage({ onOpenBooking }) {
           </h1>
 
           <p className="text-sm sm:text-base text-zinc-300 font-light max-w-2xl mx-auto leading-relaxed">
-            Ready to upgrade your web architecture, deploy custom AI workflows, or accelerate audience growth? Request a scope proposal or schedule a 1-on-1 session.
+            Ready to upgrade your web architecture, deploy custom AI workflows, or accelerate audience growth? Configure your scope proposal online or schedule a 1-on-1 session.
           </p>
 
-          <div className="pt-2">
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
+            <button
+              onClick={() => onSelectTab && onSelectTab('proposal')}
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            >
+              <Calculator className="w-4 h-4" />
+              <span>Interactive Scope & Quote Calculator</span>
+            </button>
+
             <button
               onClick={onOpenBooking}
-              className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-emerald-400 text-zinc-950 font-extrabold text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(52,211,153,0.4)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-white font-bold text-xs uppercase tracking-wider transition-all cursor-pointer"
             >
               <span>Schedule Strategy Call Directly</span>
               <ArrowRight className="w-4 h-4" />
@@ -83,7 +91,7 @@ export default function ContactPage({ onOpenBooking }) {
                 Get Your Project Proposal
               </h2>
               <p className="text-xs sm:text-sm text-zinc-400 font-light leading-relaxed">
-                Fill out the quick scope builder on the right. Our senior engineers review every submission and respond with a technical blueprint within 24 hours.
+                Fill out the quick scope builder on the right or try our <button onClick={() => onSelectTab && onSelectTab('proposal')} className="text-emerald-400 underline font-bold cursor-pointer">Interactive Scope & AI Proposal Generator</button> for instant pricing.
               </p>
             </div>
 

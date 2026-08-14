@@ -18,6 +18,7 @@ import BlogHubPage from './pages/BlogHubPage';
 import BlogPostPage from './pages/BlogPostPage';
 import LongTailPage from './pages/LongTailPage';
 import BusinessCardsPage from './pages/BusinessCardsPage';
+import ProposalGeneratorPage from './pages/ProposalGeneratorPage';
 import DigitalCardViewer from './components/cards/DigitalCardViewer';
 import StickyMobileCTA from './components/common/StickyMobileCTA';
 import ExitIntentModal from './components/common/ExitIntentModal';
@@ -27,7 +28,7 @@ import { BLOG_CLUSTERS, BLOG_ARTICLES } from './utils/blogData';
 import { LONG_TAIL_PAGES } from './utils/longTailData';
 import { decodeCardFromUrl, DEMO_PROFILES } from './utils/cardData';
 
-const CORE_TABS = ['home', 'websites', 'business-cards', 'cards', 'card', 'content-strategy', 'ai-consulting', 'about', 'contact', 'blog', 'privacy', 'terms', 'cookies'];
+const CORE_TABS = ['home', 'websites', 'business-cards', 'cards', 'card', 'proposal', 'quote', 'scope-builder', 'content-strategy', 'ai-consulting', 'about', 'contact', 'blog', 'privacy', 'terms', 'cookies'];
 const INDUSTRY_KEYS = Object.keys(INDUSTRIES_DATA);
 const LONG_TAIL_SLUGS = LONG_TAIL_PAGES.map(p => p.slug);
 
@@ -44,6 +45,11 @@ const normalizeRoute = (rawPath) => {
   // Card builder aliases
   if (path === 'card' || path === 'cards' || path === 'business-cards') {
     return 'business-cards';
+  }
+
+  // Proposal & scope builder aliases
+  if (path === 'proposal' || path === 'quote' || path === 'scope-builder' || path === 'calculator' || path === 'estimator') {
+    return 'proposal';
   }
 
   if (CORE_TABS.includes(path) || INDUSTRY_KEYS.includes(path) || LONG_TAIL_SLUGS.includes(path)) {
@@ -232,6 +238,13 @@ export default function App() {
           />
         )}
 
+        {activeTab === 'proposal' && (
+          <ProposalGeneratorPage
+            onSelectTab={handleSelectTab}
+            onOpenBooking={() => setIsBookingModalOpen(true)}
+          />
+        )}
+
         {activeTab === 'content-strategy' && (
           <ContentStrategyPage
             onSelectTab={handleSelectTab}
@@ -256,6 +269,7 @@ export default function App() {
         {activeTab === 'contact' && (
           <ContactPage
             onOpenBooking={() => setIsBookingModalOpen(true)}
+            onSelectTab={handleSelectTab}
           />
         )}
 

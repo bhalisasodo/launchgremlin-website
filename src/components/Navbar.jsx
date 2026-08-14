@@ -13,6 +13,7 @@ export default function Navbar({ activeTab, onSelectTab, onOpenBooking }) {
   const navLinks = [
     { key: 'websites', label: 'Websites & Products', href: '/websites' },
     { key: 'business-cards', label: 'Card Generator', href: '/business-cards' },
+    { key: 'proposal', label: 'Scope & Quote', href: '/proposal' },
     { key: 'content-strategy', label: 'Content Strategy', href: '/content-strategy' },
     { key: 'ai-consulting', label: 'AI Consulting', href: '/ai-consulting' },
     { key: 'blog', label: 'Content Hub', href: '/blog' },
@@ -45,7 +46,7 @@ export default function Navbar({ activeTab, onSelectTab, onOpenBooking }) {
         </a>
 
         {/* Desktop Nav Links */}
-        <nav aria-label="Main Navigation" className="hidden lg:flex items-center gap-8">
+        <nav aria-label="Main Navigation" className="hidden xl:flex items-center gap-7">
           {navLinks.map((link) => {
             const isActive = activeTab === link.key || (link.key === 'blog' && activeTab.startsWith('blog/'));
             return (
@@ -66,7 +67,7 @@ export default function Navbar({ activeTab, onSelectTab, onOpenBooking }) {
         </nav>
 
         {/* Desktop CTA Action Button */}
-        <div className="hidden lg:flex items-center gap-4">
+        <div className="hidden xl:flex items-center gap-4">
           <button
             onClick={onOpenBooking}
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-400 text-zinc-950 font-bold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:bg-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
@@ -80,7 +81,7 @@ export default function Navbar({ activeTab, onSelectTab, onOpenBooking }) {
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label={isMobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
-          className="lg:hidden p-2 text-zinc-400 hover:text-white transition-colors"
+          className="xl:hidden p-2 text-zinc-400 hover:text-white transition-colors"
         >
           {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
@@ -88,7 +89,7 @@ export default function Navbar({ activeTab, onSelectTab, onOpenBooking }) {
 
       {/* Mobile Drawer */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden bg-zinc-950/95 border-b border-zinc-800 px-6 py-6 space-y-4">
+        <div className="xl:hidden bg-zinc-950/95 border-b border-zinc-800 px-6 py-6 space-y-4">
           <nav aria-label="Mobile Drawer Navigation" className="flex flex-col gap-3">
             {navLinks.map((link) => (
               <a
