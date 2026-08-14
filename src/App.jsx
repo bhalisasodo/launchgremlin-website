@@ -18,14 +18,16 @@ import BlogHubPage from './pages/BlogHubPage';
 import BlogPostPage from './pages/BlogPostPage';
 import LongTailPage from './pages/LongTailPage';
 import BusinessCardsPage from './pages/BusinessCardsPage';
+import DigitalCardViewer from './components/cards/DigitalCardViewer';
 import StickyMobileCTA from './components/common/StickyMobileCTA';
 import ExitIntentModal from './components/common/ExitIntentModal';
 
 import { INDUSTRIES_DATA } from './utils/industryData';
 import { BLOG_CLUSTERS, BLOG_ARTICLES } from './utils/blogData';
 import { LONG_TAIL_PAGES } from './utils/longTailData';
+import { decodeCardFromUrl, DEMO_PROFILES } from './utils/cardData';
 
-const CORE_TABS = ['home', 'websites', 'business-cards', 'content-strategy', 'ai-consulting', 'about', 'contact', 'blog', 'privacy', 'terms', 'cookies'];
+const CORE_TABS = ['home', 'websites', 'business-cards', 'cards', 'card', 'content-strategy', 'ai-consulting', 'about', 'contact', 'blog', 'privacy', 'terms', 'cookies'];
 const INDUSTRY_KEYS = Object.keys(INDUSTRIES_DATA);
 const LONG_TAIL_SLUGS = LONG_TAIL_PAGES.map(p => p.slug);
 
@@ -33,6 +35,16 @@ const normalizeRoute = (rawPath) => {
   if (!rawPath) return 'home';
   const path = decodeURIComponent(rawPath).replace(/^\/+|\/+$/g, '');
   if (!path || path === 'home') return 'home';
+
+  // Standalone card route detection (e.g. /c/alex-morgan or /c)
+  if (path.startsWith('c/') || path === 'c') {
+    return path;
+  }
+
+  // Card builder aliases
+  if (path === 'card' || path === 'cards' || path === 'business-cards') {
+    return 'business-cards';
+  }
 
   if (CORE_TABS.includes(path) || INDUSTRY_KEYS.includes(path) || LONG_TAIL_SLUGS.includes(path)) {
     return path;
@@ -85,10 +97,53 @@ const getTabFromUrl = () => {
 
   const hash = window.location.hash.replace(/^#\/?/, '');
   if (hash) {
+    // If hash contains data= or card payload, check route
+    if (hash.startsWith('data=') || hash.startsWith('c/')) {
+      return normalizeRoute(hash);
+    }
     return normalizeRoute(hash);
   }
 
   return 'home';
+};
+
+// Helper to resolve card data when viewing a standalone /c/:slug URL
+const getStandaloneCardData = (tab) => {
+  if (typeof window === 'undefined') return DEMO_PROFILES[0];
+
+  // 1. Try decoding from URL hash (#data=...)
+  if (window.location.hash) {
+    const hashData = window.location.hash.replace(/^#\/?/, '').replace(/^data=/, '');
+    if (hashData) {
+      const decoded = decodeCardFromUrl(hashData);
+      if (decoded) return decoded;
+    }
+  }
+
+  // 2. Try decoding from query params (?data=... or ?d=...)
+  const params = new URLSearchParams(window.location.search);
+  const queryData = params.get('data') || params.get('d');
+  if (queryData) {
+    const decoded = decodeCardFromUrl(queryData);
+    if (decoded) return decoded;
+  }
+
+  // 3. Try matching slug from URL (e.g. /c/alex-morgan)
+  const slug = tab.startsWith('c/') ? tab.replace(/^c\//, '') : '';
+  if (slug) {
+    const matchingProfile = DEMO_PROFILES.find(p => p.slug === slug || p.id === slug);
+    if (matchingProfile) return matchingProfile;
+  }
+
+  // 4. Fallback to localStorage draft if available
+  try {
+    const saved = localStorage.getItem('lg_card_draft');
+    if (saved) return JSON.parse(saved);
+  } catch (e) {
+    // ignore
+  }
+
+  return DEMO_PROFILES[0];
 };
 
 export default function App() {
@@ -120,7 +175,26 @@ export default function App() {
   const isIndustryPage = INDUSTRY_KEYS.includes(activeTab);
   const isBlogPostPage = activeTab.startsWith('blog/');
   const isLongTailPage = LONG_TAIL_SLUGS.includes(activeTab);
+  const isStandaloneCardPage = activeTab.startsWith('c/') || activeTab === 'c';
   const blogSlug = isBlogPostPage ? activeTab.replace(/^blog\//, '') : null;
+
+  // Render standalone card view without the main website frame
+  if (isStandaloneCardPage) {
+    const standaloneCard = getStandaloneCardData(activeTab);
+    return (
+      <div className="min-h-screen bg-zinc-950 text-white selection:bg-emerald-400 selection:text-black">
+        <SEO pageKey="business-cards" />
+        <DigitalCardViewer
+          card={standaloneCard}
+          onSelectTab={handleSelectTab}
+        />
+        <StrategyCallModal
+          isOpen={isBookingModalOpen}
+          onClose={() => setIsBookingModalOpen(false)}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex flex-col justify-between selection:bg-emerald-400 selection:text-black relative">
