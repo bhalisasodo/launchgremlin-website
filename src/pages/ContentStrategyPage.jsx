@@ -2,6 +2,7 @@ import React from 'react';
 import ServiceHeroBackground from '../components/common/ServiceHeroBackground';
 import PricingSection from '../components/common/PricingSection';
 import TrustBadges from '../components/common/TrustBadges';
+import HookRetentionSandbox from '../components/interactive/HookRetentionSandbox';
 import { ArrowRight, CheckCircle2, TrendingUp, Sparkles, Video, Share2, Target, Calendar } from 'lucide-react';
 
 export default function ContentStrategyPage({ onSelectTab, onOpenBooking }) {
@@ -135,6 +136,9 @@ export default function ContentStrategyPage({ onSelectTab, onOpenBooking }) {
           </div>
         </div>
       </section>
+
+      {/* Interactive Viral Hook & Audience Retention Sandbox */}
+      <HookRetentionSandbox onOpenBooking={onOpenBooking} />
 
       {/* Pricing Section */}
       <PricingSection onOpenBooking={onOpenBooking} onSelectTab={onSelectTab} />

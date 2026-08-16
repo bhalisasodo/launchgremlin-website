@@ -2,6 +2,7 @@ import React from 'react';
 import ServiceHeroBackground from '../components/common/ServiceHeroBackground';
 import PricingSection from '../components/common/PricingSection';
 import TrustBadges from '../components/common/TrustBadges';
+import SpeedImpactSimulator from '../components/interactive/SpeedImpactSimulator';
 import { ArrowRight, CheckCircle2, Globe, Zap, Code, ShieldCheck, Sparkles, BookOpen } from 'lucide-react';
 import { INDUSTRIES_DATA } from '../utils/industryData';
 
@@ -145,6 +146,9 @@ export default function WebsitesPage({ onSelectTab, onOpenBooking }) {
           </div>
         </div>
       </section>
+
+      {/* Interactive Website Speed & Revenue Simulator */}
+      <SpeedImpactSimulator onSelectTab={onSelectTab} onOpenBooking={onOpenBooking} />
 
       {/* Pricing Section */}
       <PricingSection onOpenBooking={onOpenBooking} onSelectTab={onSelectTab} />

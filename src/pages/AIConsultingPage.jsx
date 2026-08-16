@@ -2,6 +2,7 @@ import React from 'react';
 import ServiceHeroBackground from '../components/common/ServiceHeroBackground';
 import PricingSection from '../components/common/PricingSection';
 import TrustBadges from '../components/common/TrustBadges';
+import VectorRagSandbox from '../components/interactive/VectorRagSandbox';
 import { ArrowRight, Bot, Cpu, Database, ShieldCheck, Sparkles, CheckCircle2 } from 'lucide-react';
 
 export default function AIConsultingPage({ onSelectTab, onOpenBooking }) {
@@ -135,6 +136,9 @@ export default function AIConsultingPage({ onSelectTab, onOpenBooking }) {
           </div>
         </div>
       </section>
+
+      {/* Interactive Vector RAG & Semantic Search Sandbox */}
+      <VectorRagSandbox onOpenBooking={onOpenBooking} />
 
       {/* Pricing Section */}
       <PricingSection onOpenBooking={onOpenBooking} onSelectTab={onSelectTab} />
