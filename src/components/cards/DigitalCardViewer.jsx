@@ -110,13 +110,17 @@ export default function DigitalCardViewer({ card, onSelectTab }) {
         
         {/* Top Floating Action Bar */}
         <div className="flex items-center justify-between px-2">
-          <button
-            onClick={() => onSelectTab && onSelectTab('home')}
-            className="inline-flex items-center gap-1.5 text-xs font-black tracking-tight opacity-70 hover:opacity-100 transition cursor-pointer"
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              if (onSelectTab) onSelectTab('home');
+            }}
+            className="text-xs font-black tracking-tight opacity-75 hover:opacity-100 transition cursor-pointer"
+            title="LaunchGremlin Home"
           >
-            <span>Launch</span>
-            <span className="text-emerald-400">Gremlin</span>
-          </button>
+            <span>Launch<span className="text-emerald-400">Gremlin</span></span>
+          </a>
 
           <div className="flex items-center gap-2">
             <button
