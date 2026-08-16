@@ -127,6 +127,91 @@ export const BASE_SEO_DATA = {
       }
     ]
   },
+  c: {
+    path: '/c',
+    title: 'Digital Business Card Viewer | LaunchGremlin',
+    description: 'View interactive digital business cards, sync contact info directly with vCard 3.0, and exchange professional details seamlessly.',
+    keywords: 'digital business card, electronic business card, NFC card viewer, vCard download, LaunchGremlin card',
+    canonical: `${SITE_DOMAIN}/c`,
+    ogType: 'profile',
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
+    ogImageAlt: 'LaunchGremlin Digital Business Card Viewer',
+    breadcrumbs: [
+      { name: 'Home', item: `${SITE_DOMAIN}/` },
+      { name: 'Digital Cards', item: `${SITE_DOMAIN}/business-cards` },
+      { name: 'Card Viewer', item: `${SITE_DOMAIN}/c` }
+    ]
+  },
+  'c/card': {
+    path: '/c/card',
+    title: 'Digital Business Card | LaunchGremlin',
+    description: 'Interactive digital business card profile with instant 1-tap contact sync (.vcf) and lead exchange.',
+    keywords: 'digital business card, vCard, NFC card profile',
+    canonical: `${SITE_DOMAIN}/c/card`,
+    ogType: 'profile',
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
+    ogImageAlt: 'Digital Business Card'
+  },
+  'c/alex-morgan': {
+    path: '/c/alex-morgan',
+    title: 'Alex Morgan — Lead Product Designer | Digital Business Card',
+    description: 'Connect with Alex Morgan (Vertex Studio). Designing intuitive digital products, brand identities, and high-conversion web experiences.',
+    keywords: 'Alex Morgan, Product Designer, Vertex Studio, digital business card',
+    canonical: `${SITE_DOMAIN}/c/alex-morgan`,
+    ogType: 'profile',
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
+    ogImageAlt: 'Alex Morgan Digital Business Card'
+  },
+  'c/elena-rostova': {
+    path: '/c/elena-rostova',
+    title: 'Elena Rostova — Executive Brand Strategist | Digital Business Card',
+    description: 'Connect with Elena Rostova (Luxe Advisory Group). Advising luxury hospitality and premier lifestyle brands.',
+    keywords: 'Elena Rostova, Brand Strategist, Luxe Advisory, digital business card',
+    canonical: `${SITE_DOMAIN}/c/elena-rostova`,
+    ogType: 'profile',
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
+    ogImageAlt: 'Elena Rostova Digital Business Card'
+  },
+  'c/jordan-hayes': {
+    path: '/c/jordan-hayes',
+    title: 'Jordan Hayes — Tech Creator & AI Podcaster | Digital Business Card',
+    description: 'Connect with Jordan Hayes (The Prompt Club). Making emerging AI tools and creator workflows practical.',
+    keywords: 'Jordan Hayes, The Prompt Club, AI podcast, digital business card',
+    canonical: `${SITE_DOMAIN}/c/jordan-hayes`,
+    ogType: 'profile',
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
+    ogImageAlt: 'Jordan Hayes Digital Business Card'
+  },
+  'c/marco-rossi': {
+    path: '/c/marco-rossi',
+    title: 'Marco Rossi — Founder & Master Roaster | Digital Business Card',
+    description: 'Connect with Marco Rossi (Caffè Luminosa). Specialty micro-lot coffee roasted fresh in Brooklyn.',
+    keywords: 'Marco Rossi, Caffè Luminosa, coffee roaster, digital business card',
+    canonical: `${SITE_DOMAIN}/c/marco-rossi`,
+    ogType: 'profile',
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
+    ogImageAlt: 'Marco Rossi Digital Business Card'
+  },
+  'c/dr-maya-patel': {
+    path: '/c/dr-maya-patel',
+    title: 'Dr. Maya Patel, MD — Founder & Clinical Director | Digital Business Card',
+    description: 'Connect with Dr. Maya Patel (Nova Longevity Institute). Personalized preventative medicine and metabolic health optimization.',
+    keywords: 'Dr. Maya Patel, Nova Longevity Institute, preventative medicine, digital business card',
+    canonical: `${SITE_DOMAIN}/c/dr-maya-patel`,
+    ogType: 'profile',
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
+    ogImageAlt: 'Dr. Maya Patel Digital Business Card'
+  },
+  'c/liam-vance': {
+    path: '/c/liam-vance',
+    title: 'Liam Vance — Principal Advisor & Broker | Digital Business Card',
+    description: 'Connect with Liam Vance (Vance Capital Real Estate). Premier commercial acquisitions and trophy residential estates.',
+    keywords: 'Liam Vance, Vance Capital Real Estate, commercial broker, digital business card',
+    canonical: `${SITE_DOMAIN}/c/liam-vance`,
+    ogType: 'profile',
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
+    ogImageAlt: 'Liam Vance Digital Business Card'
+  },
   proposal: {
     path: '/proposal',
     title: 'Interactive Project Scope & AI Proposal Generator | LaunchGremlin',

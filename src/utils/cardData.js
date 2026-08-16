@@ -441,12 +441,22 @@ export function encodeCardToUrl(card) {
 export function decodeCardFromUrl(encodedStr) {
   try {
     if (!encodedStr) return null;
-    const cleanStr = encodedStr.trim().replace(/^#\/?/, '').replace(/^data=/, '');
+    let cleanStr = encodedStr.trim()
+      .replace(/^#\/?/, '')
+      .replace(/^data=/, '')
+      .replace(/^d=/, '');
+
+    // Normalize URL-safe Base64 characters if present
+    cleanStr = cleanStr.replace(/-/g, '+').replace(/_/g, '/');
+    while (cleanStr.length % 4) {
+      cleanStr += '=';
+    }
+
     const jsonStr = decodeURIComponent(escape(atob(cleanStr)));
     const parsed = JSON.parse(jsonStr);
     return parsed;
   } catch (err) {
-    console.error('Failed to decode card from URL:', err);
+    console.warn('Could not decode Base64 card payload from URL:', err);
     return null;
   }
 }

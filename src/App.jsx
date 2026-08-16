@@ -95,22 +95,41 @@ const normalizeRoute = (rawPath) => {
 const getTabFromUrl = () => {
   if (typeof window === 'undefined') return 'home';
 
+  // 1. Check pathname directly (e.g. /c/alex-morgan, /websites, /proposal)
   const pathname = window.location.pathname.replace(/^\/+|\/+$/g, '');
   if (pathname) {
     const tab = normalizeRoute(pathname);
     if (tab !== 'home' || pathname === '' || pathname === '/') return tab;
   }
 
-  const params = new URLSearchParams(window.location.search);
-  const tabParam = params.get('tab');
-  if (tabParam) {
-    return normalizeRoute(tabParam);
+  // 2. Check query params (including GitHub Pages SPA ?/c/... and ?p=/c/...)
+  const search = window.location.search;
+  if (search) {
+    // Check GitHub Pages SPA ?/path or ?p=/path
+    if (search.startsWith('?/')) {
+      const subPath = search.slice(2).split('&')[0];
+      if (subPath) return normalizeRoute(subPath);
+    }
+    const params = new URLSearchParams(search);
+    const pParam = params.get('p');
+    if (pParam) return normalizeRoute(pParam);
+
+    const tabParam = params.get('tab');
+    if (tabParam) return normalizeRoute(tabParam);
+
+    // If query contains data= directly without route, route to card viewer
+    if (params.get('data') || params.get('d')) {
+      return 'c/card';
+    }
   }
 
+  // 3. Check hash (e.g. #data=..., #c/alex-morgan, #/c/alex-morgan)
   const hash = window.location.hash.replace(/^#\/?/, '');
   if (hash) {
-    // If hash contains data= or card payload, check route
-    if (hash.startsWith('data=') || hash.startsWith('c/')) {
+    if (hash.startsWith('data=') || hash.startsWith('d=')) {
+      return 'c/card';
+    }
+    if (hash.startsWith('c/') || hash === 'c') {
       return normalizeRoute(hash);
     }
     return normalizeRoute(hash);
@@ -123,9 +142,11 @@ const getTabFromUrl = () => {
 const getStandaloneCardData = (tab) => {
   if (typeof window === 'undefined') return DEMO_PROFILES[0];
 
-  // 1. Try decoding from URL hash (#data=...)
+  // 1. Try decoding from URL hash (#data=... or #d=...)
   if (window.location.hash) {
-    const hashData = window.location.hash.replace(/^#\/?/, '').replace(/^data=/, '');
+    const hashStr = window.location.hash.replace(/^#\/?/, '');
+    const hashData = hashStr.startsWith('data=') ? hashStr.replace(/^data=/, '') :
+                     hashStr.startsWith('d=') ? hashStr.replace(/^d=/, '') : null;
     if (hashData) {
       const decoded = decodeCardFromUrl(hashData);
       if (decoded) return decoded;
@@ -140,9 +161,9 @@ const getStandaloneCardData = (tab) => {
     if (decoded) return decoded;
   }
 
-  // 3. Try matching slug from URL (e.g. /c/alex-morgan)
-  const slug = tab.startsWith('c/') ? tab.replace(/^c\//, '') : '';
-  if (slug) {
+  // 3. Try matching slug from URL (e.g. /c/alex-morgan or /c/elena-rostova)
+  const slug = tab ? tab.replace(/^c\//, '').replace(/^c$/, '') : '';
+  if (slug && slug !== 'card') {
     const matchingProfile = DEMO_PROFILES.find(p => p.slug === slug || p.id === slug);
     if (matchingProfile) return matchingProfile;
   }
@@ -150,7 +171,10 @@ const getStandaloneCardData = (tab) => {
   // 4. Fallback to localStorage draft if available
   try {
     const saved = localStorage.getItem('lg_card_draft');
-    if (saved) return JSON.parse(saved);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed && (parsed.fullName || parsed.companyName)) return parsed;
+    }
   } catch (e) {
     // ignore
   }
