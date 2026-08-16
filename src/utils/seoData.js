@@ -169,6 +169,47 @@ export const BASE_SEO_DATA = {
       }
     ]
   },
+  resources: {
+    path: '/resources',
+    title: 'Free Creator Studio, Notion OS & AI Prompt Vault | LaunchGremlin',
+    description: 'Download free production-grade Notion operating systems, curated AI prompt chains with live variable injectors, and technical web architecture cheat sheets.',
+    keywords: 'creator studio, free notion templates, AI prompt library, viral hook templates, client onboarding notion, Core Web Vitals cheat sheet, LaunchGremlin resources',
+    canonical: `${SITE_DOMAIN}/resources`,
+    ogType: 'website',
+    ogImage: `${SITE_DOMAIN}/og-image.png`,
+    ogImageAlt: 'LaunchGremlin Free Creator Studio & Resource Vault',
+    breadcrumbs: [
+      { name: 'Home', item: `${SITE_DOMAIN}/` },
+      { name: 'Creator Studio & Vault', item: `${SITE_DOMAIN}/resources` }
+    ],
+    softwareApplication: {
+      name: 'LaunchGremlin Creator Studio & Resource Vault',
+      operatingSystem: 'All (Web, iOS, Android, Notion)',
+      applicationCategory: 'ProductivityApplication',
+      offers: {
+        '@type': 'Offer',
+        price: '0.00',
+        priceCurrency: 'USD'
+      },
+      featureList: [
+        'Production Notion Operating Systems',
+        'Interactive AI Prompt Vault with Variable Injector',
+        '100/100 Core Web Vitals Optimization Checklist',
+        '50 Viral Hook Frameworks Swipe File',
+        '1-Click Direct Markdown & Raw Template Copying'
+      ]
+    },
+    faqs: [
+      {
+        question: 'Are all templates and prompts in the LaunchGremlin Creator Studio really free?',
+        answer: 'Yes. All Notion operating systems, AI prompt chains, and architecture cheat sheets are 100% free to duplicate and customize with zero paywalls.'
+      },
+      {
+        question: 'How do I duplicate the Notion templates into my own workspace?',
+        answer: 'Click "Preview & Use" or the external link on any template card, and click "Duplicate" in the top right corner of Notion.'
+      }
+    ]
+  },
   'content-strategy': {
     path: '/content-strategy',
     title: 'Data-Driven Content Strategy & Audience Growth | LaunchGremlin',

@@ -75,6 +75,15 @@ export default function Footer({ onSelectTab, onOpenBooking }) {
             </li>
             <li>
               <a
+                href="/resources"
+                onClick={(e) => handleLinkClick(e, 'resources')}
+                className="hover:text-emerald-400 transition-colors inline-block py-0.5"
+              >
+                📦 Creator Studio & Free Vault
+              </a>
+            </li>
+            <li>
+              <a
                 href="/content-strategy"
                 onClick={(e) => handleLinkClick(e, 'content-strategy')}
                 className="hover:text-emerald-400 transition-colors inline-block py-0.5"

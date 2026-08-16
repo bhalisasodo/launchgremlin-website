@@ -76,6 +76,13 @@ export default function Navbar({ activeTab, onSelectTab, onOpenBooking }) {
 
   const tools = [
     {
+      key: 'resources',
+      title: 'Creator Studio & Vault',
+      subtitle: 'Free Notion OS, AI prompt chains & cheat sheets',
+      icon: Sparkles,
+      badge: 'Resource Vault'
+    },
+    {
       key: 'business-cards',
       title: 'Digital Business Card Studio',
       subtitle: 'Free mobile-first cards with NFC & QR code export',
@@ -92,7 +99,7 @@ export default function Navbar({ activeTab, onSelectTab, onOpenBooking }) {
   ];
 
   const isSolutionsActive = ['websites', 'content-strategy', 'ai-consulting'].includes(activeTab);
-  const isToolsActive = ['business-cards', 'proposal', 'card', 'cards', 'quote', 'scope-builder'].includes(activeTab);
+  const isToolsActive = ['resources', 'creator-studio', 'playbooks', 'prompts', 'templates', 'business-cards', 'proposal', 'card', 'cards', 'quote', 'scope-builder'].includes(activeTab);
 
   return (
     <header className="sticky top-0 z-50 w-full bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-800/80 transition-all duration-300">

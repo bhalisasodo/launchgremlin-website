@@ -15,6 +15,7 @@ const coreRoutes = [
   { path: '/websites', priority: '0.95', changefreq: 'weekly' },
   { path: '/business-cards', priority: '0.95', changefreq: 'weekly' },
   { path: '/proposal', priority: '0.95', changefreq: 'weekly' },
+  { path: '/resources', priority: '0.95', changefreq: 'weekly' },
   { path: '/content-strategy', priority: '0.90', changefreq: 'weekly' },
   { path: '/ai-consulting', priority: '0.90', changefreq: 'weekly' },
   { path: '/about', priority: '0.85', changefreq: 'monthly' },
