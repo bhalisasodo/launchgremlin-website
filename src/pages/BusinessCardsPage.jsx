@@ -28,7 +28,9 @@ import {
   FileText,
   Clock,
   Quote,
-  Send
+  Send,
+  UserCheck,
+  Users
 } from 'lucide-react';
 import QRCode from 'qrcode';
 import {
@@ -38,9 +40,13 @@ import {
   encodeCardToUrl,
   downloadVCard
 } from '../utils/cardData';
+import { SocialIcon } from '../components/cards/SocialIcons';
 import PhysicalCardPreview from '../components/cards/PhysicalCardPreview';
 import NfcGuideModal from '../components/cards/NfcGuideModal';
 import LeadExchangeModal from '../components/cards/LeadExchangeModal';
+import CapturedLeadsDrawer from '../components/cards/CapturedLeadsDrawer';
+import LockscreenWallpaperModal from '../components/cards/LockscreenWallpaperModal';
+import { trackEvent } from '../utils/analytics';
 
 export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
   // Load initial card from localStorage or default to Alex Morgan
@@ -62,6 +68,9 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
   const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
   const [isNfcModalOpen, setIsNfcModalOpen] = useState(false);
   const [isExchangeModalOpen, setIsExchangeModalOpen] = useState(false);
+  const [isLeadsDrawerOpen, setIsLeadsDrawerOpen] = useState(false);
+  const [isWallpaperModalOpen, setIsWallpaperModalOpen] = useState(false);
+  const [capturedLeadsCount, setCapturedLeadsCount] = useState(0);
   const [selectedDemoId, setSelectedDemoId] = useState(card.slug || 'alex-morgan');
   const [shareableUrl, setShareableUrl] = useState('');
   const avatarInputRef = useRef(null);
@@ -74,6 +83,22 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
       console.warn('Could not save draft to local storage:', err);
     }
   }, [card]);
+
+  // Load captured leads count
+  useEffect(() => {
+    const checkLeads = () => {
+      try {
+        const stored = localStorage.getItem('lg_captured_leads');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          setCapturedLeadsCount(Array.isArray(parsed) ? parsed.length : 0);
+        }
+      } catch (e) {}
+    };
+    checkLeads();
+    const interval = setInterval(checkLeads, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Compute shareable encoded URL
   useEffect(() => {
@@ -111,6 +136,7 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
     if (found) {
       setSelectedDemoId(presetId);
       setCard(JSON.parse(JSON.stringify(found)));
+      trackEvent('card_preset_selected', { presetId });
     }
   };
 
@@ -183,6 +209,7 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
   const handleCopyLink = () => {
     navigator.clipboard.writeText(shareableUrl);
     setCopiedLink(true);
+    trackEvent('card_link_copied', { slug: card.slug });
     setTimeout(() => setCopiedLink(false), 2500);
   };
 
@@ -205,17 +232,17 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-950/30 via-zinc-950/90 to-zinc-950 pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-bold uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5" />
             100% Free Self-Serve Studio • Zero Login Required
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight max-w-4xl mx-auto leading-tight">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight max-w-4xl mx-auto leading-tight uppercase">
             Digital Business Card <br className="hidden sm:inline" />
             <span className="text-emerald-400">& NFC Growth Hub</span>
           </h1>
 
-          <p className="text-zinc-400 text-sm sm:text-lg max-w-2xl mx-auto font-light leading-relaxed">
+          <p className="text-zinc-400 text-sm sm:text-base max-w-2xl mx-auto font-light leading-relaxed">
             Create an interactive mobile digital card, instant 1-tap contact saving (.vcf), scannable QR code, and print-ready physical card layout in 60 seconds.
           </p>
 
@@ -245,11 +272,21 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
           {/* Studio Primary Action Shortcuts */}
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <button
-              onClick={() => downloadVCard(card)}
+              onClick={() => {
+                downloadVCard(card);
+                trackEvent('vcard_downloaded_studio', { slug: card.slug });
+              }}
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 hover:text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
             >
               <Download className="w-4 h-4 text-emerald-400" />
               <span>Export vCard (.vcf)</span>
+            </button>
+            <button
+              onClick={() => setIsWallpaperModalOpen(true)}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 hover:text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
+            >
+              <Smartphone className="w-4 h-4 text-emerald-400" />
+              <span>Lockscreen Wallpaper</span>
             </button>
             <button
               onClick={() => setIsPrintModalOpen(true)}
@@ -263,7 +300,14 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 hover:text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
             >
               <Zap className="w-4 h-4 text-emerald-400" />
-              <span>NFC Setup Guide</span>
+              <span>NFC Guide</span>
+            </button>
+            <button
+              onClick={() => setIsLeadsDrawerOpen(true)}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-400 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-emerald-500/10"
+            >
+              <Users className="w-4 h-4" />
+              <span>Captured Leads ({capturedLeadsCount})</span>
             </button>
           </div>
         </div>
@@ -576,7 +620,10 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {SOCIAL_PLATFORMS.map(platform => (
                     <div key={platform.id} className="space-y-1">
-                      <label className="text-[11px] font-bold text-zinc-400">{platform.label}</label>
+                      <label className="text-[11px] font-bold text-zinc-400 flex items-center gap-1.5">
+                        <SocialIcon platform={platform.id} className="w-3.5 h-3.5 text-emerald-400" />
+                        <span>{platform.label}</span>
+                      </label>
                       <input
                         type="text"
                         value={card.socials?.[platform.id] || ''}
@@ -1033,7 +1080,7 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
 
       </div>
 
-      {/* Printable Card Modal Dialog */}
+      {/* Printable Card Modal Dialog with 300 DPI Styles */}
       {isPrintModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
           <div className="bg-zinc-900 border border-zinc-800 rounded-3xl max-w-2xl w-full p-6 sm:p-8 space-y-6 text-white shadow-2xl">
@@ -1053,7 +1100,7 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-zinc-950 rounded-2xl border border-zinc-800">
+            <div id="printable-card-area" className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-zinc-950 rounded-2xl border border-zinc-800">
               {/* Front Preview */}
               <div className="p-4 bg-white text-zinc-900 rounded-xl h-40 flex flex-col justify-between border-l-4 shadow-sm" style={{ borderColor: card.primaryColor || '#10b981' }}>
                 <div>
@@ -1117,6 +1164,20 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
         onClose={() => setIsExchangeModalOpen(false)}
         cardOwnerName={card.fullName || card.companyName}
         cardOwnerEmail={card.email}
+      />
+
+      {/* Captured Contacts Drawer */}
+      <CapturedLeadsDrawer
+        isOpen={isLeadsDrawerOpen}
+        onClose={() => setIsLeadsDrawerOpen(false)}
+      />
+
+      {/* Lockscreen Wallpaper Modal */}
+      <LockscreenWallpaperModal
+        isOpen={isWallpaperModalOpen}
+        onClose={() => setIsWallpaperModalOpen(false)}
+        card={card}
+        shareUrl={shareableUrl}
       />
 
       {/* Bottom Conversion Section */}

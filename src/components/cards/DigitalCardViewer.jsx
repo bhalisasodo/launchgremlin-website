@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Phone,
   Mail,
@@ -14,36 +14,68 @@ import {
   Check,
   Copy,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  QrCode,
+  Smartphone,
+  X
 } from 'lucide-react';
+import QRCode from 'qrcode';
 import { CARD_THEMES, downloadVCard } from '../../utils/cardData';
+import { SocialIcon } from './SocialIcons';
 import LeadExchangeModal from './LeadExchangeModal';
+import LockscreenWallpaperModal from './LockscreenWallpaperModal';
+import { trackEvent } from '../../utils/analytics';
 
 export default function DigitalCardViewer({ card, onSelectTab }) {
   const [isExchangeModalOpen, setIsExchangeModalOpen] = useState(false);
+  const [isWallpaperModalOpen, setIsWallpaperModalOpen] = useState(false);
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [qrDataUrl, setQrDataUrl] = useState('');
 
   const theme = CARD_THEMES.find(t => t.id === card?.themeStyle) || CARD_THEMES[0];
+
+  useEffect(() => {
+    if (!card) return;
+    const generateQr = async () => {
+      try {
+        const targetUrl = typeof window !== 'undefined' ? window.location.href : `https://launchgremlin.com/c/${card.slug || 'card'}`;
+        const url = await QRCode.toDataURL(targetUrl, {
+          width: 600,
+          margin: 2,
+          color: {
+            dark: card.primaryColor || '#10b981',
+            light: '#ffffff'
+          }
+        });
+        setQrDataUrl(url);
+      } catch (e) {
+        console.error('Error generating card QR:', e);
+      }
+    };
+    generateQr();
+  }, [card]);
 
   const handleShare = () => {
     if (typeof window === 'undefined') return;
     const url = window.location.href;
     if (navigator.share) {
       navigator.share({
-        title: `${card.fullName || card.companyName} | Digital Card`,
+        title: `${card.fullName || card.companyName} | Digital Business Card`,
         text: `Connect with ${card.fullName || card.companyName}: ${card.tagline || ''}`,
         url
       }).catch(() => {});
     } else {
       navigator.clipboard.writeText(url);
       setCopiedLink(true);
+      trackEvent('card_share_copied', { slug: card.slug });
       setTimeout(() => setCopiedLink(false), 2500);
     }
   };
 
-  const getSocialIconUrl = (platform) => {
-    // Return friendly domain prefix if available
-    return '';
+  const handleDownloadVCard = () => {
+    downloadVCard(card);
+    trackEvent('vcard_downloaded', { slug: card.slug });
   };
 
   if (!card) {
@@ -65,6 +97,9 @@ export default function DigitalCardViewer({ card, onSelectTab }) {
     );
   }
 
+  const cleanPhone = card.phone ? card.phone.replace(/[^0-9+]/g, '') : '';
+  const cleanWhatsapp = card.whatsapp ? card.whatsapp.replace(/[^0-9]/g, '') : '';
+
   return (
     <div className={`min-h-screen ${theme.bgClass} flex flex-col items-center justify-between py-6 px-4 sm:px-6 relative`}>
       {/* Background Ambience */}
@@ -83,14 +118,24 @@ export default function DigitalCardViewer({ card, onSelectTab }) {
             <span className="text-emerald-400">Gremlin</span>
           </button>
 
-          <button
-            onClick={handleShare}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-800/80 hover:bg-zinc-700/80 backdrop-blur-md text-xs font-bold transition cursor-pointer border border-white/10"
-            title="Share this card"
-          >
-            {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5" />}
-            <span>{copiedLink ? 'Link Copied!' : 'Share'}</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsQrModalOpen(true)}
+              className="p-2 rounded-full bg-zinc-800/80 hover:bg-zinc-700/80 backdrop-blur-md text-xs font-bold transition cursor-pointer border border-white/10"
+              title="Show QR Code"
+            >
+              <QrCode className="w-4 h-4 text-emerald-400" />
+            </button>
+
+            <button
+              onClick={handleShare}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-800/80 hover:bg-zinc-700/80 backdrop-blur-md text-xs font-bold transition cursor-pointer border border-white/10"
+              title="Share this card"
+            >
+              {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5" />}
+              <span>{copiedLink ? 'Copied!' : 'Share'}</span>
+            </button>
+          </div>
         </div>
 
         {/* The Card Body */}
@@ -155,9 +200,9 @@ export default function DigitalCardViewer({ card, onSelectTab }) {
 
             {/* Quick Contact Action Icons Row */}
             <div className="grid grid-cols-4 gap-2 pt-1">
-              {card.phone && (
+              {cleanPhone && (
                 <a
-                  href={`tel:${card.phone}`}
+                  href={`tel:${cleanPhone}`}
                   className="p-3 rounded-2xl bg-zinc-800/40 hover:bg-zinc-800/80 border border-white/5 text-center transition flex flex-col items-center gap-1"
                 >
                   <Phone className="w-4 h-4 text-emerald-400" />
@@ -173,9 +218,9 @@ export default function DigitalCardViewer({ card, onSelectTab }) {
                   <span className="text-[10.5px] font-bold">Email</span>
                 </a>
               )}
-              {card.whatsapp && (
+              {cleanWhatsapp && (
                 <a
-                  href={`https://wa.me/${card.whatsapp.replace(/[^0-9]/g, '')}`}
+                  href={`https://wa.me/${cleanWhatsapp}`}
                   target="_blank"
                   rel="noreferrer"
                   className="p-3 rounded-2xl bg-zinc-800/40 hover:bg-zinc-800/80 border border-white/5 text-center transition flex flex-col items-center gap-1"
@@ -214,7 +259,7 @@ export default function DigitalCardViewer({ card, onSelectTab }) {
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
-                onClick={() => downloadVCard(card)}
+                onClick={handleDownloadVCard}
                 className="py-3 px-4 rounded-2xl bg-zinc-950 text-white border border-zinc-700 hover:bg-zinc-900 font-bold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer shadow"
               >
                 <Download className="w-3.5 h-3.5 text-emerald-400" />
@@ -227,7 +272,7 @@ export default function DigitalCardViewer({ card, onSelectTab }) {
                 className="py-3 px-4 rounded-2xl bg-emerald-400 hover:bg-emerald-300 text-zinc-950 font-bold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer shadow"
               >
                 <UserCheck className="w-3.5 h-3.5" />
-                <span>Send My Info</span>
+                <span>Exchange Info</span>
               </button>
             </div>
 
@@ -289,7 +334,7 @@ export default function DigitalCardViewer({ card, onSelectTab }) {
               </div>
             )}
 
-            {/* Social Media Channels Grid */}
+            {/* Social Media Channels Grid with Branded SVG Icons */}
             {card.socials && Object.values(card.socials).some(Boolean) && (
               <div className="space-y-2 pt-2 border-t border-white/10 text-center">
                 <span className="text-[10px] font-bold uppercase tracking-wider opacity-60">Connect Online</span>
@@ -303,9 +348,10 @@ export default function DigitalCardViewer({ card, onSelectTab }) {
                         href={fullUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="px-3 py-1.5 rounded-full bg-zinc-800/60 hover:bg-zinc-700/80 border border-white/10 text-xs font-bold uppercase tracking-wider transition hover:scale-105"
+                        className="p-2.5 rounded-xl bg-zinc-800/60 hover:bg-zinc-700/80 border border-white/10 text-zinc-300 hover:text-white transition hover:scale-110 flex items-center justify-center"
+                        title={`Visit ${key}`}
                       >
-                        {key}
+                        <SocialIcon platform={key} className="w-4 h-4" />
                       </a>
                     );
                   })}
@@ -324,6 +370,17 @@ export default function DigitalCardViewer({ card, onSelectTab }) {
           </div>
         </div>
 
+        {/* Lockscreen Wallpaper & QR Helper Shortcuts */}
+        <div className="flex items-center justify-center gap-3 pt-1">
+          <button
+            onClick={() => setIsWallpaperModalOpen(true)}
+            className="text-xs text-zinc-400 hover:text-white inline-flex items-center gap-1.5 py-1 px-3 rounded-full bg-zinc-900/60 border border-zinc-800 cursor-pointer"
+          >
+            <Smartphone className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Lockscreen Wallpaper</span>
+          </button>
+        </div>
+
         {/* Powered by LaunchGremlin Footer */}
         <div className="text-center pt-2 pb-6">
           <button
@@ -338,12 +395,42 @@ export default function DigitalCardViewer({ card, onSelectTab }) {
 
       </div>
 
+      {/* QR Code In-Person Modal */}
+      {isQrModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-3xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between">
+              <h4 className="font-bold text-sm text-white">{card.fullName || card.companyName}</h4>
+              <button onClick={() => setIsQrModalOpen(false)} className="text-zinc-400 hover:text-white">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-4 bg-white rounded-2xl inline-block shadow-inner">
+              {qrDataUrl && <img src={qrDataUrl} alt="Card QR" className="w-52 h-52 object-contain" />}
+            </div>
+
+            <p className="text-xs text-zinc-400 font-medium">
+              Scan with any mobile camera to view card & sync contact.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Lead Exchange Dialog */}
       <LeadExchangeModal
         isOpen={isExchangeModalOpen}
         onClose={() => setIsExchangeModalOpen(false)}
         cardOwnerName={card.fullName || card.companyName}
         cardOwnerEmail={card.email}
+      />
+
+      {/* Lockscreen Wallpaper Modal */}
+      <LockscreenWallpaperModal
+        isOpen={isWallpaperModalOpen}
+        onClose={() => setIsWallpaperModalOpen(false)}
+        card={card}
+        shareUrl={typeof window !== 'undefined' ? window.location.href : `https://launchgremlin.com/c/${card.slug || 'card'}`}
       />
     </div>
   );
