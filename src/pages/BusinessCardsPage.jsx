@@ -46,6 +46,11 @@ import NfcGuideModal from '../components/cards/NfcGuideModal';
 import LeadExchangeModal from '../components/cards/LeadExchangeModal';
 import CapturedLeadsDrawer from '../components/cards/CapturedLeadsDrawer';
 import LockscreenWallpaperModal from '../components/cards/LockscreenWallpaperModal';
+import WalletPassModal from '../components/cards/WalletPassModal';
+import TeamCardManagerModal from '../components/cards/TeamCardManagerModal';
+import PressReadyPrintModal from '../components/cards/PressReadyPrintModal';
+import QrCodeStudioModal from '../components/cards/QrCodeStudioModal';
+import { cardService } from '../services/cardService';
 import { trackEvent } from '../utils/analytics';
 
 export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
@@ -53,11 +58,23 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
   const [card, setCard] = useState(() => {
     try {
       const saved = localStorage.getItem('lg_card_draft');
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (!parsed.avatarUrl) {
+          const userAvatar = localStorage.getItem('lg_user_avatar');
+          if (userAvatar) parsed.avatarUrl = userAvatar;
+        }
+        return parsed;
+      }
     } catch (e) {
       console.error('Failed to load local draft:', e);
     }
-    return DEMO_PROFILES[0];
+    const defaultProfile = { ...DEMO_PROFILES[0] };
+    try {
+      const userAvatar = localStorage.getItem('lg_user_avatar');
+      if (userAvatar) defaultProfile.avatarUrl = userAvatar;
+    } catch (e) {}
+    return defaultProfile;
   });
 
   const [activeStep, setActiveStep] = useState('identity');
@@ -70,18 +87,18 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
   const [isExchangeModalOpen, setIsExchangeModalOpen] = useState(false);
   const [isLeadsDrawerOpen, setIsLeadsDrawerOpen] = useState(false);
   const [isWallpaperModalOpen, setIsWallpaperModalOpen] = useState(false);
+  const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
+  const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
+  const [isPressPrintModalOpen, setIsPressPrintModalOpen] = useState(false);
+  const [isQrStudioModalOpen, setIsQrStudioModalOpen] = useState(false);
   const [capturedLeadsCount, setCapturedLeadsCount] = useState(0);
   const [selectedDemoId, setSelectedDemoId] = useState(card.slug || 'alex-morgan');
   const [shareableUrl, setShareableUrl] = useState('');
   const avatarInputRef = useRef(null);
 
-  // Auto-save draft to localStorage whenever card changes
+  // Auto-save draft to localStorage and backend API whenever card changes
   useEffect(() => {
-    try {
-      localStorage.setItem('lg_card_draft', JSON.stringify(card));
-    } catch (err) {
-      console.warn('Could not save draft to local storage:', err);
-    }
+    cardService.saveCard(card);
   }, [card]);
 
   // Load captured leads count
@@ -135,12 +152,16 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
     const found = DEMO_PROFILES.find(p => p.id === presetId);
     if (found) {
       setSelectedDemoId(presetId);
-      setCard(JSON.parse(JSON.stringify(found)));
+      // Retain user's custom photo if one was uploaded
+      setCard(prev => ({
+        ...JSON.parse(JSON.stringify(found)),
+        avatarUrl: prev.avatarUrl || found.avatarUrl || ''
+      }));
       trackEvent('card_preset_selected', { presetId });
     }
   };
 
-  // Avatar upload with canvas optimization
+  // Avatar upload with centered square cropping and canvas optimization
   const handleAvatarUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -148,29 +169,49 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
     const reader = new FileReader();
     reader.onload = (event) => {
       const img = new Image();
-      img.onload = () => {
-        const maxDim = 320;
-        let w = img.width;
-        let h = img.height;
-        if (w > h && w > maxDim) {
-          h = Math.round((h * maxDim) / w);
-          w = maxDim;
-        } else if (h > maxDim) {
-          w = Math.round((w * maxDim) / h);
-          h = maxDim;
-        }
+      img.onload = async () => {
+        // Center-crop to square and scale to 250x250 for crisp retina quality (~7KB)
+        const targetDim = 250;
+        const minDim = Math.min(img.width, img.height);
+        const sx = (img.width - minDim) / 2;
+        const sy = (img.height - minDim) / 2;
 
         const canvas = document.createElement('canvas');
-        canvas.width = w;
-        canvas.height = h;
+        canvas.width = targetDim;
+        canvas.height = targetDim;
         const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, w, h);
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+        ctx.drawImage(img, sx, sy, minDim, minDim, 0, 0, targetDim, targetDim);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+        
         setCard(prev => ({ ...prev, avatarUrl: dataUrl }));
+        try {
+          localStorage.setItem('lg_user_avatar', dataUrl);
+        } catch (err) {}
+
+        // Persist to backend uploads if available
+        try {
+          const uploadedUrl = await cardService.uploadAvatar(card.slug, dataUrl);
+          if (uploadedUrl && uploadedUrl !== dataUrl) {
+            setCard(prev => ({ ...prev, avatarUrl: uploadedUrl }));
+          }
+        } catch (err) {
+          // offline fallback
+        }
       };
       img.src = event.target.result;
     };
     reader.readAsDataURL(file);
+    e.target.value = '';
+  };
+
+  const handleRemoveAvatar = () => {
+    setCard(p => ({ ...p, avatarUrl: '' }));
+    try {
+      localStorage.removeItem('lg_user_avatar');
+    } catch (e) {}
+    if (avatarInputRef.current) {
+      avatarInputRef.current.value = '';
+    }
   };
 
   // Add & Remove Services
@@ -219,6 +260,12 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
       const defaultProfile = DEMO_PROFILES[0];
       setCard(JSON.parse(JSON.stringify(defaultProfile)));
       setSelectedDemoId(defaultProfile.id);
+      try {
+        localStorage.removeItem('lg_user_avatar');
+      } catch (e) {}
+      if (avatarInputRef.current) {
+        avatarInputRef.current.value = '';
+      }
     }
   };
 
@@ -270,44 +317,72 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
           </div>
 
           {/* Studio Primary Action Shortcuts */}
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">
+            <button
+              onClick={() => setIsWalletModalOpen(true)}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 text-zinc-950 text-xs font-black uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-emerald-500/20 hover:scale-105"
+            >
+              <Smartphone className="w-4 h-4" />
+              <span>Apple / Google Wallet Pass</span>
+            </button>
+
+            <button
+              onClick={() => setIsTeamModalOpen(true)}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 hover:text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
+            >
+              <Users className="w-4 h-4 text-emerald-400" />
+              <span>Team & Corporate Suite</span>
+            </button>
+
+            <button
+              onClick={() => setIsPressPrintModalOpen(true)}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 hover:text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
+            >
+              <Printer className="w-4 h-4 text-emerald-400" />
+              <span>CR80 Print PDF (300 DPI)</span>
+            </button>
+
+            <button
+              onClick={() => setIsQrStudioModalOpen(true)}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 hover:text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
+            >
+              <QrCode className="w-4 h-4 text-emerald-400" />
+              <span>Branded QR Studio</span>
+            </button>
+
             <button
               onClick={() => {
                 downloadVCard(card);
                 trackEvent('vcard_downloaded_studio', { slug: card.slug });
               }}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 hover:text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer"
             >
-              <Download className="w-4 h-4 text-emerald-400" />
-              <span>Export vCard (.vcf)</span>
+              <Download className="w-3.5 h-3.5 text-emerald-400" />
+              <span>vCard (.vcf)</span>
             </button>
+
             <button
               onClick={() => setIsWallpaperModalOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 hover:text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer"
             >
-              <Smartphone className="w-4 h-4 text-emerald-400" />
-              <span>Lockscreen Wallpaper</span>
+              <Smartphone className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Wallpaper</span>
             </button>
-            <button
-              onClick={() => setIsPrintModalOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 hover:text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
-            >
-              <Printer className="w-4 h-4 text-emerald-400" />
-              <span>Print 3.5" × 2" Cards</span>
-            </button>
+
             <button
               onClick={() => setIsNfcModalOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 hover:text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer"
             >
-              <Zap className="w-4 h-4 text-emerald-400" />
+              <Zap className="w-3.5 h-3.5 text-emerald-400" />
               <span>NFC Guide</span>
             </button>
+
             <button
               onClick={() => setIsLeadsDrawerOpen(true)}
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-400 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-emerald-500/10"
             >
               <Users className="w-4 h-4" />
-              <span>Captured Leads ({capturedLeadsCount})</span>
+              <span>Leads ({capturedLeadsCount})</span>
             </button>
           </div>
         </div>
@@ -394,7 +469,7 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
                     {card.avatarUrl && (
                       <button
                         type="button"
-                        onClick={() => setCard(p => ({ ...p, avatarUrl: '' }))}
+                        onClick={handleRemoveAvatar}
                         className="text-red-400 hover:text-red-300 text-xs font-semibold cursor-pointer px-2"
                       >
                         Remove
@@ -734,6 +809,95 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
                       {s}
                       <button type="button" onClick={() => handleRemoveService(idx)} className="text-zinc-500 hover:text-red-400 cursor-pointer">&times;</button>
                     </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Service Catalog & Pricing Packages */}
+              <div className="border-t border-zinc-800/80 pt-5 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="text-xs font-bold text-white uppercase tracking-wider">
+                      Featured Packages & Pricing Catalog ({card.catalogItems?.length || 0})
+                    </h4>
+                    <p className="text-[11px] text-zinc-400">
+                      Showcase package offerings with direct 1-tap WhatsApp inquiry buttons.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newItem = {
+                        id: `cat_${Date.now().toString().slice(-4)}`,
+                        name: 'New Package',
+                        price: 'R2,500',
+                        description: 'Deliverable details and scope summary.',
+                        badge: 'Featured'
+                      };
+                      setCard(p => ({ ...p, catalogItems: [...(p.catalogItems || []), newItem] }));
+                    }}
+                    className="text-xs font-bold text-emerald-400 hover:text-emerald-300 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-zinc-950 border border-emerald-500/30 cursor-pointer"
+                  >
+                    <Plus className="w-3.5 h-3.5" /> Add Package
+                  </button>
+                </div>
+
+                <div className="space-y-3">
+                  {card.catalogItems?.map((item, idx) => (
+                    <div key={idx} className="p-4 bg-zinc-950 border border-zinc-800 rounded-2xl space-y-2 relative">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updated = (card.catalogItems || []).filter((_, i) => i !== idx);
+                          setCard(p => ({ ...p, catalogItems: updated }));
+                        }}
+                        className="absolute top-3 right-3 text-zinc-500 hover:text-red-400 p-1 cursor-pointer"
+                        title="Delete package"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 w-5/6">
+                        <div className="sm:col-span-2">
+                          <input
+                            type="text"
+                            value={item.name}
+                            onChange={(e) => {
+                              const updated = [...card.catalogItems];
+                              updated[idx].name = e.target.value;
+                              setCard(p => ({ ...p, catalogItems: updated }));
+                            }}
+                            placeholder="Package Name (e.g. 24-Hr Storefront)"
+                            className="bg-transparent border-b border-zinc-800 text-xs font-bold text-white w-full pb-1 focus:border-emerald-400 outline-none"
+                          />
+                        </div>
+                        <div>
+                          <input
+                            type="text"
+                            value={item.price}
+                            onChange={(e) => {
+                              const updated = [...card.catalogItems];
+                              updated[idx].price = e.target.value;
+                              setCard(p => ({ ...p, catalogItems: updated }));
+                            }}
+                            placeholder="Price (e.g. R4,999 or Free)"
+                            className="bg-transparent border-b border-zinc-800 text-xs font-mono font-bold text-emerald-400 w-full pb-1 focus:border-emerald-400 outline-none"
+                          />
+                        </div>
+                      </div>
+
+                      <input
+                        type="text"
+                        value={item.description}
+                        onChange={(e) => {
+                          const updated = [...card.catalogItems];
+                          updated[idx].description = e.target.value;
+                          setCard(p => ({ ...p, catalogItems: updated }));
+                        }}
+                        placeholder="Package description / deliverables..."
+                        className="bg-transparent text-xs text-zinc-400 w-full outline-none"
+                      />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -1103,10 +1267,24 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
             <div id="printable-card-area" className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-zinc-950 rounded-2xl border border-zinc-800">
               {/* Front Preview */}
               <div className="p-4 bg-white text-zinc-900 rounded-xl h-40 flex flex-col justify-between border-l-4 shadow-sm" style={{ borderColor: card.primaryColor || '#10b981' }}>
-                <div>
-                  <h4 className="font-black text-sm">{card.fullName || card.companyName}</h4>
-                  <p className="text-[10px] font-semibold text-emerald-600">{card.jobTitle}</p>
-                  <p className="text-[9px] text-zinc-500">{card.companyName}</p>
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <h4 className="font-black text-sm">{card.fullName || card.companyName}</h4>
+                    <p className="text-[10px] font-semibold text-emerald-600">{card.jobTitle}</p>
+                    <p className="text-[9px] text-zinc-500">{card.companyName}</p>
+                  </div>
+                  {card.avatarUrl ? (
+                    <div className="w-9 h-9 rounded-full overflow-hidden border border-zinc-200 shrink-0">
+                      <img src={card.avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+                    </div>
+                  ) : (
+                    <div
+                      className="w-7 h-7 rounded-full flex items-center justify-center text-white text-[11px] font-black shrink-0"
+                      style={{ background: card.primaryColor || '#10b981' }}
+                    >
+                      {(card.fullName || card.companyName || 'C').charAt(0)}
+                    </div>
+                  )}
                 </div>
                 <div className="text-[9px] text-zinc-600 space-y-0.5">
                   {card.phone && <div>📞 {card.phone}</div>}
@@ -1178,6 +1356,34 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
         onClose={() => setIsWallpaperModalOpen(false)}
         card={card}
         shareUrl={shareableUrl}
+      />
+
+      {/* Apple & Google Wallet Pass Modal */}
+      <WalletPassModal
+        isOpen={isWalletModalOpen}
+        onClose={() => setIsWalletModalOpen(false)}
+        card={card}
+      />
+
+      {/* Team & Multi-Employee Directory Modal */}
+      <TeamCardManagerModal
+        isOpen={isTeamModalOpen}
+        onClose={() => setIsTeamModalOpen(false)}
+        onSelectMemberCard={(newCard) => setCard(p => ({ ...p, ...newCard }))}
+      />
+
+      {/* Press-Ready CR80 Print Modal */}
+      <PressReadyPrintModal
+        isOpen={isPressPrintModalOpen}
+        onClose={() => setIsPressPrintModalOpen(false)}
+        card={card}
+      />
+
+      {/* Branded QR Code Studio Modal */}
+      <QrCodeStudioModal
+        isOpen={isQrStudioModalOpen}
+        onClose={() => setIsQrStudioModalOpen(false)}
+        card={card}
       />
 
       {/* Bottom Conversion Section */}

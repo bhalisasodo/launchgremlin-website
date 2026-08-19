@@ -336,6 +336,315 @@ app.patch('/api/leads/:id', authenticateToken, async (req, res) => {
   }
 });
 
+// ---------------- Content Engine APIs ----------------
+const CONTENT_ENGINE_DIR = path.join(__dirname, '../content-engine');
+const INTAKE_REGISTRY_PATH = path.join(CONTENT_ENGINE_DIR, 'data/intake_registry.json');
+const TRACKING_CSV_PATH = path.join(CONTENT_ENGINE_DIR, 'data/tracking_sheet.csv');
+const DRAFTS_DIR = path.join(CONTENT_ENGINE_DIR, 'distribution/drafts');
+
+app.get('/api/content-engine/intake', (req, res) => {
+  try {
+    if (fs.existsSync(INTAKE_REGISTRY_PATH)) {
+      const data = JSON.parse(fs.readFileSync(INTAKE_REGISTRY_PATH, 'utf-8'));
+      return res.json(data.items || []);
+    }
+  } catch (e) {
+    console.error('[API] Error reading intake registry:', e);
+  }
+  return res.json([]);
+});
+
+app.post('/api/content-engine/intake', (req, res) => {
+  try {
+    const newItem = req.body;
+    let data = { items: [], counters: {} };
+    if (fs.existsSync(INTAKE_REGISTRY_PATH)) {
+      data = JSON.parse(fs.readFileSync(INTAKE_REGISTRY_PATH, 'utf-8'));
+    }
+    data.items = [newItem, ...(data.items || [])];
+    fs.writeFileSync(INTAKE_REGISTRY_PATH, JSON.stringify(data, null, 2), 'utf-8');
+    return res.json({ success: true, item: newItem });
+  } catch (e) {
+    console.error('[API] Error saving intake item:', e);
+    return res.status(500).json({ error: 'Failed to save intake item.' });
+  }
+});
+
+app.get('/api/content-engine/drafts', (req, res) => {
+  try {
+    const drafts = [];
+    if (fs.existsSync(DRAFTS_DIR)) {
+      const accounts = fs.readdirSync(DRAFTS_DIR);
+      for (const acc of accounts) {
+        const accPath = path.join(DRAFTS_DIR, acc);
+        if (fs.statSync(accPath).isDirectory()) {
+          const files = fs.readdirSync(accPath);
+          for (const f of files) {
+            if (f.endsWith('.json')) {
+              try {
+                const draft = JSON.parse(fs.readFileSync(path.join(accPath, f), 'utf-8'));
+                drafts.push(draft);
+              } catch (err) {}
+            }
+          }
+        }
+      }
+    }
+    return res.json(drafts);
+  } catch (e) {
+    console.error('[API] Error reading drafts:', e);
+    return res.json([]);
+  }
+});
+
+app.get('/api/content-engine/tracking', (req, res) => {
+  try {
+    if (fs.existsSync(TRACKING_CSV_PATH)) {
+      const content = fs.readFileSync(TRACKING_CSV_PATH, 'utf-8');
+      const lines = content.split('\n').filter(Boolean);
+      if (lines.length > 1) {
+        const headers = lines[0].split(',').map(h => h.trim());
+        const rows = lines.slice(1).map(line => {
+          const vals = line.split(',');
+          const obj = {};
+          headers.forEach((h, i) => {
+            obj[h] = (vals[i] || '').replace(/^"|"$/g, '').trim();
+          });
+          return obj;
+        });
+        return res.json(rows);
+      }
+    }
+  } catch (e) {
+    console.error('[API] Error reading tracking sheet:', e);
+  }
+  return res.json([]);
+});
+
+// Save or update draft JSON
+app.post('/api/content-engine/drafts', (req, res) => {
+  try {
+    const draft = req.body;
+    const account = draft.account || 'launchgremlin';
+    const accountDir = path.join(DRAFTS_DIR, account);
+    if (!fs.existsSync(accountDir)) {
+      fs.mkdirSync(accountDir, { recursive: true });
+    }
+    const filePath = path.join(accountDir, `${draft.intake_id}.json`);
+    fs.writeFileSync(filePath, JSON.stringify(draft, null, 2), 'utf-8');
+    return res.json({ success: true, draft });
+  } catch (e) {
+    console.error('[API] Error saving draft:', e);
+    return res.status(500).json({ error: 'Failed to save draft' });
+  }
+});
+
+// Approve draft & generate ready-to-post markdown brief
+app.post('/api/content-engine/approve', (req, res) => {
+  try {
+    const { id, reviewerNotes } = req.body;
+    const readyDir = path.join(CONTENT_ENGINE_DIR, 'distribution/ready_to_post');
+    const accounts = ['launchgremlin', 'needmoney4maserati'];
+    let targetDraft = null;
+    let targetAccount = 'launchgremlin';
+
+    for (const acc of accounts) {
+      const draftPath = path.join(DRAFTS_DIR, acc, `${id}.json`);
+      if (fs.existsSync(draftPath)) {
+        targetDraft = JSON.parse(fs.readFileSync(draftPath, 'utf-8'));
+        targetAccount = acc;
+        targetDraft.status = 'APPROVED';
+        targetDraft.approved_at = new Date().toISOString();
+        targetDraft.review_notes = reviewerNotes || 'Approved via API';
+        fs.writeFileSync(draftPath, JSON.stringify(targetDraft, null, 2), 'utf-8');
+        break;
+      }
+    }
+
+    if (targetDraft) {
+      const accReadyDir = path.join(readyDir, targetAccount);
+      if (!fs.existsSync(accReadyDir)) fs.mkdirSync(accReadyDir, { recursive: true });
+      const mdBriefPath = path.join(accReadyDir, `${id}_READY_TO_POST.md`);
+      const tc = targetDraft.formats?.talking_clip || {};
+      const car = targetDraft.formats?.carousel || {};
+      const ba = targetDraft.formats?.before_after || {};
+      const co = targetDraft.formats?.caption_only || {};
+
+      const mdContent = `# READY TO POST BRIEF: ${id}
+**Account:** @${targetAccount}
+**Pillar:** ${targetDraft.pillar}
+**Title:** ${targetDraft.title}
+**Chosen Hook:** "${targetDraft.chosen_hook}"
+**Default CTA:** ${targetDraft.cta}
+**Approved At:** ${new Date().toISOString()}
+
+---
+
+## 1. Short-Form Video (Reels / TikTok)
+**Duration:** ${tc.duration || '45-60s'}
+**Hook:** "${tc.hook || targetDraft.chosen_hook}"
+
+### Scenes:
+${tc.scenes?.map(sc => `[Scene ${sc.scene}]\nVisual: ${sc.visual}\nSpoken: "${sc.audio_spoken}"\nText: ${sc.on_screen_text}`).join('\n\n')}
+
+### Instagram Caption:
+\`\`\`
+${tc.captions?.instagram || ''}
+\`\`\`
+
+---
+
+## 2. 5-Slide Carousel Guide
+${car.slides?.map(sl => `Slide ${sl.slide_number}: ${sl.headline}\nVisual: ${sl.visual_cue}`).join('\n\n')}
+
+---
+
+## 3. Before & After
+${ba.before_state?.description} -> ${ba.after_state?.description}
+
+---
+
+## 4. Text Post
+${co.text || ''}
+`;
+      fs.writeFileSync(mdBriefPath, mdContent, 'utf-8');
+      return res.json({ success: true, draft: targetDraft, briefPath: mdBriefPath });
+    }
+
+    return res.status(404).json({ error: 'Draft not found' });
+  } catch (e) {
+    console.error('[API] Error approving draft:', e);
+    return res.status(500).json({ error: 'Failed to approve draft' });
+  }
+});
+
+// Update tracking metrics
+app.post('/api/content-engine/metrics', (req, res) => {
+  try {
+    const { id, views, saves, comments, shares, paid_spend } = req.body;
+    if (fs.existsSync(TRACKING_CSV_PATH)) {
+      const content = fs.readFileSync(TRACKING_CSV_PATH, 'utf-8');
+      const lines = content.split('\n');
+      if (lines.length > 1) {
+        const headers = lines[0].split(',').map(h => h.trim());
+        const postIdx = headers.indexOf('post_id');
+        const viewsIdx = headers.indexOf('views');
+        const savesIdx = headers.indexOf('saves');
+        const comIdx = headers.indexOf('comments');
+        const shaIdx = headers.indexOf('shares');
+        const paidSpendIdx = headers.indexOf('paid_spend');
+        const paidCandIdx = headers.indexOf('paid_candidate');
+
+        const updatedLines = [lines[0]];
+        let matched = false;
+
+        for (let i = 1; i < lines.length; i++) {
+          const line = lines[i].trim();
+          if (!line) continue;
+          const vals = line.split(',');
+          if (vals[postIdx]?.replace(/^"|"$/g, '').trim() === id) {
+            matched = true;
+            if (views !== undefined && viewsIdx >= 0) vals[viewsIdx] = String(views);
+            if (saves !== undefined && savesIdx >= 0) vals[savesIdx] = String(saves);
+            if (comments !== undefined && comIdx >= 0) vals[comIdx] = String(comments);
+            if (shares !== undefined && shaIdx >= 0) vals[shaIdx] = String(shares);
+            if (paid_spend !== undefined && paidSpendIdx >= 0) vals[paidSpendIdx] = `"${paid_spend}"`;
+
+            const s = Number(saves || vals[savesIdx] || 0);
+            const v = Math.max(Number(views || vals[viewsIdx] || 1), 1);
+            const sh = Number(shares || vals[shaIdx] || 0);
+            const c = Number(comments || vals[comIdx] || 0);
+            const score = (s * 2 + sh * 3 + c) / v;
+            const isCand = s >= 20 || score >= 0.045;
+            if (paidCandIdx >= 0) vals[paidCandIdx] = `"${isCand ? 'YES' : 'NO'}"`;
+          }
+          updatedLines.push(vals.join(','));
+        }
+
+        if (matched) {
+          fs.writeFileSync(TRACKING_CSV_PATH, updatedLines.join('\n'), 'utf-8');
+          return res.json({ success: true, id });
+        }
+      }
+    }
+    return res.json({ success: true, updated: false });
+  } catch (e) {
+    console.error('[API] Error updating metrics:', e);
+    return res.status(500).json({ error: 'Failed to update metrics' });
+  }
+});
+
+
+// ---------------- Digital Business Card API ----------------
+const UPLOADS_DIR = path.join(__dirname, 'uploads', 'avatars');
+const CARDS_DATA_DIR = path.join(__dirname, 'data', 'cards');
+
+if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+if (!fs.existsSync(CARDS_DATA_DIR)) fs.mkdirSync(CARDS_DATA_DIR, { recursive: true });
+
+// Serve static uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// 1. Upload Avatar Photo
+app.post('/api/cards/upload-avatar', (req, res) => {
+  try {
+    const { slug, imageBase64 } = req.body;
+    if (!imageBase64) return res.status(400).json({ error: 'No image data provided' });
+
+    const matches = imageBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+    let buffer;
+    let ext = 'jpg';
+    if (matches && matches.length === 3) {
+      buffer = Buffer.from(matches[2], 'base64');
+      if (matches[1].includes('png')) ext = 'png';
+      else if (matches[1].includes('webp')) ext = 'webp';
+    } else {
+      buffer = Buffer.from(imageBase64, 'base64');
+    }
+
+    const cleanSlug = (slug || 'card').replace(/[^a-z0-9_-]/gi, '');
+    const filename = `avatar_${cleanSlug}_${Date.now()}.${ext}`;
+    const filePath = path.join(UPLOADS_DIR, filename);
+    fs.writeFileSync(filePath, buffer);
+
+    const avatarUrl = `/uploads/avatars/${filename}`;
+    return res.json({ success: true, avatarUrl, filename });
+  } catch (err) {
+    console.error('[API] Error uploading avatar:', err);
+    return res.status(500).json({ error: 'Failed to upload avatar' });
+  }
+});
+
+// 2. Save Card Profile
+app.post('/api/cards/save', (req, res) => {
+  try {
+    const card = req.body;
+    const slug = (card.slug || 'card').toLowerCase().trim();
+    const cardPath = path.join(CARDS_DATA_DIR, `${slug}.json`);
+    fs.writeFileSync(cardPath, JSON.stringify(card, null, 2), 'utf-8');
+    return res.json({ success: true, slug, url: `/c/${slug}` });
+  } catch (err) {
+    console.error('[API] Error saving card:', err);
+    return res.status(500).json({ error: 'Failed to save card' });
+  }
+});
+
+// 3. Get Card Profile by Slug
+app.get('/api/cards/:slug', (req, res) => {
+  try {
+    const slug = req.params.slug.toLowerCase().trim();
+    const cardPath = path.join(CARDS_DATA_DIR, `${slug}.json`);
+    if (fs.existsSync(cardPath)) {
+      const card = JSON.parse(fs.readFileSync(cardPath, 'utf-8'));
+      return res.json({ success: true, card });
+    }
+    return res.status(404).json({ error: 'Card not found' });
+  } catch (err) {
+    console.error('[API] Error fetching card:', err);
+    return res.status(500).json({ error: 'Failed to fetch card' });
+  }
+});
+
 // Serve static assets in production
 app.use(express.static(path.join(__dirname, '../dist')));
 

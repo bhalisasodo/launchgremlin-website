@@ -297,6 +297,65 @@ export default function DigitalCardViewer({ card, onSelectTab }) {
               </div>
             )}
 
+            {/* Interactive Mini-Storefront / Featured Packages */}
+            {card.catalogItems?.length > 0 && (
+              <div className="space-y-2.5 pt-2 border-t border-white/10 text-left">
+                <span className="text-[10px] font-bold uppercase tracking-wider opacity-60 flex items-center justify-between">
+                  <span>Featured Packages & Pricing</span>
+                  <span className="text-emerald-400 font-mono">1-Tap WhatsApp</span>
+                </span>
+                <div className="space-y-2">
+                  {card.catalogItems.map((item, idx) => {
+                    const waMsg = encodeURIComponent(
+                      `Hi ${card.fullName || 'there'}, I saw your digital card and would like to inquire about "${item.name}" (${item.price || ''}).`
+                    );
+                    const waLink = `https://wa.me/${cleanWhatsapp}?text=${waMsg}`;
+                    return (
+                      <div
+                        key={idx}
+                        className="p-3.5 rounded-2xl bg-zinc-800/50 hover:bg-zinc-800/80 border border-white/5 space-y-2 transition group"
+                      >
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="flex items-center gap-2">
+                            <h4 className="text-xs font-bold text-white group-hover:text-emerald-400 transition">
+                              {item.name}
+                            </h4>
+                            {item.badge && (
+                              <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[9px] font-mono font-bold">
+                                {item.badge}
+                              </span>
+                            )}
+                          </div>
+                          {item.price && (
+                            <span className="text-xs font-extrabold text-emerald-400 font-mono">
+                              {item.price}
+                            </span>
+                          )}
+                        </div>
+
+                        {item.description && (
+                          <p className="text-[11px] opacity-75 leading-relaxed">{item.description}</p>
+                        )}
+
+                        {cleanWhatsapp && (
+                          <div className="pt-1 flex justify-end">
+                            <a
+                              href={waLink}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="px-3 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-[11px] font-bold flex items-center gap-1.5 transition-colors border border-emerald-500/20"
+                            >
+                              <MessageCircle className="w-3.5 h-3.5" /> Inquire via WhatsApp
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             {/* Featured Portfolio / Projects */}
             {card.portfolio?.length > 0 && (
               <div className="space-y-3 pt-2 border-t border-white/10 text-left">

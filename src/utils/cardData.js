@@ -137,6 +137,11 @@ export const DEMO_PROFILES = [
       }
     ],
     services: ['Product Strategy', 'UI/UX Design', 'Design Systems', 'Webflow / React Dev'],
+    catalogItems: [
+      { id: 'cat_1', name: '24-Hour Digital Storefront', price: 'R4,999', description: 'Complete mobile-first digital presence with 1-tap WhatsApp booking.', badge: 'Most Popular' },
+      { id: 'cat_2', name: 'Full-Stack Growth Sprint', price: 'R14,500', description: 'End-to-end conversion audit, custom landing pages, and AI content engine.' },
+      { id: 'cat_3', name: 'Free Website Speed Audit', price: 'FREE', description: 'Instant 5-point performance and mobile conversion teardown.' }
+    ],
     testimonial: {
       quote: 'Alex completely transformed our SaaS flow. Conversion increased 42% in 30 days.',
       author: 'David Chen',
@@ -422,8 +427,8 @@ export const SOCIAL_PLATFORMS = [
 export function encodeCardToUrl(card) {
   try {
     const clone = { ...card };
-    // Strip very large embedded base64 images if they exceed safe URL size to preserve link brevity
-    if (clone.avatarUrl && clone.avatarUrl.length > 8000) {
+    // Strip very large embedded base64 images only if they exceed safe URL hash limits (64KB)
+    if (clone.avatarUrl && clone.avatarUrl.length > 65536) {
       clone.avatarUrl = '';
     }
     const jsonStr = JSON.stringify(clone);
@@ -471,6 +476,19 @@ export function generateVCardString(card) {
 
   const cleanPhone = card.phone ? card.phone.replace(/[^0-9+]/g, '') : '';
 
+  let photoLine = '';
+  if (card.avatarUrl) {
+    if (card.avatarUrl.startsWith('data:image/')) {
+      const match = card.avatarUrl.match(/^data:image\/([a-zA-Z+]+);base64,(.+)$/);
+      if (match) {
+        const type = match[1].toUpperCase() === 'PNG' ? 'PNG' : 'JPEG';
+        photoLine = `PHOTO;ENCODING=b;TYPE=${type}:${match[2]}`;
+      }
+    } else if (/^https?:\/\//i.test(card.avatarUrl)) {
+      photoLine = `PHOTO;VALUE=URI:${card.avatarUrl}`;
+    }
+  }
+
   const lines = [
     'BEGIN:VCARD',
     'VERSION:3.0',
@@ -478,6 +496,7 @@ export function generateVCardString(card) {
     card.fullName ? `N;CHARSET=UTF-8:${card.fullName};;;;` : `N;CHARSET=UTF-8:${card.companyName};;;;`,
     card.companyName ? `ORG;CHARSET=UTF-8:${card.companyName}` : '',
     card.jobTitle ? `TITLE;CHARSET=UTF-8:${card.jobTitle}` : '',
+    photoLine,
     cleanPhone ? `TEL;TYPE=CELL,VOICE,PREF:${cleanPhone}` : '',
     card.email ? `EMAIL;TYPE=INTERNET,WORK,PREF:${card.email}` : '',
     card.websiteUrl ? `URL;TYPE=WORK:${card.websiteUrl}` : '',
