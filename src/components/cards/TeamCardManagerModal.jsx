@@ -126,20 +126,20 @@ export default function TeamCardManagerModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-zinc-950 border border-zinc-800 rounded-3xl max-w-4xl w-full p-6 md:p-8 space-y-6 shadow-2xl relative my-8">
+    <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+      <div className="bg-zinc-950 border border-zinc-800 rounded-3xl max-w-4xl w-full p-4 sm:p-6 md:p-8 space-y-5 shadow-2xl relative my-auto max-h-[92vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold">
+        <div className="flex items-center justify-between border-b border-zinc-800 pb-3 sm:pb-4">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold shrink-0">
               <Users className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white tracking-tight">
+              <h2 className="text-base sm:text-xl font-bold text-white tracking-tight">
                 Team & Corporate Card Directory
               </h2>
-              <p className="text-xs text-zinc-400">
-                Manage employees, batch import cards via CSV, and download team QR codes.
+              <p className="text-[11px] sm:text-xs text-zinc-400 font-mono">
+                {teamData.organizationName} · {teamData.members.length} Active Employees
               </p>
             </div>
           </div>
@@ -147,7 +147,7 @@ export default function TeamCardManagerModal({
           <button
             type="button"
             onClick={onClose}
-            className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white"
+            className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white shrink-0"
           >
             <X className="w-5 h-5" />
           </button>

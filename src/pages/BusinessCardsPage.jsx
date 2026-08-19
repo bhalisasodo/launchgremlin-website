@@ -91,6 +91,7 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
   const [isPressPrintModalOpen, setIsPressPrintModalOpen] = useState(false);
   const [isQrStudioModalOpen, setIsQrStudioModalOpen] = useState(false);
+  const [mobileTab, setMobileTab] = useState('editor'); // 'editor' | 'preview'
   const [capturedLeadsCount, setCapturedLeadsCount] = useState(0);
   const [selectedDemoId, setSelectedDemoId] = useState(card.slug || 'alex-morgan');
   const [shareableUrl, setShareableUrl] = useState('');
@@ -317,10 +318,10 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
           </div>
 
           {/* Studio Primary Action Shortcuts */}
-          <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">
+          <div className="flex items-center gap-2.5 overflow-x-auto pb-2 pt-2 scrollbar-none max-w-full px-2 sm:flex-wrap sm:justify-center">
             <button
               onClick={() => setIsWalletModalOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 text-zinc-950 text-xs font-black uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-emerald-500/20 hover:scale-105"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 text-zinc-950 text-xs font-black uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-emerald-500/20 hover:scale-105 shrink-0"
             >
               <Smartphone className="w-4 h-4" />
               <span>Apple / Google Wallet Pass</span>
@@ -328,7 +329,7 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
 
             <button
               onClick={() => setIsTeamModalOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 hover:text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 hover:text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shrink-0"
             >
               <Users className="w-4 h-4 text-emerald-400" />
               <span>Team & Corporate Suite</span>
@@ -336,7 +337,7 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
 
             <button
               onClick={() => setIsPressPrintModalOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 hover:text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 hover:text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shrink-0"
             >
               <Printer className="w-4 h-4 text-emerald-400" />
               <span>CR80 Print PDF (300 DPI)</span>
@@ -344,7 +345,7 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
 
             <button
               onClick={() => setIsQrStudioModalOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 hover:text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 hover:text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shrink-0"
             >
               <QrCode className="w-4 h-4 text-emerald-400" />
               <span>Branded QR Studio</span>
@@ -355,7 +356,7 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
                 downloadVCard(card);
                 trackEvent('vcard_downloaded_studio', { slug: card.slug });
               }}
-              className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer shrink-0"
             >
               <Download className="w-3.5 h-3.5 text-emerald-400" />
               <span>vCard (.vcf)</span>
@@ -363,7 +364,7 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
 
             <button
               onClick={() => setIsWallpaperModalOpen(true)}
-              className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer shrink-0"
             >
               <Smartphone className="w-3.5 h-3.5 text-emerald-400" />
               <span>Wallpaper</span>
@@ -371,7 +372,7 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
 
             <button
               onClick={() => setIsNfcModalOpen(true)}
-              className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer shrink-0"
             >
               <Zap className="w-3.5 h-3.5 text-emerald-400" />
               <span>NFC Guide</span>
@@ -379,7 +380,7 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
 
             <button
               onClick={() => setIsLeadsDrawerOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-400 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-emerald-500/10"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-400 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-emerald-500/10 shrink-0"
             >
               <Users className="w-4 h-4" />
               <span>Leads ({capturedLeadsCount})</span>
@@ -389,10 +390,10 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
       </section>
 
       {/* Main Studio Work Area */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pb-24 lg:pb-10">
         
         {/* LEFT COLUMN: Configurator Panels (7 Cols) */}
-        <div className="lg:col-span-7 space-y-6">
+        <div className={`lg:col-span-7 space-y-6 ${mobileTab === 'editor' ? 'block' : 'hidden lg:block'}`}>
           
           {/* Step Selector Tabs */}
           <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-zinc-800 scrollbar-none">
@@ -1023,7 +1024,7 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
         </div>
 
         {/* RIGHT COLUMN: Interactive Live Previewer (5 Cols) */}
-        <div className="lg:col-span-5 lg:sticky lg:top-24 space-y-4">
+        <div className={`lg:col-span-5 lg:sticky lg:top-24 space-y-4 ${mobileTab === 'preview' ? 'block' : 'hidden lg:block'}`}>
           
           {/* Mode Switcher Tabs */}
           <div className="flex items-center justify-between bg-zinc-900/90 border border-zinc-800 p-1.5 rounded-2xl">
@@ -1406,6 +1407,41 @@ export default function BusinessCardsPage({ onOpenBooking, onSelectTab }) {
           </div>
         </div>
       </section>
+
+      {/* Sticky Mobile Mode Switcher Bar (Bottom Center on Mobile Viewports) */}
+      <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 lg:hidden flex items-center bg-zinc-900/95 backdrop-blur-md border border-zinc-700/80 rounded-full p-1.5 shadow-2xl shadow-black/90">
+        <button
+          type="button"
+          onClick={() => {
+            setMobileTab('editor');
+            window.scrollTo({ top: 400, behavior: 'smooth' });
+          }}
+          className={`px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${
+            mobileTab === 'editor'
+              ? 'bg-emerald-400 text-zinc-950 shadow-md'
+              : 'text-zinc-400 hover:text-white'
+          }`}
+        >
+          <Briefcase className="w-3.5 h-3.5" />
+          <span>Edit Form</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setMobileTab('preview');
+            window.scrollTo({ top: 400, behavior: 'smooth' });
+          }}
+          className={`px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${
+            mobileTab === 'preview'
+              ? 'bg-emerald-400 text-zinc-950 shadow-md'
+              : 'text-zinc-400 hover:text-white'
+          }`}
+        >
+          <Smartphone className="w-3.5 h-3.5" />
+          <span>Live Card Preview</span>
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse ml-0.5"></span>
+        </button>
+      </div>
 
     </div>
   );

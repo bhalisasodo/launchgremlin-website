@@ -60,25 +60,25 @@ export default function PressReadyPrintModal({ isOpen, onClose, card }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-zinc-950 border border-zinc-800 rounded-3xl max-w-3xl w-full p-6 md:p-8 space-y-6 shadow-2xl relative my-8">
+    <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+      <div className="bg-zinc-950 border border-zinc-800 rounded-3xl max-w-3xl w-full p-4 sm:p-6 md:p-8 space-y-5 shadow-2xl relative my-auto max-h-[92vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold">
+        <div className="flex items-center justify-between border-b border-zinc-800 pb-3 sm:pb-4">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold shrink-0">
               <Printer className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-xl font-bold text-white tracking-tight">
+                <h2 className="text-base sm:text-xl font-bold text-white tracking-tight">
                   Press-Ready CR80 Print Exporter
                 </h2>
-                <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-mono font-bold">
+                <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[9px] sm:text-[10px] font-mono font-bold">
                   300 DPI · 3mm Bleed
                 </span>
               </div>
-              <p className="text-xs text-zinc-400 font-mono">
-                Standard ISO 85.6mm × 53.98mm with Crop Marks for PVC/Metal Printing & NFC
+              <p className="text-[11px] sm:text-xs text-zinc-400 font-mono truncate max-w-[200px] sm:max-w-md">
+                Standard ISO 85.6mm × 53.98mm with Crop Marks
               </p>
             </div>
           </div>
@@ -86,7 +86,7 @@ export default function PressReadyPrintModal({ isOpen, onClose, card }) {
           <button
             type="button"
             onClick={onClose}
-            className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white"
+            className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white shrink-0"
           >
             <X className="w-5 h-5" />
           </button>
