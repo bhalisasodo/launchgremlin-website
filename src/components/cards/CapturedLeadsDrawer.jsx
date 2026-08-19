@@ -56,12 +56,12 @@ export default function CapturedLeadsDrawer({ isOpen, onClose }) {
 
     const headers = ['Full Name', 'Email', 'Phone', 'Company', 'Notes', 'Date & Time'];
     const rows = leads.map(l => [
-      `"${(l.fullName || '').replace(/"/g, '""')}"`,
+      `"${(l.fullName || l.name || '').replace(/"/g, '""')}"`,
       `"${(l.email || '').replace(/"/g, '""')}"`,
       `"${(l.phone || '').replace(/"/g, '""')}"`,
       `"${(l.company || '').replace(/"/g, '""')}"`,
-      `"${(l.notes || '').replace(/"/g, '""')}"`,
-      `"${l.timestamp ? new Date(l.timestamp).toLocaleString() : ''}"`
+      `"${(l.notes || l.note || '').replace(/"/g, '""')}"`,
+      `"${(l.timestamp || l.submittedAt) ? new Date(l.timestamp || l.submittedAt).toLocaleString() : ''}"`
     ]);
 
     const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\r\n');
@@ -80,11 +80,17 @@ export default function CapturedLeadsDrawer({ isOpen, onClose }) {
   const filteredLeads = leads.filter(l => {
     if (!searchQuery) return true;
     const q = searchQuery.toLowerCase();
+    const name = (l.fullName || l.name || '').toLowerCase();
+    const email = (l.email || '').toLowerCase();
+    const phone = (l.phone || '');
+    const company = (l.company || '').toLowerCase();
+    const notes = (l.notes || l.note || '').toLowerCase();
     return (
-      (l.fullName && l.fullName.toLowerCase().includes(q)) ||
-      (l.email && l.email.toLowerCase().includes(q)) ||
-      (l.phone && l.phone.includes(q)) ||
-      (l.company && l.company.toLowerCase().includes(q))
+      name.includes(q) ||
+      email.includes(q) ||
+      phone.includes(q) ||
+      company.includes(q) ||
+      notes.includes(q)
     );
   });
 
@@ -157,6 +163,10 @@ export default function CapturedLeadsDrawer({ isOpen, onClose }) {
           ) : (
             filteredLeads.map((lead, idx) => {
               const cleanPhone = lead.phone ? lead.phone.replace(/[^0-9+]/g, '') : '';
+              const leadName = lead.fullName || lead.name || 'Anonymous Contact';
+              const leadNote = lead.notes || lead.note || '';
+              const leadDate = lead.timestamp || lead.submittedAt;
+
               return (
                 <div
                   key={idx}
@@ -164,7 +174,7 @@ export default function CapturedLeadsDrawer({ isOpen, onClose }) {
                 >
                   <div className="flex items-start justify-between">
                     <div>
-                      <h4 className="font-bold text-sm text-white">{lead.fullName || 'Anonymous Contact'}</h4>
+                      <h4 className="font-bold text-sm text-white">{leadName}</h4>
                       {lead.company && (
                         <div className="text-xs text-zinc-400 flex items-center gap-1 mt-0.5">
                           <Building className="w-3 h-3 text-zinc-500" />
@@ -174,7 +184,7 @@ export default function CapturedLeadsDrawer({ isOpen, onClose }) {
                     </div>
                     <div className="flex items-center gap-1.5">
                       <span className="text-[10px] font-mono text-zinc-500">
-                        {lead.timestamp ? new Date(lead.timestamp).toLocaleDateString() : ''}
+                        {leadDate ? new Date(leadDate).toLocaleDateString() : ''}
                       </span>
                       <button
                         onClick={() => handleDeleteLead(idx)}
@@ -187,10 +197,10 @@ export default function CapturedLeadsDrawer({ isOpen, onClose }) {
                   </div>
 
                   {/* Notes / message */}
-                  {lead.notes && (
+                  {leadNote && (
                     <div className="p-2.5 rounded-xl bg-zinc-900 border border-zinc-800/80 text-[11px] text-zinc-300 flex items-start gap-1.5">
                       <FileText className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                      <p className="leading-snug italic">"{lead.notes}"</p>
+                      <p className="leading-snug italic">"{leadNote}"</p>
                     </div>
                   )}
 
@@ -215,7 +225,7 @@ export default function CapturedLeadsDrawer({ isOpen, onClose }) {
                           <span>Call</span>
                         </a>
                         <a
-                          href={`https://wa.me/${cleanPhone.replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(lead.fullName || '')},%20great%20connecting!`}
+                          href={`https://wa.me/${cleanPhone.replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(leadName)},%20great%20connecting!`}
                           target="_blank"
                           rel="noreferrer"
                           className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-200 text-xs font-semibold border border-zinc-800 transition"

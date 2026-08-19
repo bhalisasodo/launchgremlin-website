@@ -17,13 +17,20 @@ export default function LeadExchangeModal({ isOpen, onClose, cardOwnerName, card
     e.preventDefault();
     if (!formData.name || !formData.email) return;
 
-    // Save lead to local storage history
+    // Save lead to local storage history with normalized field keys
     try {
       const existing = JSON.parse(localStorage.getItem('lg_captured_leads') || '[]');
       const newLead = {
-        ...formData,
         id: Date.now(),
-        forCard: cardOwnerName,
+        fullName: formData.name,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || '',
+        company: formData.company || '',
+        notes: formData.note || '',
+        note: formData.note || '',
+        forCard: cardOwnerName || 'LaunchGremlin Card',
+        timestamp: new Date().toISOString(),
         submittedAt: new Date().toISOString()
       };
       localStorage.setItem('lg_captured_leads', JSON.stringify([newLead, ...existing]));
