@@ -1,0 +1,147 @@
+{
+  "intake_id": "MAS-NAR-006",
+  "account": "needmoney4maserati",
+  "pillar": "maserati_narrative",
+  "title": "Why 0.3s Mobile Speed Puts Rands in the Maserati Fund",
+  "status": "APPROVED",
+  "suggested_post_time": "2026-08-20 10:00 SAST",
+  "created_at": "2026-08-19T01:54:34.085263",
+  "candidate_hooks": [
+    {
+      "rank": 1,
+      "hook": "Here's why why 0.3s mobile speed puts rands in the maserati fund is bringing me one step closer to the Maserati.",
+      "rationale": "High curiosity and direct tie-in to the founder's build-in-public milestone.",
+      "style": "Momentum / High-Stakes"
+    },
+    {
+      "rank": 2,
+      "hook": "I used to think this took 3 weeks. We just proved it takes 24 hours.",
+      "rationale": "Contrast hook that challenges standard assumptions and builds speed authority.",
+      "style": "Contrarian / Speed"
+    },
+    {
+      "rank": 3,
+      "hook": "The biggest risk I took this week: Why 0.3s Mobile Speed Puts Rands in the Maserati Fund.",
+      "rationale": "Vulnerability and drama hook that draws viewers into the messy building reality.",
+      "style": "Vulnerability / BTS"
+    },
+    {
+      "rank": 4,
+      "hook": "If you're building a business in South Africa right now, watch this before you spend R10k.",
+      "rationale": "Direct local relevance with money-saving stakes.",
+      "style": "Direct Value Warning"
+    }
+  ],
+  "chosen_hook": "Here's why why 0.3s mobile speed puts rands in the maserati fund is bringing me one step closer to the Maserati.",
+  "formats": {
+    "talking_clip": {
+      "format": "talking_clip",
+      "title": "Reel/TikTok: Why 0.3s Mobile Speed Puts Rands in the Maserati Fund",
+      "hook": "Here's why why 0.3s mobile speed puts rands in the maserati fund is bringing me one step closer to the Maserati.",
+      "hook_rationale": "High curiosity and direct tie-in to the founder's build-in-public milestone.",
+      "scenes": [
+        {
+          "scene": 1,
+          "visual": "Founder on camera, direct eye contact, walking or working at desk.",
+          "audio_spoken": "Here's why why 0.3s mobile speed puts rands in the maserati fund is bringing me one step closer to the Maserati.",
+          "on_screen_text": "ROAD TO THE MASERATI 🏎️💨"
+        },
+        {
+          "scene": 2,
+          "visual": "Screen recording or cut to the actual build/work proof point.",
+          "audio_spoken": "Here's the honest breakdown. While building LaunchGremlin, we hit this exact challenge with why 0.3s mobile speed puts rands in the maserati fund.",
+          "on_screen_text": "The Real Struggle 📉"
+        },
+        {
+          "scene": 3,
+          "visual": "Over-the-shoulder view showing real results, client feedback, or event metrics.",
+          "audio_spoken": "Instead of overcomplicating it, we stripped it back. Tested our mobile storefront in Durban on 3G connections. When page load goes from 4s to 0.3s, WhatsApp clicks jump 3x. Real proof that technical disc... and the result was instant clarity.",
+          "on_screen_text": "The Solution 🚀"
+        },
+        {
+          "scene": 4,
+          "visual": "Back to founder, holding up phone or looking into camera with confidence.",
+          "audio_spoken": "We're documenting every single win and failure on the path to the Maserati. Follow the journey from 0 to Maserati / Drop your feedback or guess the next milestone in comments.",
+          "on_screen_text": "Drop a comment 👇"
+        }
+      ],
+      "duration": "45-60s",
+      "captions": {
+        "instagram": "Here's why why 0.3s mobile speed puts rands in the maserati fund is bringing me one step closer to the Maserati.\n\nTransparent build-in-public update on LaunchGremlin.\n\nEvery milestone brings us closer to the goal. Follow the journey from 0 to Maserati / Drop your feedback or guess the next milestone in comments.\n\n#needmoney4maserati #buildinpublic #southafrica #entrepreneurship #solopreneur",
+        "tiktok": "Here's why why 0.3s mobile speed puts rands in the maserati fund is bringing me one step closer to the Maserati. 🚀 Follow the journey from R0 to Maserati. Follow the journey from 0 to Maserati / Drop your feedback or guess the next milestone in comments. #buildinpublic #southafrica #techstartups #entrepreneur",
+        "facebook": "Here's why why 0.3s mobile speed puts rands in the maserati fund is bringing me one step closer to the Maserati.\n\nA quick look behind the scenes of building LaunchGremlin. Follow the journey from 0 to Maserati / Drop your feedback or guess the next milestone in comments."
+      }
+    },
+    "carousel": {
+      "format": "carousel",
+      "title": "5-Slide Carousel: Why 0.3s Mobile Speed Puts Rands in the Maserati Fund",
+      "slide_count": 5,
+      "slides": [
+        {
+          "slide_number": 1,
+          "type": "Hook / Cover",
+          "headline": "Here's why why 0.3s mobile speed puts rands in the maserati fund is bringing me one step closer to the Maserati.",
+          "visual_cue": "Bold typography on dark high-contrast background with brand accent."
+        },
+        {
+          "slide_number": 2,
+          "type": "The Problem / Myth",
+          "headline": "What Most Small Businesses Get Wrong",
+          "body": "Spending thousands on bloated setups before testing if customers can easily reach them on mobile or WhatsApp.",
+          "visual_cue": "Side-by-side pain point checklist."
+        },
+        {
+          "slide_number": 3,
+          "type": "The Core Shift",
+          "headline": "The 3 Essentials That Actually Convert",
+          "body": "1. Instant mobile loading.\n2. 1-click booking/inquiry.\n3. Transparent pricing & trust proof.\n\nTested our mobile storefront in Durban on 3G connections. When page load goes from 4s to 0.3s, WhatsApp clicks jump 3x. ...",
+          "visual_cue": "Numbered icon layout with clean spacing."
+        },
+        {
+          "slide_number": 4,
+          "type": "Actionable Framework",
+          "headline": "How To Apply This Today",
+          "body": "Audit your current digital link in bio or site. Remove 3 unnecessary clicks between product discovery and contact.",
+          "visual_cue": "Flowchart diagram demonstrating simplified funnel."
+        },
+        {
+          "slide_number": 5,
+          "type": "CTA / Save for Later",
+          "headline": "Save This Guide 📌",
+          "body": "Found this valuable? Save for later and share with a founder friend.\n\n👉 Follow the journey from 0 to Maserati / Drop your feedback or guess the next milestone in comments.",
+          "visual_cue": "LaunchGremlin badge + save/share icon animation cue."
+        }
+      ]
+    },
+    "before_after": {
+      "format": "before_after",
+      "title": "Visual Comparison & Proof: Why 0.3s Mobile Speed Puts Rands in the Maserati Fund",
+      "before_state": {
+        "label": "Traditional Approach (Slow & Expensive)",
+        "description": "6-week agency turnaround, R15,000+ setup cost, cluttered desktop-centric pages with slow mobile response.",
+        "badge": "❌ High Friction"
+      },
+      "after_state": {
+        "label": "The LaunchGremlin Modern Standard",
+        "description": "Rapid turnaround, ultra-clean mobile UX, direct WhatsApp/call-to-action integration, 99+ mobile score.",
+        "badge": "⚡ High Conversion"
+      },
+      "visual_direction": "Split screen mockup showing a slow cluttered site vs a lightning-fast LaunchGremlin storefront on an iPhone.",
+      "post_caption": "Notice the difference? High conversion comes from clarity, not clutter.\n\nHere's why why 0.3s mobile speed puts rands in the maserati fund is bringing me one step closer to the Maserati.\n\n👉 Follow the journey from 0 to Maserati / Drop your feedback or guess the next milestone in comments."
+    },
+    "caption_only": {
+      "format": "caption_only",
+      "title": "High-Engagement Post: Why 0.3s Mobile Speed Puts Rands in the Maserati Fund",
+      "text": "Here's why why 0.3s mobile speed puts rands in the maserati fund is bringing me one step closer to the Maserati.\n\nHere are 3 truths every South African business owner needs to remember:\n\n1. Your customers are 80%+ on mobile phones — if your site takes 4 seconds to load, they bounce.\n2. Trust is built by clear pricing, real local reviews, and effortless contact.\n3. Simplicity always outperforms unnecessary animations and bloated code.\n\nKey Takeaway: Tested our mobile storefront in Durban on 3G connections. When page load goes from 4s to 0.3s, WhatsApp clicks jump 3x. Real proof that technical discipline directly drives revenue....\n\n💡 Follow the journey from 0 to Maserati / Drop your feedback or guess the next milestone in comments.\n\n#needmoney4maserati #buildinpublic #southafrica #founderjourney #techstartups",
+      "recommended_platforms": [
+        "LinkedIn",
+        "Instagram",
+        "Facebook"
+      ]
+    }
+  },
+  "cta": "Follow the journey from 0 to Maserati / Drop your feedback or guess the next milestone in comments.",
+  "review_notes": "Approved founder momentum post",
+  "_filepath": "C:\\Users\\bhali\\launchgremlin-website\\content-engine\\distribution\\drafts\\needmoney4maserati\\MAS-NAR-006.json",
+  "approved_at": "2026-08-19T01:54:34.540097"
+}

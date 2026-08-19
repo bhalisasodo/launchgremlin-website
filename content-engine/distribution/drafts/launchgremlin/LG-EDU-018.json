@@ -1,0 +1,147 @@
+{
+  "intake_id": "LG-EDU-018",
+  "account": "launchgremlin",
+  "pillar": "educational",
+  "title": "The R15,000 Website Myth for SA Small Businesses",
+  "status": "APPROVED",
+  "suggested_post_time": "2026-08-20 10:00 SAST",
+  "created_at": "2026-08-19T03:39:46.304798",
+  "candidate_hooks": [
+    {
+      "rank": 1,
+      "hook": "90% of SA small business websites make this exact mistake — here's the 5-minute fix.",
+      "rationale": "High-urgency problem/solution opening tailored to SA business owners without buzzwords.",
+      "style": "Problem / Urgent Solution"
+    },
+    {
+      "rank": 2,
+      "hook": "Why paying R15,000 for a static website in 2026 is officially a trap.",
+      "rationale": "Addresses direct cost pain point with strong polarizing stance that hooks attention.",
+      "style": "Myth-Busting / Pricing"
+    },
+    {
+      "rank": 3,
+      "hook": "If your website doesn't do this one thing on mobile, you're losing customers every day.",
+      "rationale": "Highlights mobile-first reality for South African consumers.",
+      "style": "Fear-of-Missing-Out / Practical Check"
+    },
+    {
+      "rank": 4,
+      "hook": "How to turn a simple business card into a 24/7 sales engine in under 10 minutes.",
+      "rationale": "Feature hook that promotes the free business-card tool with tangible outcome.",
+      "style": "Actionable Feature / Tool"
+    }
+  ],
+  "chosen_hook": "90% of SA small business websites make this exact mistake — here's the 5-minute fix.",
+  "formats": {
+    "talking_clip": {
+      "format": "talking_clip",
+      "title": "Reel/TikTok: The R15,000 Website Myth for SA Small Businesses",
+      "hook": "90% of SA small business websites make this exact mistake — here's the 5-minute fix.",
+      "hook_rationale": "High-urgency problem/solution opening tailored to SA business owners without buzzwords.",
+      "scenes": [
+        {
+          "scene": 1,
+          "visual": "Clean hook shot, creator or product screen with bold caption overlay.",
+          "audio_spoken": "90% of SA small business websites make this exact mistake — here's the 5-minute fix.",
+          "on_screen_text": "🚨 WATCH BEFORE YOU PAY FOR A WEBSITE"
+        },
+        {
+          "scene": 2,
+          "visual": "Cut to split-screen showing the common mistake vs the clean, fast modern approach.",
+          "audio_spoken": "Most local businesses are told they need weeks of complex dev work. But here's what actually converts customers: speed, clean mobile layout, and a frictionless WhatsApp or booking CTA.",
+          "on_screen_text": "Mobile-First + Instant Conversion 📱"
+        },
+        {
+          "scene": 3,
+          "visual": "Live demo of LaunchGremlin tool or client storefront working smoothly on a phone.",
+          "audio_spoken": "Take a look at how this works in real life: Most South African small business owners are convinced they need to spend R15k–R30k and wait 6 weeks for an agency to build a website. In reality, 85% of their ...",
+          "on_screen_text": "Simple. Clean. Effective. ✨"
+        },
+        {
+          "scene": 4,
+          "visual": "Ending screen with LaunchGremlin logo and clean call-out.",
+          "audio_spoken": "You don't need a bloated agency quote. Visit LaunchGremlin Content Hub / Try the instant business-card generator (Link in bio)",
+          "on_screen_text": "Link in Bio 🔗"
+        }
+      ],
+      "duration": "45-60s",
+      "captions": {
+        "instagram": "90% of SA small business websites make this exact mistake — here's the 5-minute fix.\n\nSouth African small businesses don't need bloated R15k agency retainers. You need a fast, mobile-optimised digital presence that turns visitors into paying customers.\n\n💡 Visit LaunchGremlin Content Hub / Try the instant business-card generator (Link in bio)\n\n#LaunchGremlin #SABusiness #DurbanBusiness #SouthAfricaEntrepreneurs #WebDesignSA #DigitalMarketing",
+        "tiktok": "90% of SA small business websites make this exact mistake — here's the 5-minute fix. 🇿🇦 Skip the overpriced agency fluff. Visit LaunchGremlin Content Hub / Try the instant business-card generator (Link in bio) #southafrica #smallbusinesssa #webdesign #entrepreneurship",
+        "facebook": "90% of SA small business websites make this exact mistake — here's the 5-minute fix.\n\nPractical digital solutions for South African businesses. Read the full breakdown or try our free business-card tool today: Visit LaunchGremlin Content Hub / Try the instant business-card generator (Link in bio)"
+      }
+    },
+    "carousel": {
+      "format": "carousel",
+      "title": "5-Slide Carousel: The R15,000 Website Myth for SA Small Businesses",
+      "slide_count": 5,
+      "slides": [
+        {
+          "slide_number": 1,
+          "type": "Hook / Cover",
+          "headline": "90% of SA small business websites make this exact mistake — here's the 5-minute fix.",
+          "visual_cue": "Bold typography on dark high-contrast background with brand accent."
+        },
+        {
+          "slide_number": 2,
+          "type": "The Problem / Myth",
+          "headline": "What Most Small Businesses Get Wrong",
+          "body": "Spending thousands on bloated setups before testing if customers can easily reach them on mobile or WhatsApp.",
+          "visual_cue": "Side-by-side pain point checklist."
+        },
+        {
+          "slide_number": 3,
+          "type": "The Core Shift",
+          "headline": "The 3 Essentials That Actually Convert",
+          "body": "1. Instant mobile loading.\n2. 1-click booking/inquiry.\n3. Transparent pricing & trust proof.\n\nMost South African small business owners are convinced they need to spend R15k–R30k and wait 6 weeks for an agency to bu...",
+          "visual_cue": "Numbered icon layout with clean spacing."
+        },
+        {
+          "slide_number": 4,
+          "type": "Actionable Framework",
+          "headline": "How To Apply This Today",
+          "body": "Audit your current digital link in bio or site. Remove 3 unnecessary clicks between product discovery and contact.",
+          "visual_cue": "Flowchart diagram demonstrating simplified funnel."
+        },
+        {
+          "slide_number": 5,
+          "type": "CTA / Save for Later",
+          "headline": "Save This Guide 📌",
+          "body": "Found this valuable? Save for later and share with a founder friend.\n\n👉 Visit LaunchGremlin Content Hub / Try the instant business-card generator (Link in bio)",
+          "visual_cue": "LaunchGremlin badge + save/share icon animation cue."
+        }
+      ]
+    },
+    "before_after": {
+      "format": "before_after",
+      "title": "Visual Comparison & Proof: The R15,000 Website Myth for SA Small Businesses",
+      "before_state": {
+        "label": "Traditional Approach (Slow & Expensive)",
+        "description": "6-week agency turnaround, R15,000+ setup cost, cluttered desktop-centric pages with slow mobile response.",
+        "badge": "❌ High Friction"
+      },
+      "after_state": {
+        "label": "The LaunchGremlin Modern Standard",
+        "description": "Rapid turnaround, ultra-clean mobile UX, direct WhatsApp/call-to-action integration, 99+ mobile score.",
+        "badge": "⚡ High Conversion"
+      },
+      "visual_direction": "Split screen mockup showing a slow cluttered site vs a lightning-fast LaunchGremlin storefront on an iPhone.",
+      "post_caption": "Notice the difference? High conversion comes from clarity, not clutter.\n\n90% of SA small business websites make this exact mistake — here's the 5-minute fix.\n\n👉 Visit LaunchGremlin Content Hub / Try the instant business-card generator (Link in bio)"
+    },
+    "caption_only": {
+      "format": "caption_only",
+      "title": "High-Engagement Post: The R15,000 Website Myth for SA Small Businesses",
+      "text": "90% of SA small business websites make this exact mistake — here's the 5-minute fix.\n\nHere are 3 truths every South African business owner needs to remember:\n\n1. Your customers are 80%+ on mobile phones — if your site takes 4 seconds to load, they bounce.\n2. Trust is built by clear pricing, real local reviews, and effortless contact.\n3. Simplicity always outperforms unnecessary animations and bloated code.\n\nKey Takeaway: Most South African small business owners are convinced they need to spend R15k–R30k and wait 6 weeks for an agency to build a website. In reality, 85% of their traffic comes from mobile phones looking...\n\n💡 Visit LaunchGremlin Content Hub / Try the instant business-card generator (Link in bio)\n\n#LaunchGremlin #SmallBusinessSA #SouthAfrica #DigitalStorefront #LocalBusiness",
+      "recommended_platforms": [
+        "LinkedIn",
+        "Instagram",
+        "Facebook"
+      ]
+    }
+  },
+  "cta": "Visit LaunchGremlin Content Hub / Try the instant business-card generator (Link in bio)",
+  "review_notes": "Approved for Day 1 posting",
+  "_filepath": "C:\\Users\\bhali\\launchgremlin-website\\content-engine\\distribution\\drafts\\launchgremlin\\LG-EDU-018.json",
+  "approved_at": "2026-08-19T03:39:46.371729"
+}

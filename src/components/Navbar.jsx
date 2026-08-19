@@ -76,6 +76,13 @@ export default function Navbar({ activeTab, onSelectTab, onOpenBooking }) {
 
   const tools = [
     {
+      key: 'content-engine',
+      title: 'AI Content Engine Studio',
+      subtitle: 'Multi-channel 4-way generator, teleprompter & paid ad tracker',
+      icon: Zap,
+      badge: 'AI Studio'
+    },
+    {
       key: 'resources',
       title: 'Creator Studio & Vault',
       subtitle: 'Free Notion OS, AI prompt chains & cheat sheets',
@@ -99,7 +106,7 @@ export default function Navbar({ activeTab, onSelectTab, onOpenBooking }) {
   ];
 
   const isSolutionsActive = ['websites', 'content-strategy', 'ai-consulting'].includes(activeTab);
-  const isToolsActive = ['resources', 'creator-studio', 'playbooks', 'prompts', 'templates', 'business-cards', 'proposal', 'card', 'cards', 'quote', 'scope-builder'].includes(activeTab);
+  const isToolsActive = ['content-engine', 'engine', 'content-studio', 'resources', 'creator-studio', 'playbooks', 'prompts', 'templates', 'business-cards', 'proposal', 'card', 'cards', 'quote', 'scope-builder'].includes(activeTab);
 
   return (
     <header className="sticky top-0 z-50 w-full bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-800/80 transition-all duration-300">
