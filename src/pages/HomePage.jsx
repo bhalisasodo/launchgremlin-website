@@ -119,7 +119,7 @@ export default function HomePage({ onSelectTab, onOpenBooking }) {
             </div>
 
             <div className="pt-8 flex items-center justify-between text-xs font-bold text-emerald-400 group-hover:text-emerald-300">
-              <span>Explore Content Engine</span>
+              <span>Explore Content Strategy</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
           </a>

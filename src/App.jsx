@@ -20,8 +20,6 @@ import LongTailPage from './pages/LongTailPage';
 import BusinessCardsPage from './pages/BusinessCardsPage';
 import ProposalGeneratorPage from './pages/ProposalGeneratorPage';
 import CreatorStudioPage from './pages/CreatorStudioPage';
-import ContentEnginePage from './pages/ContentEnginePage';
-import ClientApprovalPortalPage from './pages/ClientApprovalPortalPage';
 import DigitalCardViewer from './components/cards/DigitalCardViewer';
 import StickyMobileCTA from './components/common/StickyMobileCTA';
 import ExitIntentModal from './components/common/ExitIntentModal';
@@ -31,7 +29,7 @@ import { BLOG_CLUSTERS, BLOG_ARTICLES } from './utils/blogData';
 import { LONG_TAIL_PAGES } from './utils/longTailData';
 import { decodeCardFromUrl, DEMO_PROFILES } from './utils/cardData';
 
-const CORE_TABS = ['home', 'websites', 'content-engine', 'engine', 'content-studio', 'content-generator', 'business-cards', 'cards', 'card', 'proposal', 'quote', 'scope-builder', 'resources', 'creator-studio', 'playbooks', 'prompts', 'templates', 'content-strategy', 'ai-consulting', 'about', 'contact', 'blog', 'privacy', 'terms', 'cookies'];
+const CORE_TABS = ['home', 'websites', 'content-strategy', 'business-cards', 'cards', 'card', 'proposal', 'quote', 'scope-builder', 'resources', 'creator-studio', 'playbooks', 'prompts', 'templates', 'ai-consulting', 'about', 'contact', 'blog', 'privacy', 'terms', 'cookies'];
 const INDUSTRY_KEYS = Object.keys(INDUSTRIES_DATA);
 const LONG_TAIL_SLUGS = LONG_TAIL_PAGES.map(p => p.slug);
 
@@ -40,19 +38,14 @@ const normalizeRoute = (rawPath) => {
   const path = decodeURIComponent(rawPath).replace(/^\/+|\/+$/g, '');
   if (!path || path === 'home') return 'home';
 
-  // Client Approval Portal Route detection (e.g. /content-engine/review/LG-EDU-001 or /review/LG-EDU-001)
-  if (path.startsWith('content-engine/review/') || path.startsWith('review/')) {
-    return path;
-  }
-
   // Standalone card route detection (e.g. /c/alex-morgan or /c)
   if (path.startsWith('c/') || path === 'c') {
     return path;
   }
 
-  // Content Engine aliases
-  if (path === 'content-engine' || path === 'engine' || path === 'content-studio' || path === 'content-generator') {
-    return 'content-engine';
+  // Content Strategy aliases
+  if (path === 'content-engine' || path === 'engine' || path === 'content-studio' || path === 'content-generator' || path === 'content-strategy') {
+    return 'content-strategy';
   }
 
   // Card builder aliases
@@ -232,19 +225,7 @@ export default function App() {
   const isBlogPostPage = activeTab.startsWith('blog/');
   const isLongTailPage = LONG_TAIL_SLUGS.includes(activeTab);
   const isStandaloneCardPage = activeTab.startsWith('c/') || activeTab === 'c';
-  const isReviewPortalPage = activeTab.startsWith('content-engine/review/') || activeTab.startsWith('review/');
   const blogSlug = isBlogPostPage ? activeTab.replace(/^blog\//, '') : null;
-
-  // Render Client Approval Review Portal without the main marketing chrome
-  if (isReviewPortalPage) {
-    const reviewPackageId = activeTab.replace(/^content-engine\/review\//, '').replace(/^review\//, '');
-    return (
-      <div className="min-h-screen bg-zinc-950 text-white selection:bg-emerald-400 selection:text-black">
-        <SEO pageKey="content-engine" />
-        <ClientApprovalPortalPage packageId={reviewPackageId} />
-      </div>
-    );
-  }
 
   // Render standalone card view without the main website frame
   if (isStandaloneCardPage) {
@@ -288,13 +269,6 @@ export default function App() {
 
         {activeTab === 'websites' && (
           <WebsitesPage
-            onSelectTab={handleSelectTab}
-            onOpenBooking={() => setIsBookingModalOpen(true)}
-          />
-        )}
-
-        {activeTab === 'content-engine' && (
-          <ContentEnginePage
             onSelectTab={handleSelectTab}
             onOpenBooking={() => setIsBookingModalOpen(true)}
           />
