@@ -650,12 +650,42 @@ app.get('/api/cards/:slug', (req, res) => {
 // Exposes SSE stream (/api/mcp/sse) and message dispatcher for Google Spark / AI agents
 app.use('/api/mcp', mcpRouter);
 
-// Serve static assets in production
-app.use(express.static(path.join(__dirname, '../dist')));
+// ---------------- Static Assets & SPA Fallback ----------------
+const distPath = path.join(__dirname, '../dist');
+const indexPath = path.join(distPath, 'index.html');
 
-// Fallback all other routes to index.html for React SPA
+if (fs.existsSync(distPath)) {
+  app.use(express.static(distPath));
+}
+
+// Root service endpoint
+app.get('/', (req, res) => {
+  if (fs.existsSync(indexPath)) {
+    return res.sendFile(indexPath);
+  }
+  return res.json({
+    status: 'online',
+    service: 'LaunchGremlin Backend & Model Context Protocol (MCP) Server',
+    version: '1.0.0',
+    endpoints: {
+      mcp_health: '/api/mcp/health',
+      mcp_sse: '/api/mcp/sse',
+      mcp_messages: '/api/mcp/messages',
+      leads: '/api/leads',
+    },
+    documentation: 'https://launchgremlin.com',
+  });
+});
+
+// Fallback all other unmatched routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist/index.html'));
+  if (fs.existsSync(indexPath)) {
+    return res.sendFile(indexPath);
+  }
+  return res.status(404).json({
+    error: 'Not Found',
+    message: `Route '${req.originalUrl}' was not found on this backend server.`,
+  });
 });
 
 // Start Server
