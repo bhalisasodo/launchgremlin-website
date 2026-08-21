@@ -1,0 +1,27 @@
+# Render Blueprint specification for LaunchGremlin Backend & MCP Server
+services:
+  - type: web
+    name: launchgremlin-backend-mcp
+    env: node
+    plan: free
+    buildCommand: npm --prefix backend install
+    startCommand: node backend/server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: MCP_API_KEY
+        generateValue: true
+      - key: NOTIFICATION_EMAIL
+        value: bhalisasodo10@gmail.com
+      - key: MONGODB_URI
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false

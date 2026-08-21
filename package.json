@@ -11,7 +11,9 @@
     "prerender": "node scripts/prerender.js",
     "auto:generate-article": "node scripts/seo-automation/index.js",
     "lint": "eslint .",
-    "test": "echo \"No tests defined\"",
+    "test": "node backend/mcp/test/runAll.js",
+    "test:mcp": "node backend/mcp/test/runAll.js",
+    "mcp": "node backend/mcp/bin/cli.js",
     "preview": "vite preview"
   },
   "dependencies": {

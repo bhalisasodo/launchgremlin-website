@@ -8,6 +8,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import nodemailer from 'nodemailer';
+import mcpRouter from './mcp/routes/mcpRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -644,6 +645,10 @@ app.get('/api/cards/:slug', (req, res) => {
     return res.status(500).json({ error: 'Failed to fetch card' });
   }
 });
+
+// ---------------- Model Context Protocol (MCP) API ----------------
+// Exposes SSE stream (/api/mcp/sse) and message dispatcher for Google Spark / AI agents
+app.use('/api/mcp', mcpRouter);
 
 // Serve static assets in production
 app.use(express.static(path.join(__dirname, '../dist')));
