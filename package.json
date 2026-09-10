@@ -14,6 +14,8 @@
     "test": "node backend/mcp/test/runAll.js",
     "test:mcp": "node backend/mcp/test/runAll.js",
     "mcp": "node backend/mcp/bin/cli.js",
+    "start": "node backend/server.js",
+    "build:render": "bash scripts/render-build.sh || (npm install && npm run build && npm --prefix backend install)",
     "preview": "vite preview"
   },
   "dependencies": {
