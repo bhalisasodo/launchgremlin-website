@@ -1,28 +1,45 @@
 # ==============================================================================
-# Production Dockerfile for LaunchGremlin Backend & MCP Server
-#
-# NOTE: This Dockerfile is DEDICATED SOLELY to the backend/MCP Web Service.
-# It starts node backend/server.js to serve API and Model Context Protocol endpoints.
-#
-# DO NOT USE THIS DOCKERFILE FOR FRONTEND DEPLOYMENT.
-# The frontend website (https://launchgremlin.com) must be deployed as a
-# Render Static Site (runtime: static, publish path: dist) built via:
-#   npm ci && npm run build
+# Production Dockerfile for LaunchGremlin Frontend & Backend Service
+# Multi-stage build:
+#   Stage 1: Compiles Vite React frontend into ./dist
+#   Stage 2: Runs Express server which automatically serves ./dist + APIs
 # ==============================================================================
+
+# --- Stage 1: Build Frontend ---
+FROM node:22-alpine AS builder
+
+WORKDIR /app
+
+# Install build dependencies
+COPY package*.json ./
+RUN npm ci
+
+# Copy frontend source and build configurations
+COPY vite.config.js index.html eslint.config.js ./
+COPY public ./public
+COPY src ./src
+COPY scripts ./scripts
+COPY backend ./backend
+
+# Build the React/Vite SPA and generate static routes & sitemaps
+RUN npm run build
+
+# --- Stage 2: Production Server ---
 FROM node:22-alpine
 
 WORKDIR /app
 
-# Copy package descriptors
+# Copy package manifests
 COPY package*.json ./
 COPY backend/package*.json ./backend/
 
-# Install production dependencies for backend service
+# Install production backend dependencies
 RUN npm --prefix backend install --omit=dev
 
-# Copy shared application code and backend services
-COPY src ./src
+# Copy backend server code, public assets, and compiled frontend dist from builder
 COPY backend ./backend
+COPY public ./public
+COPY --from=builder /app/dist ./dist
 
 EXPOSE 5000
 
