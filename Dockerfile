@@ -36,8 +36,9 @@ COPY backend/package*.json ./backend/
 # Install production backend dependencies
 RUN npm --prefix backend install --omit=dev
 
-# Copy backend server code, public assets, and compiled frontend dist from builder
+# Copy backend server code, shared src utilities, public assets, and compiled frontend dist from builder
 COPY backend ./backend
+COPY src ./src
 COPY public ./public
 COPY --from=builder /app/dist ./dist
 
