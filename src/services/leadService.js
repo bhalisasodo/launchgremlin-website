@@ -5,6 +5,7 @@
  * 2. FormSubmit API endpoint (https://formsubmit.co/ajax/bhalisasodo10@gmail.com) for static deployments
  */
 import { trackConversion, trackEvent } from '../utils/analytics';
+import { getApiBaseUrl } from '../utils/apiConfig';
 
 const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/bhalisasodo10@gmail.com';
 
@@ -16,11 +17,11 @@ export async function submitLead(payload) {
   });
 
   const isDevPort = typeof window !== 'undefined' && ['5173', '5174', '5175', '3000', '4173'].includes(window.location.port);
-  const customApiUrl = import.meta.env.VITE_API_URL;
-  const backendEndpoint = customApiUrl ? `${customApiUrl}/leads` : '/api/leads';
+  const hasBackend = Boolean(import.meta.env.VITE_API_URL || isDevPort);
+  const backendEndpoint = `${getApiBaseUrl()}/leads`;
 
   // 1. First attempt primary Express Backend if custom URL set or on dev port
-  if (customApiUrl || isDevPort) {
+  if (hasBackend) {
     try {
       const response = await fetch(backendEndpoint, {
         method: 'POST',

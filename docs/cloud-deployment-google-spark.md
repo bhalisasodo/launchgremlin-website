@@ -36,13 +36,16 @@ The LaunchGremlin backend runs as a Node.js Express server that supports persist
 
 ---
 
-### Option 3: Custom Subdomain (e.g. `api.launchgremlin.com` or `mcp.launchgremlin.com`)
-1. In Render or Railway, go to **Custom Domains** and add `api.launchgremlin.com`.
+### Option 3: Custom Subdomain (e.g. `backend.launchgremlin.com` or `api.launchgremlin.com`)
+1. In Render or Railway, go to **Custom Domains** and add `backend.launchgremlin.com` (or `api.launchgremlin.com`).
 2. Add a `CNAME` record in your DNS provider (e.g. Cloudflare / Namecheap / GoDaddy):
    - **Type:** `CNAME`
-   - **Name / Host:** `api`
-   - **Target / Value:** `<your-render-or-railway-url>`
+   - **Name / Host:** `backend` (or `api`)
+   - **Target / Value:** `<your-render-or-railway-url>` (e.g. `launchgremlin-backend-mcp.onrender.com`)
 3. SSL certificates are provisioned automatically.
+
+> [!NOTE]
+> For complete details on the dual-service deployment architecture separating the frontend Static Site and backend Web Service, see [`RENDER_DEPLOYMENT.md`](./RENDER_DEPLOYMENT.md).
 
 ---
 

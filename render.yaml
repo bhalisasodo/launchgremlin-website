@@ -1,8 +1,43 @@
-# Render Blueprint specification for LaunchGremlin Backend & MCP Server
+# ==============================================================================
+# Render Blueprint Specification for LaunchGremlin
+#
+# ARCHITECTURAL SEPARATION:
+#   1. Frontend Service (Render Static Site):
+#      - Publishes React/Vite static build from ./dist
+#      - Serves launchgremlin.com and www.launchgremlin.com
+#      - Rewrites client-side SPA routes to /index.html
+#
+#   2. Backend Service (Render Web Service):
+#      - Runs Node.js Express backend and Model Context Protocol (MCP) server
+#      - Serves backend.launchgremlin.com (or API/MCP subdomains)
+#      - Handles /api/mcp/* (SSE, tools, health) and /api/leads
+# ==============================================================================
+
 services:
+  # ----------------------------------------------------------------------------
+  # 1. FRONTEND: LaunchGremlin React / Vite Static Site
+  # Domain: https://launchgremlin.com & https://www.launchgremlin.com
+  # ----------------------------------------------------------------------------
+  - type: web
+    name: launchgremlin-frontend
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://backend.launchgremlin.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  # ----------------------------------------------------------------------------
+  # 2. BACKEND: LaunchGremlin Express & Model Context Protocol (MCP) Web Service
+  # Domain: https://backend.launchgremlin.com
+  # ----------------------------------------------------------------------------
   - type: web
     name: launchgremlin-backend-mcp
-    env: node
+    runtime: node
     plan: free
     buildCommand: npm --prefix backend install
     startCommand: node backend/server.js

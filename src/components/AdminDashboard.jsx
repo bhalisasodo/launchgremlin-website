@@ -5,17 +5,9 @@ import {
   Briefcase, FileText, ChevronRight, Copy, Check, 
   TrendingUp, Award, AlertCircle, MessageSquare
 } from 'lucide-react';
+import { getApiBaseUrl } from '../utils/apiConfig';
 
-const getApiUrl = () => {
-  const envUrl = import.meta.env.VITE_API_URL;
-  if (envUrl) return envUrl;
-  const port = window.location.port;
-  if (port && ['5173', '5174', '5175', '3000'].includes(port)) {
-    return 'http://localhost:5000/api';
-  }
-  return '/api';
-};
-const API_URL = getApiUrl();
+const API_URL = getApiBaseUrl();
 
 const getStoredLeads = () => {
   try {

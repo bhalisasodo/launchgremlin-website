@@ -651,16 +651,19 @@ app.get('/api/cards/:slug', (req, res) => {
 app.use('/api/mcp', mcpRouter);
 
 // ---------------- Static Assets & SPA Fallback ----------------
+// In production on Render, the frontend is deployed as an independent Static Site
+// (launchgremlin.com) and this service runs exclusively as the Backend & MCP Web Service
+// (backend.launchgremlin.com). Static file serving is opt-in via SERVE_STATIC=true.
 const distPath = path.join(__dirname, '../dist');
 const indexPath = path.join(distPath, 'index.html');
 
-if (fs.existsSync(distPath)) {
+if (process.env.SERVE_STATIC === 'true' && fs.existsSync(distPath)) {
   app.use(express.static(distPath));
 }
 
-// Root service endpoint
+// Root service endpoint - Always reports Backend & MCP status
 app.get('/', (req, res) => {
-  if (fs.existsSync(indexPath)) {
+  if (process.env.SERVE_STATIC === 'true' && fs.existsSync(indexPath)) {
     return res.sendFile(indexPath);
   }
   return res.json({
@@ -679,7 +682,7 @@ app.get('/', (req, res) => {
 
 // Fallback all other unmatched routes
 app.get('*', (req, res) => {
-  if (fs.existsSync(indexPath)) {
+  if (process.env.SERVE_STATIC === 'true' && fs.existsSync(indexPath)) {
     return res.sendFile(indexPath);
   }
   return res.status(404).json({

@@ -3,8 +3,8 @@
  * Handles card saving, avatar uploads, and clean short URL resolution.
  */
 import { DEMO_PROFILES } from '../utils/cardData';
+import { getApiBaseUrl, resolveBackendMediaUrl } from '../utils/apiConfig';
 
-const API_BASE = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5000';
 const LOCAL_STORAGE_KEY_PREFIX = 'lg_card_';
 
 export const cardService = {
@@ -24,7 +24,7 @@ export const cardService = {
 
     // 2. Persist to Backend API if available
     try {
-      const res = await fetch(`${API_BASE}/api/cards/save`, {
+      const res = await fetch(`${getApiBaseUrl()}/cards/save`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(card)
@@ -33,7 +33,7 @@ export const cardService = {
         const data = await res.json();
         return { success: true, slug, url: data.url };
       }
-    } catch (e) {
+    } catch {
       // Backend not running, local persistence succeeds
     }
 
@@ -57,7 +57,9 @@ export const cardService = {
         const parsed = JSON.parse(draft);
         if (parsed.slug === cleanSlug || !cleanSlug) return parsed;
       }
-    } catch (e) {}
+    } catch {
+      // ignore
+    }
 
     // 2. Check Demo Profiles
     const demo = DEMO_PROFILES.find((p) => p.slug === cleanSlug || p.id === cleanSlug);
@@ -65,15 +67,20 @@ export const cardService = {
 
     // 3. Query Backend API
     try {
-      const res = await fetch(`${API_BASE}/api/cards/${cleanSlug}`);
+      const res = await fetch(`${getApiBaseUrl()}/cards/${cleanSlug}`);
       if (res.ok) {
         const data = await res.json();
         if (data.card) {
+          if (data.card.avatarUrl) {
+            data.card.avatarUrl = resolveBackendMediaUrl(data.card.avatarUrl);
+          }
           localStorage.setItem(`${LOCAL_STORAGE_KEY_PREFIX}${cleanSlug}`, JSON.stringify(data.card));
           return data.card;
         }
       }
-    } catch (e) {}
+    } catch {
+      // ignore
+    }
 
     return DEMO_PROFILES[0];
   },
@@ -83,16 +90,16 @@ export const cardService = {
    */
   uploadAvatar: async (slug, imageBase64) => {
     try {
-      const res = await fetch(`${API_BASE}/api/cards/upload-avatar`, {
+      const res = await fetch(`${getApiBaseUrl()}/cards/upload-avatar`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ slug, imageBase64 })
       });
       if (res.ok) {
         const data = await res.json();
-        return data.avatarUrl; // e.g. /uploads/avatars/avatar_alex_12345.jpg
+        return resolveBackendMediaUrl(data.avatarUrl); // e.g. https://backend.launchgremlin.com/uploads/avatars/avatar_alex_12345.jpg
       }
-    } catch (e) {
+    } catch {
       // Offline fallback returns base64
     }
     return imageBase64;
